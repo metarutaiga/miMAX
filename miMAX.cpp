@@ -30,7 +30,10 @@ thread_local jmp_buf compoundfilereader_jmp_buf = {};
 #include <zlib.h>
 #endif
 
-#define FLOAT_TYPE                      0x2501, 0x2503, 0x2504, 0x2505
+#define FLOAT_TYPE          0x2501
+#define POINT3_TYPE         0x2503
+#define QUAT_TYPE           0x2504
+#define SCALEVALUE_TYPE     0x2505
 
 template <typename... Args>
 static std::string format(char const* format, Args&&... args)
@@ -230,27 +233,13 @@ static bool checkClass(int(*log)(char const*, ...), Chunk const& chunk, ClassID 
     return false;
 }
 
-static void eulerToQuaternion(float quaternion[4], float euler[3])
-{
-    float cx = cosf(euler[0] * 0.5f);
-    float cy = cosf(euler[1] * 0.5f);
-    float cz = cosf(euler[2] * 0.5f);
-    float sx = sinf(euler[0] * 0.5f);
-    float sy = sinf(euler[1] * 0.5f);
-    float sz = sinf(euler[2] * 0.5f);
-    quaternion[0] = (sx * cy * cz - cx * sy * sz);
-    quaternion[1] = (cx * sy * cz + sx * cy * sz);
-    quaternion[2] = (cx * cy * sz - sx * sy * cz);
-    quaternion[3] = (cx * cy * cz + sx * sy * sz);
-}
-
 static std::vector<std::tuple<float, int, Point3>> getParamBlock(Chunk const& paramBlock)
 {
     std::vector<std::tuple<float, int, Point3>> output;
     switch (paramBlock.classData.superClassID) {
     case PARAMETER_BLOCK_SUPERCLASS_ID: {
         auto propertyCount = getProperty<int>(paramBlock, 0x0001);
-        unsigned int count = propertyCount.empty() ? propertyCount.front() : 0;
+        unsigned int count = propertyCount.empty() ? 0 : propertyCount.front();
         for (auto& chunk : paramBlock) {
             if (output.size() >= count)
                 break;
@@ -308,7 +297,7 @@ static std::vector<std::tuple<float, int, Point3>> getParamBlock(Chunk const& pa
     return output;
 }
 
-static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMaxNode& node)
+static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     // FFFFFFFF-00002005-00000000-00009008 Position/Rotation/Scale  PRS_CONTROL_CLASS_ID + MATRIX3_SUPERCLASS_ID
     if (checkClass(log, chunk, PRS_CONTROL_CLASS_ID, MATRIX3_SUPERCLASS_ID) == false)
@@ -336,6 +325,10 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
                 auto* chunk7127 = getChunk(*array, 0x7127);
                 if (chunk7127)
                     array = chunk7127;
+                auto propertyBezierFloat = getProperty<std::tuple<uint32_t, uint32_t, BezierFloat>>(*array, 0x2525);
+                for (auto& [time, flags, bezierFloat] : propertyBezierFloat) {
+                    node.keyPosition[i].emplace_back(time, bezierFloat);
+                }
                 auto propertyFloat = getProperty<float>(*array, FLOAT_TYPE);
                 if (propertyFloat.size() >= 1) {
                     node.position[i] = propertyFloat[0];
@@ -350,7 +343,7 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
             auto* chunk7127 = getChunk(*position, 0x7127);
             if (chunk7127)
                 position = chunk7127;
-            auto propertyFloat = getProperty<float>(*position, FLOAT_TYPE);
+            auto propertyFloat = getProperty<float>(*position, POINT3_TYPE);
             if (propertyFloat.size() >= 3) {
                 node.position[0] = propertyFloat[0];
                 node.position[1] = propertyFloat[1];
@@ -385,6 +378,10 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
                 auto* chunk7127 = getChunk(*array, 0x7127);
                 if (chunk7127)
                     array = chunk7127;
+                auto propertyBezierFloat = getProperty<std::tuple<uint32_t, uint32_t, BezierFloat>>(*array, 0x2525);
+                for (auto& [time, flags, bezierFloat] : propertyBezierFloat) {
+                    node.keyRotation[i].emplace_back(time, bezierFloat);
+                }
                 auto propertyFloat = getProperty<float>(*array, FLOAT_TYPE);
                 if (propertyFloat.size() >= 1) {
                     node.rotation[i] = propertyFloat[0];
@@ -392,14 +389,14 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
                 }
                 log("Value is not found (%s)", array->name.c_str());
             }
-            eulerToQuaternion(node.rotation.data(), node.rotation.data());
+            miMAXEulerToQuaternion(node.rotation.data(), node.rotation);
             continue;
         case class64(LININTERP_ROTATION_CLASS_ID):
         case class64(TCBINTERP_ROTATION_CLASS_ID): {
             auto* chunk7127 = getChunk(*rotation, 0x7127);
             if (chunk7127)
                 rotation = chunk7127;
-            auto propertyFloat = getProperty<float>(*rotation, FLOAT_TYPE);
+            auto propertyFloat = getProperty<float>(*rotation, POINT3_TYPE, QUAT_TYPE);
             if (propertyFloat.size() >= 4) {
                 node.rotation[0] = propertyFloat[0];
                 node.rotation[1] = propertyFloat[1];
@@ -408,7 +405,7 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
                 continue;
             }
             if (propertyFloat.size() >= 3) {
-                eulerToQuaternion(node.rotation.data(), propertyFloat.data());
+                miMAXEulerToQuaternion(propertyFloat.data(), node.rotation);
                 continue;
             }
             log("Value is not found (%s)", rotation->name.c_str());
@@ -435,7 +432,11 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
             auto* chunk7127 = getChunk(*scale, 0x7127);
             if (chunk7127)
                 scale = chunk7127;
-            auto propertyFloat = getProperty<float>(*scale, FLOAT_TYPE);
+            auto propertyBezierFloat = getProperty<std::tuple<uint32_t, uint32_t, BezierFloat>>(*scale, 0x2525);
+            for (auto& [time, flags, bezierFloat] : propertyBezierFloat) {
+                node.keyScale.emplace_back(time, bezierFloat);
+            }
+            auto propertyFloat = getProperty<float>(*scale, FLOAT_TYPE, SCALEVALUE_TYPE);
             if (propertyFloat.size() >= 3) {
                 node.scale[0] = propertyFloat[0];
                 node.scale[1] = propertyFloat[1];
@@ -456,7 +457,7 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
     }
 }
 
-static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, Chunk const& modifierChunk, miMaxNode& node)
+static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, Chunk const& modifierChunk, miMAXNode& node)
 {
     if (chunk.classData.superClassID != OSM_SUPERCLASS_ID)
         return;
@@ -509,7 +510,7 @@ static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& sce
     }
 }
 
-static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMaxNode& node)
+static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     auto* pChunk = &chunk;
     if ((*pChunk).classData.superClassID != GEOMOBJECT_SUPERCLASS_ID) {
@@ -905,7 +906,31 @@ static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk 
     checkClass(log, *pChunk, {}, 0);
 }
 
-miMaxNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...))
+void miMAXEulerToQuaternion(float const euler[3], Quat& quaternion)
+{
+    float cx = cosf(euler[0] * 0.5f);
+    float cy = cosf(euler[1] * 0.5f);
+    float cz = cosf(euler[2] * 0.5f);
+    float sx = sinf(euler[0] * 0.5f);
+    float sy = sinf(euler[1] * 0.5f);
+    float sz = sinf(euler[2] * 0.5f);
+    quaternion[0] = (sx * cy * cz - cx * sy * sz);
+    quaternion[1] = (cx * sy * cz + sx * cy * sz);
+    quaternion[2] = (cx * cy * sz - sx * sy * cz);
+    quaternion[3] = (cx * cy * cz + sx * sy * sz);
+}
+
+float miMAXBezier(BezierFloat const& left, BezierFloat const& right, float scale)
+{
+    float A = std::lerp(left[0], left[1], scale);
+    float B = std::lerp(left[1], left[2], scale);
+    float C = std::lerp(left[2], right[0], scale);
+    float X = std::lerp(A, B, scale);
+    float Y = std::lerp(B, C, scale);
+    return std::lerp(X, Y, scale);
+}
+
+miMAXNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...))
 {
     FILE* file = fopen(name, "rb");
     if (file == nullptr) {
@@ -913,11 +938,11 @@ miMaxNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...))
         return nullptr;
     }
 
-    miMaxNode* root = nullptr;
+    miMAXNode* root = nullptr;
 
     TRY
 
-    root = new miMaxNode;
+    root = new miMAXNode;
     if (root == nullptr) {
         log("Out of memory");
         THROW;
@@ -1018,7 +1043,7 @@ miMaxNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...))
     }
 
     // Second Pass
-    std::map<uint32_t, miMaxNode*> nodes;
+    std::map<uint32_t, miMAXNode*> nodes;
     for (uint32_t i = 0; i < scene.size(); ++i) {
         auto& chunk = scene[i];
         auto& className = chunk.name;
@@ -1029,14 +1054,14 @@ miMaxNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...))
         if (classData.superClassID != BASENODE_SUPERCLASS_ID)
             continue;
 
-        miMaxNode node;
+        miMAXNode node;
 
         // Parent
         std::vector<uint32_t> propertyParent = getProperty<uint32_t>(chunk, 0x0960);
-        miMaxNode* parent = root;
+        miMAXNode* parent = root;
         if (propertyParent.empty() == false) {
             uint32_t index = *propertyParent.data();
-            miMaxNode* found = nodes[index];
+            miMAXNode* found = nodes[index];
             if (found) {
                 parent = found;
             }

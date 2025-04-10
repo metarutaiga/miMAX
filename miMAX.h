@@ -9,19 +9,24 @@
 #include <string>
 #include <vector>
 
-struct miMaxNode : public std::list<miMaxNode>
+struct miMAXNode : public std::list<miMAXNode>
 {
 public:
     typedef std::array<float, 3> Point3;
-    typedef std::array<float, 4> Point4;
+    typedef std::array<float, 4> Quat;
+    typedef std::array<float, 5> BezierFloat;
 
 public:
     std::string name;
     std::string text;
 
     Point3 position = { 0, 0, 0 };
-    Point4 rotation = { 0, 0, 0, 1 };
+    Quat rotation = { 0, 0, 0, 1 };
     Point3 scale = { 1, 1, 1 };
+
+    std::vector<std::pair<uint32_t, BezierFloat>> keyPosition[3];
+    std::vector<std::pair<uint32_t, BezierFloat>> keyRotation[3];
+    std::vector<std::pair<uint32_t, BezierFloat>> keyScale;
 
     std::vector<Point3> vertex;
     std::vector<Point3> texture;
@@ -66,7 +71,7 @@ public:
     Chunk* scene = nullptr;
     Chunk* videoPostQueue = nullptr;
 
-    ~miMaxNode()
+    ~miMAXNode()
     {
         delete classData;
         delete classDirectory;
@@ -77,15 +82,20 @@ public:
     }
 };
 
-miMaxNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...));
+void miMAXEulerToQuaternion(float const euler[3], miMAXNode::Quat& quaternion);
+
+float miMAXBezier(miMAXNode::BezierFloat const& left, miMAXNode::BezierFloat const& right, float scale);
+
+miMAXNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...));
 
 #if defined(__MIMAX_INTERNAL__)
-typedef miMaxNode::ClassID ClassID;
-typedef miMaxNode::SuperClassID SuperClassID;
-typedef miMaxNode::ClassData ClassData;
-typedef miMaxNode::Point3 Point3;
-typedef miMaxNode::Point4 Point4;
-typedef miMaxNode::Chunk Chunk;
+typedef miMAXNode::ClassID ClassID;
+typedef miMAXNode::SuperClassID SuperClassID;
+typedef miMAXNode::ClassData ClassData;
+typedef miMAXNode::Point3 Point3;
+typedef miMAXNode::Quat Quat;
+typedef miMAXNode::BezierFloat BezierFloat;
+typedef miMAXNode::Chunk Chunk;
 
 #define BASENODE_SUPERCLASS_ID          0x00000001
 #define PARAMETER_BLOCK_SUPERCLASS_ID   0x00000008

@@ -15,7 +15,7 @@ static std::string path;
 static std::string info;
 static ImGuiFileDialog* fileDialog;
 //------------------------------------------------------------------------------
-static miMaxNode* root;
+static miMAXNode* root;
 //------------------------------------------------------------------------------
 static int MaxReaderLog(char const* format, ...)
 {
@@ -38,7 +38,7 @@ static int MaxReaderLog(char const* format, ...)
     return result;
 }
 //------------------------------------------------------------------------------
-static bool ChunkFinder(miMaxNode::Chunk& chunk, std::function<void(uint16_t type, std::vector<char> const& property)> select)
+static bool ChunkFinder(miMAXNode::Chunk& chunk, std::function<void(uint16_t type, std::vector<char> const& property)> select)
 {
     static void* selected;
     bool updated = false;
@@ -51,7 +51,7 @@ static bool ChunkFinder(miMaxNode::Chunk& chunk, std::function<void(uint16_t typ
         if (ImGui::IsKeyPressed(ImGuiKey_DownArrow)) delta = 1;
         if (delta != 0)
         {
-            size_t index = std::distance(chunk.data(), (miMaxNode::Chunk::value_type*)selected) + delta;
+            size_t index = std::distance(chunk.data(), (miMAXNode::Chunk::value_type*)selected) + delta;
             if (index < chunk.size())
             {
                 auto& child = chunk[index];
@@ -97,7 +97,7 @@ static bool ChunkFinder(miMaxNode::Chunk& chunk, std::function<void(uint16_t typ
                 else
                 {
                     size_t size = 0;
-                    std::function<void(miMaxNode::Chunk const&)> traversal = [&](miMaxNode::Chunk const& chunk)
+                    std::function<void(miMAXNode::Chunk const&)> traversal = [&](miMAXNode::Chunk const& chunk)
                     {
                         size += chunk.property.size();
                         for (auto const& child : chunk)
@@ -118,7 +118,7 @@ static bool ChunkFinder(miMaxNode::Chunk& chunk, std::function<void(uint16_t typ
                 else
                 {
                     size_t size = 0;
-                    std::function<void(miMaxNode::Chunk const&)> traversal = [&](miMaxNode::Chunk const& chunk)
+                    std::function<void(miMAXNode::Chunk const&)> traversal = [&](miMAXNode::Chunk const& chunk)
                     {
                         size += chunk.property.size();
                         for (auto const& child : chunk)
@@ -151,7 +151,7 @@ static bool ChunkFinder(miMaxNode::Chunk& chunk, std::function<void(uint16_t typ
     return updated;
 }
 //------------------------------------------------------------------------------
-static bool NodeFinder(miMaxNode& node, std::function<void(std::string& text)> select)
+static bool NodeFinder(miMAXNode& node, std::function<void(std::string& text)> select)
 {
     static void* selected;
     bool updated = false;
@@ -207,6 +207,13 @@ static bool NodeFinder(miMaxNode& node, std::function<void(std::string& text)> s
             ImGui::Text("Position:%g, %g, %g", child.position[0], child.position[1], child.position[2]);
             ImGui::Text("Rotation:%g, %g, %g, %g", child.rotation[0], child.rotation[1], child.rotation[2], child.rotation[3]);
             ImGui::Text("Scale:%g, %g, %g", child.scale[0], child.scale[1], child.scale[2]);
+            if (child.keyPosition[0].empty() == false)  ImGui::Text("X Position Key:%zd", child.keyPosition[0].size());
+            if (child.keyPosition[1].empty() == false)  ImGui::Text("Y Position Key:%zd", child.keyPosition[1].size());
+            if (child.keyPosition[2].empty() == false)  ImGui::Text("Z Position Key:%zd", child.keyPosition[2].size());
+            if (child.keyRotation[0].empty() == false)  ImGui::Text("X Rotation Key:%zd", child.keyRotation[0].size());
+            if (child.keyRotation[1].empty() == false)  ImGui::Text("Y Rotation Key:%zd", child.keyRotation[1].size());
+            if (child.keyRotation[2].empty() == false)  ImGui::Text("Z Rotation Key:%zd", child.keyRotation[2].size());
+            if (child.keyScale.empty() == false)        ImGui::Text("Scale Key:%zd", child.keyScale.size());
             if (child.vertex.empty() == false)
             {
                 ImGui::Separator();
@@ -302,7 +309,7 @@ bool MaxReader::Update(const UpdateData& updateData, bool& show)
         {
             if (root)
             {
-                miMaxNode::Chunk* chunk = nullptr;
+                miMAXNode::Chunk* chunk = nullptr;
                 switch (tabIndex)
                 {
                     case 0: chunk = root->classData;        break;
