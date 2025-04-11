@@ -19,8 +19,6 @@
 #include <ImGuiFileDialog/ImGuiFileDialog.cpp>
 
 #define PLUGIN_NAME     "MaxReader"
-#define PLUGIN_MAJOR    1
-#define PLUGIN_MINOR    0
 
 //------------------------------------------------------------------------------
 moduleAPI const char* Create(const CreateData& createData)
@@ -54,33 +52,20 @@ moduleAPI void Message(const MessageData& messageData)
 //------------------------------------------------------------------------------
 moduleAPI bool Update(const UpdateData& updateData)
 {
-    static bool showAbout = false;
     static bool showMaxReader = false;
     static bool showCFBFinder = false;
 
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu(PLUGIN_NAME))
+        if (ImGui::BeginMenu("Experimental"))
         {
+            if (ImGui::GetCursorPos().y > ImGui::GetTextLineHeightWithSpacing())
+                ImGui::Separator();
             ImGui::MenuItem("Max Reader", nullptr, &showMaxReader);
             ImGui::MenuItem("CFB Finder", nullptr, &showCFBFinder);
-            ImGui::Separator();
-            ImGui::MenuItem("About " PLUGIN_NAME, nullptr, &showAbout);
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
-    }
-
-    if (showAbout)
-    {
-        if (ImGui::Begin("About " PLUGIN_NAME, &showAbout, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking))
-        {
-            ImGui::Text("%s Plugin Version %d.%d", PLUGIN_NAME, PLUGIN_MAJOR, PLUGIN_MINOR);
-            ImGui::Text("Build Date : %s %s", __DATE__, __TIME__);
-            ImGui::Separator();
-            ImGui::DumpBuildInformation();
-        }
-        ImGui::End();
     }
 
     bool updated = false;
