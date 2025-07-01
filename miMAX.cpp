@@ -965,7 +965,7 @@ miMAXNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...))
 
     if (buffer.empty() == false) {
         CFB::CompoundFileReader cfbReader(buffer.data(), buffer.size());
-        cfbReader.EnumFiles(cfbReader.GetRootEntry(), -1, [&](CFB::COMPOUND_FILE_ENTRY const* entry, CFB::utf16string const& dir, int level) {
+        cfbReader.EnumFiles(cfbReader.GetRootEntry(), -1, [&](CFB::COMPOUND_FILE_ENTRY const* entry, std::u16string const& dir, int level) {
             std::string name = UTF16ToUTF8(entry->name);
             std::vector<char>* data = nullptr;
             if (name == "ClassData")            data = &dataClassData;

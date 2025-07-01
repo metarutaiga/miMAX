@@ -247,7 +247,7 @@ bool CFBReader::Update(const UpdateData& updateData, bool& show)
                 mappedEntry[reader.GetEntry(rootEntry->childID)] = rootEntry->childID;
 
                 root.clear();
-                reader.EnumFiles(rootEntry, -1, [&](CFB::COMPOUND_FILE_ENTRY const* entry, CFB::utf16string const& dir, int level)
+                reader.EnumFiles(rootEntry, -1, [&](CFB::COMPOUND_FILE_ENTRY const* entry, std::u16string const& dir, int level)
                 {
                     size_t entryID = mappedEntry[entry];
                     char const* type;
