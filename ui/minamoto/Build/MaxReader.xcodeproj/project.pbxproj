@@ -30,7 +30,6 @@
 		F5E5B0E72D6C56AB008E0D21 /* MaxReaderEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E5B0C82D6C56AB008E0D21 /* MaxReaderEntry.cpp */; };
 		F5E5B0F02D6C56AB008E0D21 /* MaxReaderEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E5B0C82D6C56AB008E0D21 /* MaxReaderEntry.cpp */; };
 		F5E5B0F92D6C56AB008E0D21 /* MaxReaderEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E5B0C82D6C56AB008E0D21 /* MaxReaderEntry.cpp */; };
-		F5E5B18F2D6C5FEB008E0D21 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5E5B18E2D6C5FEB008E0D21 /* Metal.framework */; };
 		F5E5B1912D6C5FF7008E0D21 /* imgui.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F5E5B1902D6C5FF7008E0D21 /* imgui.dylib */; };
 		F5E5B19B2D6C6261008E0D21 /* Runtime.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F5E5B19A2D6C6261008E0D21 /* Runtime.dylib */; };
 		F5E5B19D2D6C65A0008E0D21 /* imgui.dll in Frameworks */ = {isa = PBXBuildFile; fileRef = F5E5B19C2D6C65A0008E0D21 /* imgui.dll */; };
@@ -131,7 +130,6 @@
 				F5C2520D2D8D179C005D23CD /* libz.tbd in Frameworks */,
 				F5E5B1912D6C5FF7008E0D21 /* imgui.dylib in Frameworks */,
 				F5E5B19B2D6C6261008E0D21 /* Runtime.dylib in Frameworks */,
-				F5E5B18F2D6C5FEB008E0D21 /* Metal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,7 +319,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					30A9A7CB25ADC7D3000FA104 = {
 						CreatedOnToolsVersion = 12.3;
@@ -470,6 +468,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -555,6 +554,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
