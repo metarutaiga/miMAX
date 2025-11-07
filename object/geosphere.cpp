@@ -9,22 +9,26 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     if (pParamBlock == nullptr)
         return false;
     auto paramBlock = getParamBlock(*pParamBlock);
-    if (paramBlock.size() <= 4)
+    if (paramBlock.size() <= 6)
         return false;
 
     float radius = std::get<float>(paramBlock[0]);
     int segments = std::get<int>(paramBlock[1]);
-    int geodesicBaseType = std::get<int>(paramBlock[2]);
-    bool smooth = std::get<int>(paramBlock[3]);
-    bool hemisphere = std::get<int>(paramBlock[4]);
+    int baseType = std::get<int>(paramBlock[2]);
+    bool hemisphere = std::get<int>(paramBlock[3]);
+    bool smooth = std::get<int>(paramBlock[4]);
+    bool baseToPivot = std::get<int>(paramBlock[5]);
+    bool mapCoords = std::get<int>(paramBlock[6]);
 
-    node.text += format("Primitive : %s", "GeoSphere") + '\n';
-    node.text += format("Radius : %f", radius) + '\n';
-    node.text += format("Segments : %d", segments) + '\n';
-    node.text += format("Geodesic Base Type : %d", geodesicBaseType) + '\n';
-    node.text += format("Smooth : %f", smooth ? "true" : "false") + '\n';
-    node.text += format("Hemisphere : %f", hemisphere ? "true" : "false") + '\n';
+    node.text = node.text + format("%s : %s", "Primitive", "GeoSphere") + '\n';
+    node.text = node.text + format("%s : %g", "Radius", radius) + '\n';
+    node.text = node.text + format("%s : %d", "Segments", segments) + '\n';
+    node.text = node.text + format("%s : %d", "Base Type", baseType) + '\n';
+    node.text = node.text + format("%s : %s", "Hemisphere", hemisphere ? "true" : "false") + '\n';
+    node.text = node.text + format("%s : %s", "Smooth", smooth ? "true" : "false") + '\n';
+    node.text = node.text + format("%s : %s", "Base To Pivot", baseToPivot ? "true" : "false") + '\n';
+    node.text = node.text + format("%s : %s", "Mapping Coords", mapCoords ? "true" : "false") + '\n';
     return true;
 }
 
-static bool register_object = miMAXNode::RegisterObject(class64(GSPHERE_CLASS_ID), primitive);
+static bool register_object = miMAXNode::RegisterPrimitive(GSPHERE_CLASS_ID, primitive);

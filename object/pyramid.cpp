@@ -9,7 +9,7 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     if (pParamBlock == nullptr)
         return false;
     auto paramBlock = getParamBlock(*pParamBlock);
-    if (paramBlock.size() <= 5)
+    if (paramBlock.size() <= 6)
         return false;
 
     float width = std::get<float>(paramBlock[0]);
@@ -18,15 +18,17 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     int widthSegments = std::get<int>(paramBlock[3]);
     int depthSegments = std::get<int>(paramBlock[4]);
     int heightSegments = std::get<int>(paramBlock[5]);
+    bool getUVs = std::get<int>(paramBlock[6]);
 
-    node.text += format("Primitive : %s", "Pyramid") + '\n';
-    node.text += format("Width : %f", width) + '\n';
-    node.text += format("Depth : %f", depth) + '\n';
-    node.text += format("Height : %f", height) + '\n';
-    node.text += format("Width Segments : %d", widthSegments) + '\n';
-    node.text += format("Depth Segments : %d", depthSegments) + '\n';
-    node.text += format("Height Segments : %d", heightSegments) + '\n';
+    node.text = node.text + format("%s : %s", "Primitive", "Pyramid") + '\n';
+    node.text = node.text + format("%s : %g", "Width", width) + '\n';
+    node.text = node.text + format("%s : %g", "Depth", depth) + '\n';
+    node.text = node.text + format("%s : %g", "Height", height) + '\n';
+    node.text = node.text + format("%s : %d", "Width Segments", widthSegments) + '\n';
+    node.text = node.text + format("%s : %d", "Depth Segments", depthSegments) + '\n';
+    node.text = node.text + format("%s : %d", "Height Segments", heightSegments) + '\n';
+    node.text = node.text + format("%s : %s", "Get UVs", getUVs ? "true" : "false") + '\n';
     return true;
 }
 
-static bool register_object = miMAXNode::RegisterObject(class64(PYRAMID_CLASS_ID), primitive);
+static bool register_object = miMAXNode::RegisterPrimitive(PYRAMID_CLASS_ID, primitive);

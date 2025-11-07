@@ -90,4 +90,4 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     return true;
 }
 
-static bool register_object = miMAXNode::RegisterObject(class64(EPOLYOBJ_CLASS_ID), primitive);
+static bool register_object = miMAXNode::RegisterPrimitive(EPOLYOBJ_CLASS_ID, primitive);

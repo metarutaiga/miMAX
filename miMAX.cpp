@@ -38,7 +38,12 @@ thread_local jmp_buf compoundfilereader_jmp_buf = {};
 #define QUAT_TYPE           0x2504
 #define SCALEVALUE_TYPE     0x2505
 
-static std::vector<std::pair<uint64_t, bool(*)(int(*)(char const*, ...), Chunk const&, Chunk const&, miMAXNode&)>> objectMap;
+static std::vector<std::pair<ClassID, bool(*)(Print, Chunk const&, Chunk const&, miMAXNode&)>> primitiveMap;
+
+static constexpr uint64_t class64(ClassID classID)
+{
+    return (uint64_t)classID.first | ((uint64_t)classID.second << 32);
+}
 
 static std::vector<char> uncompress(std::vector<char> const& input)
 {
@@ -412,11 +417,11 @@ static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk 
         return;
     }
 
-    auto classID = class64((*pChunk).classData.classID);
-    auto it = std::find_if(objectMap.begin(), objectMap.end(), [classID](auto pair) {
+    auto classID = (*pChunk).classData.classID;
+    auto it = std::find_if(primitiveMap.begin(), primitiveMap.end(), [classID](auto pair) {
         return pair.first == classID;
     });
-    if (it != objectMap.end()) {
+    if (it != primitiveMap.end()) {
         if ((*it).second(log, scene, chunk, node))
             return;
         auto* pParamBlock = getLinkChunk(scene, *pChunk, 0);
@@ -451,13 +456,13 @@ float miMAXNode::Bezier(BezierFloat const& left, BezierFloat const& right, float
     return std::lerp(X, Y, scale);
 }
 
-bool miMAXNode::RegisterObject(uint64_t classID, bool(*primitive)(int(*)(char const*, ...), Chunk const&, Chunk const&, miMAXNode&))
+bool miMAXNode::RegisterPrimitive(ClassID classID, bool(*primitive)(Print, Chunk const&, Chunk const&, miMAXNode&))
 {
-    objectMap.emplace_back(classID, primitive);
+    primitiveMap.emplace_back(classID, primitive);
     return true;
 }
 
-miMAXNode* miMAXNode::OpenFile(char const* name, int(*log)(char const*, ...))
+miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
 {
     FILE* file = fopen(name, "rb");
     if (file == nullptr) {
@@ -535,16 +540,16 @@ miMAXNode* miMAXNode::OpenFile(char const* name, int(*log)(char const*, ...))
     }
     auto& scene = root->scene->front();
     switch (scene.type) {
-                    // [ ] 3D Studio MAX R2
-    case 0x2003:    // [x] 3D Studio MAX R2.5
+    case 0x2003:    // [x] 3D Studio MAX R2
+                    // [x] 3D Studio MAX R2.5
     case 0x2004:    // [x] 3D Studio MAX R3
                     // [x] 3D Studio MAX R3.1
                     // [x] 3dsmax 4
                     // [x] 3dsmax 4.2
     case 0x2008:    // [x] 3dsmax 5
                     // [x] 3dsmax 5.1
-                    // [ ] 3dsmax 6
-                    // [ ] 3dsmax 7
+                    // [x] 3dsmax 6
+    case 0x200A:    // [x] 3dsmax 7
                     // [ ] 3ds Max 8
     case 0x200E:    // [x] 3ds Max 9
     case 0x200F:    // [x] 3ds Max 2008

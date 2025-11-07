@@ -3,13 +3,18 @@
 #include <stdio.h>
 #include <string>
 
-template<typename... Args>
-static std::string format(char const* format, Args&&... args)
+#if defined(__clang__)
+__attribute__((format(printf, 1, 2)))
+#endif
+static std::string format(char const* format, ...)
 {
+    va_list args;
+    va_start(args, format);
+    size_t length = vsnprintf(nullptr, 0, format, args) + 1;
     std::string output;
-    size_t length = snprintf(nullptr, 0, format, args...) + 1;
     output.resize(length);
-    snprintf(output.data(), length, format, args...);
+    vsnprintf(output.data(), length, format, args);
     output.pop_back();
+    va_end(args);
     return output;
 }

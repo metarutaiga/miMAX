@@ -63,4 +63,4 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     return true;
 }
 
-static bool register_object = miMAXNode::RegisterObject(class64(EDITTRIOBJ_CLASS_ID), primitive);
+static bool register_object = miMAXNode::RegisterPrimitive(EDITTRIOBJ_CLASS_ID, primitive);

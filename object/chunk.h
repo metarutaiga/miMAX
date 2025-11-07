@@ -4,7 +4,7 @@
 #include "miMAX.h"
 
 template<typename... Args>
-inline Chunk const* getChunk(Chunk const& chunk, Args&&... args)
+static inline Chunk const* getChunk(Chunk const& chunk, Args&&... args)
 {
     auto* output = &chunk;
     for (uint16_t type : { args... }) {
@@ -19,7 +19,7 @@ inline Chunk const* getChunk(Chunk const& chunk, Args&&... args)
 }
 
 template<typename T = char, typename... Args>
-inline std::vector<T> getProperty(Chunk const& chunk, Args&&... args)
+static inline std::vector<T> getProperty(Chunk const& chunk, Args&&... args)
 {
     for (uint16_t type : { args... }) {
         auto* found = getChunk(chunk, type);
@@ -33,7 +33,7 @@ inline std::vector<T> getProperty(Chunk const& chunk, Args&&... args)
 }
 
 template<class order = std::less<uint32_t>>
-std::map<uint32_t, uint32_t, order> getLink(Chunk const& chunk)
+static inline std::map<uint32_t, uint32_t, order> getLink(Chunk const& chunk)
 {
     std::map<uint32_t, uint32_t, order> link;
     auto propertyLink2034 = getProperty<uint32_t>(chunk, 0x2034);
@@ -46,7 +46,7 @@ std::map<uint32_t, uint32_t, order> getLink(Chunk const& chunk)
 }
 
 template<typename... Args>
-inline Chunk const* getLinkChunk(Chunk const& scene, Chunk const& chunk, Args&&... args)
+static inline Chunk const* getLinkChunk(Chunk const& scene, Chunk const& chunk, Args&&... args)
 {
     auto* output = &chunk;
     auto link = getLink(*output);
@@ -63,7 +63,7 @@ inline Chunk const* getLinkChunk(Chunk const& scene, Chunk const& chunk, Args&&.
     return output;
 }
 
-inline std::vector<std::tuple<float, int, miMAXNode::Point3>> getParamBlock(Chunk const& paramBlock)
+static inline std::vector<std::tuple<float, int, miMAXNode::Point3>> getParamBlock(Chunk const& paramBlock)
 {
     std::vector<std::tuple<float, int, Point3>> output;
     switch (paramBlock.classData.superClassID) {

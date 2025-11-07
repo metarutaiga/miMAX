@@ -29,7 +29,7 @@
 		F528217E2EBE0D36000671F1 /* pyramid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217D2EBE0D33000671F1 /* pyramid.cpp */; };
 		F52821822EBE0D5E000671F1 /* editablepoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821812EBE0D5A000671F1 /* editablepoly.cpp */; };
 		F52821832EBE134D000671F1 /* editablemesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821802EBE0D4B000671F1 /* editablemesh.cpp */; };
-		F52821842EBE135A000671F1 /* plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217F2EBE0D3C000671F1 /* plane.cpp */; };
+		F52821842EBE135A000671F1 /* grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217F2EBE0D3C000671F1 /* grid.cpp */; };
 		F558E5972E8276060060F473 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F558E5962E8276060060F473 /* main.mm */; };
 		F558E5D32E8276AD0060F473 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D22E8276AD0060F473 /* AppKit.framework */; };
 		F558E5D62E8276C60060F473 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D52E8276C60060F473 /* GameController.framework */; };
@@ -71,7 +71,7 @@
 		F52821792EBE0D22000671F1 /* geosphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = geosphere.cpp; sourceTree = "<group>"; };
 		F528217B2EBE0D2B000671F1 /* tube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tube.cpp; sourceTree = "<group>"; };
 		F528217D2EBE0D33000671F1 /* pyramid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pyramid.cpp; sourceTree = "<group>"; };
-		F528217F2EBE0D3C000671F1 /* plane.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = plane.cpp; sourceTree = "<group>"; };
+		F528217F2EBE0D3C000671F1 /* grid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = grid.cpp; sourceTree = "<group>"; };
 		F52821802EBE0D4B000671F1 /* editablemesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editablemesh.cpp; sourceTree = "<group>"; };
 		F52821812EBE0D5A000671F1 /* editablepoly.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editablepoly.cpp; sourceTree = "<group>"; };
 		F52821852EBE15F5000671F1 /* ImGuiHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImGuiHelper.h; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				F52821812EBE0D5A000671F1 /* editablepoly.cpp */,
 				F528216F2EBDE82E000671F1 /* format.h */,
 				F52821792EBE0D22000671F1 /* geosphere.cpp */,
-				F528217F2EBE0D3C000671F1 /* plane.cpp */,
+				F528217F2EBE0D3C000671F1 /* grid.cpp */,
 				F528217D2EBE0D33000671F1 /* pyramid.cpp */,
 				F52821712EBE0CFC000671F1 /* sphere.cpp */,
 				F52821752EBE0D11000671F1 /* torus.cpp */,
@@ -276,7 +276,7 @@
 				F52821832EBE134D000671F1 /* editablemesh.cpp in Sources */,
 				F52821822EBE0D5E000671F1 /* editablepoly.cpp in Sources */,
 				F528217A2EBE0D26000671F1 /* geosphere.cpp in Sources */,
-				F52821842EBE135A000671F1 /* plane.cpp in Sources */,
+				F52821842EBE135A000671F1 /* grid.cpp in Sources */,
 				F528217E2EBE0D36000671F1 /* pyramid.cpp in Sources */,
 				F52821722EBE0CFF000671F1 /* sphere.cpp in Sources */,
 				F52821762EBE0D14000671F1 /* torus.cpp in Sources */,
