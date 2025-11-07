@@ -1,5 +1,5 @@
 # miMAX - minimal MAX Reader
-* Use C++17
+* Use C++20
 
 ## Support for Standard Primitives
 - [ ] Box

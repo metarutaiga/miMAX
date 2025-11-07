@@ -1,3 +1,6 @@
 [submodule "compoundfilereader"]
 	path = compoundfilereader
 	url = https://github.com/microsoft/compoundfilereader
+[submodule "example/miMAX/imgui"]
+	path = example/miMAX/imgui
+	url = https://github.com/ocornut/imgui

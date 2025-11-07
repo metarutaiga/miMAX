@@ -3,3 +3,4 @@
 *.xcbkptlist
 xcschememanagement.plist
 IDEWorkspaceChecks.plist
+example/miMAX/build

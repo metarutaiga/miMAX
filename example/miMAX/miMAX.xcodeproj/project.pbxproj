@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F5281F2D2EBDCC21000671F1 /* viewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5281F2C2EBDCC21000671F1 /* viewer.cpp */; };
+		F5281F322EBDCC9F000671F1 /* miMAX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5281F302EBDCC9F000671F1 /* miMAX.cpp */; };
+		F5281F332EBDCC9F000671F1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F5281F312EBDCC9F000671F1 /* README.md */; };
+		F5281F352EBDCDFE000671F1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F5281F342EBDCDFE000671F1 /* libz.tbd */; };
+		F52820902EBDCEC6000671F1 /* imgui_widgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52820762EBDCEC6000671F1 /* imgui_widgets.cpp */; };
+		F52820922EBDCEC6000671F1 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52820732EBDCEC6000671F1 /* imgui_draw.cpp */; };
+		F52820AF2EBDCEC6000671F1 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52820722EBDCEC6000671F1 /* imgui_demo.cpp */; };
+		F52820B12EBDCEC6000671F1 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52820712EBDCEC6000671F1 /* imgui.cpp */; };
+		F52820B42EBDCEC6000671F1 /* imgui_impl_osx.mm in Sources */ = {isa = PBXBuildFile; fileRef = F5281F632EBDCEC6000671F1 /* imgui_impl_osx.mm */; };
+		F52820C52EBDCEC6000671F1 /* imgui_impl_metal.mm in Sources */ = {isa = PBXBuildFile; fileRef = F5281F5C2EBDCEC6000671F1 /* imgui_impl_metal.mm */; };
+		F52820CD2EBDCEC6000671F1 /* imgui_tables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52820752EBDCEC6000671F1 /* imgui_tables.cpp */; };
+		F52820EB2EBDCEC6000671F1 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F528207A2EBDCEC6000671F1 /* LICENSE.txt */; };
+		F528216E2EBDE71B000671F1 /* boxobj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528216D2EBDE710000671F1 /* boxobj.cpp */; };
+		F52821722EBE0CFF000671F1 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821712EBE0CFC000671F1 /* sphere.cpp */; };
+		F52821742EBE0D0C000671F1 /* cylinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821732EBE0D0A000671F1 /* cylinder.cpp */; };
+		F52821762EBE0D14000671F1 /* torus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821752EBE0D11000671F1 /* torus.cpp */; };
+		F52821782EBE0D1B000671F1 /* cone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821772EBE0D19000671F1 /* cone.cpp */; };
+		F528217A2EBE0D26000671F1 /* geosphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821792EBE0D22000671F1 /* geosphere.cpp */; };
+		F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217B2EBE0D2B000671F1 /* tube.cpp */; };
+		F528217E2EBE0D36000671F1 /* pyramid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217D2EBE0D33000671F1 /* pyramid.cpp */; };
+		F52821822EBE0D5E000671F1 /* editablepoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821812EBE0D5A000671F1 /* editablepoly.cpp */; };
+		F52821832EBE134D000671F1 /* editablemesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821802EBE0D4B000671F1 /* editablemesh.cpp */; };
+		F52821842EBE135A000671F1 /* plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217F2EBE0D3C000671F1 /* plane.cpp */; };
+		F558E5972E8276060060F473 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F558E5962E8276060060F473 /* main.mm */; };
+		F558E5D32E8276AD0060F473 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D22E8276AD0060F473 /* AppKit.framework */; };
+		F558E5D62E8276C60060F473 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D52E8276C60060F473 /* GameController.framework */; };
+		F558E5D82E8276D70060F473 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D72E8276D70060F473 /* MetalKit.framework */; };
+		F558E5D92E8276EB0060F473 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D02E8276870060F473 /* Metal.framework */; };
+		F558E5DF2E8277780060F473 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5DE2E8277780060F473 /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8307E7DA20E9F9C900473790 /* miMAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = miMAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5281F2C2EBDCC21000671F1 /* viewer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = viewer.cpp; sourceTree = "<group>"; };
+		F5281F2F2EBDCC9F000671F1 /* miMAX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = miMAX.h; path = ../../miMAX.h; sourceTree = "<absolute>"; };
+		F5281F302EBDCC9F000671F1 /* miMAX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = miMAX.cpp; path = ../../miMAX.cpp; sourceTree = "<absolute>"; };
+		F5281F312EBDCC9F000671F1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<absolute>"; };
+		F5281F342EBDCDFE000671F1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		F5281F5B2EBDCEC6000671F1 /* imgui_impl_metal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_impl_metal.h; sourceTree = "<group>"; };
+		F5281F5C2EBDCEC6000671F1 /* imgui_impl_metal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = imgui_impl_metal.mm; sourceTree = "<group>"; };
+		F5281F622EBDCEC6000671F1 /* imgui_impl_osx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_impl_osx.h; sourceTree = "<group>"; };
+		F5281F632EBDCEC6000671F1 /* imgui_impl_osx.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = imgui_impl_osx.mm; sourceTree = "<group>"; };
+		F528206F2EBDCEC6000671F1 /* imconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imconfig.h; sourceTree = "<group>"; };
+		F52820702EBDCEC6000671F1 /* imgui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui.h; sourceTree = "<group>"; };
+		F52820712EBDCEC6000671F1 /* imgui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui.cpp; sourceTree = "<group>"; };
+		F52820722EBDCEC6000671F1 /* imgui_demo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_demo.cpp; sourceTree = "<group>"; };
+		F52820732EBDCEC6000671F1 /* imgui_draw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_draw.cpp; sourceTree = "<group>"; };
+		F52820742EBDCEC6000671F1 /* imgui_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_internal.h; sourceTree = "<group>"; };
+		F52820752EBDCEC6000671F1 /* imgui_tables.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_tables.cpp; sourceTree = "<group>"; };
+		F52820762EBDCEC6000671F1 /* imgui_widgets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_widgets.cpp; sourceTree = "<group>"; };
+		F52820772EBDCEC6000671F1 /* imstb_rectpack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_rectpack.h; sourceTree = "<group>"; };
+		F52820782EBDCEC6000671F1 /* imstb_textedit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_textedit.h; sourceTree = "<group>"; };
+		F52820792EBDCEC6000671F1 /* imstb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_truetype.h; sourceTree = "<group>"; };
+		F528207A2EBDCEC6000671F1 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		F528216D2EBDE710000671F1 /* boxobj.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = boxobj.cpp; sourceTree = "<group>"; };
+		F528216F2EBDE82E000671F1 /* format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = format.h; sourceTree = "<group>"; };
+		F52821702EBDE8B2000671F1 /* chunk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chunk.h; sourceTree = "<group>"; };
+		F52821712EBE0CFC000671F1 /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
+		F52821732EBE0D0A000671F1 /* cylinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cylinder.cpp; sourceTree = "<group>"; };
+		F52821752EBE0D11000671F1 /* torus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = torus.cpp; sourceTree = "<group>"; };
+		F52821772EBE0D19000671F1 /* cone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cone.cpp; sourceTree = "<group>"; };
+		F52821792EBE0D22000671F1 /* geosphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = geosphere.cpp; sourceTree = "<group>"; };
+		F528217B2EBE0D2B000671F1 /* tube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tube.cpp; sourceTree = "<group>"; };
+		F528217D2EBE0D33000671F1 /* pyramid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pyramid.cpp; sourceTree = "<group>"; };
+		F528217F2EBE0D3C000671F1 /* plane.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = plane.cpp; sourceTree = "<group>"; };
+		F52821802EBE0D4B000671F1 /* editablemesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editablemesh.cpp; sourceTree = "<group>"; };
+		F52821812EBE0D5A000671F1 /* editablepoly.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editablepoly.cpp; sourceTree = "<group>"; };
+		F52821852EBE15F5000671F1 /* ImGuiHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImGuiHelper.h; sourceTree = "<group>"; };
+		F558E5962E8276060060F473 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		F558E5D02E8276870060F473 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		F558E5D22E8276AD0060F473 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		F558E5D52E8276C60060F473 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		F558E5D72E8276D70060F473 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		F558E5DE2E8277780060F473 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F558E7C02E82C34B0060F473 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
+		F582D6A72E82754900D70BDC /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8307E7D720E9F9C900473790 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5281F352EBDCDFE000671F1 /* libz.tbd in Frameworks */,
+				F558E5D32E8276AD0060F473 /* AppKit.framework in Frameworks */,
+				F558E5D62E8276C60060F473 /* GameController.framework in Frameworks */,
+				F558E5D92E8276EB0060F473 /* Metal.framework in Frameworks */,
+				F558E5D82E8276D70060F473 /* MetalKit.framework in Frameworks */,
+				F558E5DF2E8277780060F473 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8307E7B520E9F9C700473790 = {
+			isa = PBXGroup;
+			children = (
+				F528207B2EBDCEC6000671F1 /* imgui */,
+				F5281F2E2EBDCC8A000671F1 /* miMAX */,
+				F52821852EBE15F5000671F1 /* ImGuiHelper.h */,
+				F582D6A72E82754900D70BDC /* Info-macOS.plist */,
+				F558E5962E8276060060F473 /* main.mm */,
+				F5281F2C2EBDCC21000671F1 /* viewer.cpp */,
+				8307E7C520E9F9C900473790 /* Products */,
+				83BBE9E320EB46B800295997 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8307E7C520E9F9C900473790 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8307E7DA20E9F9C900473790 /* miMAX.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		83BBE9E320EB46B800295997 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F5281F342EBDCDFE000671F1 /* libz.tbd */,
+				F558E7C02E82C34B0060F473 /* libSystem.tbd */,
+				F558E5D22E8276AD0060F473 /* AppKit.framework */,
+				F558E5D52E8276C60060F473 /* GameController.framework */,
+				F558E5D02E8276870060F473 /* Metal.framework */,
+				F558E5D72E8276D70060F473 /* MetalKit.framework */,
+				F558E5DE2E8277780060F473 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5281F2E2EBDCC8A000671F1 /* miMAX */ = {
+			isa = PBXGroup;
+			children = (
+				F528216C2EBDE6EA000671F1 /* object */,
+				F5281F2F2EBDCC9F000671F1 /* miMAX.h */,
+				F5281F302EBDCC9F000671F1 /* miMAX.cpp */,
+				F5281F312EBDCC9F000671F1 /* README.md */,
+			);
+			name = miMAX;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		F5281F752EBDCEC6000671F1 /* backends */ = {
+			isa = PBXGroup;
+			children = (
+				F5281F5B2EBDCEC6000671F1 /* imgui_impl_metal.h */,
+				F5281F5C2EBDCEC6000671F1 /* imgui_impl_metal.mm */,
+				F5281F622EBDCEC6000671F1 /* imgui_impl_osx.h */,
+				F5281F632EBDCEC6000671F1 /* imgui_impl_osx.mm */,
+			);
+			path = backends;
+			sourceTree = "<group>";
+		};
+		F528207B2EBDCEC6000671F1 /* imgui */ = {
+			isa = PBXGroup;
+			children = (
+				F5281F752EBDCEC6000671F1 /* backends */,
+				F528206F2EBDCEC6000671F1 /* imconfig.h */,
+				F52820702EBDCEC6000671F1 /* imgui.h */,
+				F52820712EBDCEC6000671F1 /* imgui.cpp */,
+				F52820722EBDCEC6000671F1 /* imgui_demo.cpp */,
+				F52820732EBDCEC6000671F1 /* imgui_draw.cpp */,
+				F52820742EBDCEC6000671F1 /* imgui_internal.h */,
+				F52820752EBDCEC6000671F1 /* imgui_tables.cpp */,
+				F52820762EBDCEC6000671F1 /* imgui_widgets.cpp */,
+				F52820772EBDCEC6000671F1 /* imstb_rectpack.h */,
+				F52820782EBDCEC6000671F1 /* imstb_textedit.h */,
+				F52820792EBDCEC6000671F1 /* imstb_truetype.h */,
+				F528207A2EBDCEC6000671F1 /* LICENSE.txt */,
+			);
+			path = imgui;
+			sourceTree = "<group>";
+		};
+		F528216C2EBDE6EA000671F1 /* object */ = {
+			isa = PBXGroup;
+			children = (
+				F528216D2EBDE710000671F1 /* boxobj.cpp */,
+				F52821702EBDE8B2000671F1 /* chunk.h */,
+				F52821772EBE0D19000671F1 /* cone.cpp */,
+				F52821732EBE0D0A000671F1 /* cylinder.cpp */,
+				F52821802EBE0D4B000671F1 /* editablemesh.cpp */,
+				F52821812EBE0D5A000671F1 /* editablepoly.cpp */,
+				F528216F2EBDE82E000671F1 /* format.h */,
+				F52821792EBE0D22000671F1 /* geosphere.cpp */,
+				F528217F2EBE0D3C000671F1 /* plane.cpp */,
+				F528217D2EBE0D33000671F1 /* pyramid.cpp */,
+				F52821712EBE0CFC000671F1 /* sphere.cpp */,
+				F52821752EBE0D11000671F1 /* torus.cpp */,
+				F528217B2EBE0D2B000671F1 /* tube.cpp */,
+			);
+			path = object;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8307E7D920E9F9C900473790 /* miMAX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8307E7F320E9F9C900473790 /* Build configuration list for PBXNativeTarget "miMAX" */;
+			buildPhases = (
+				8307E7D620E9F9C900473790 /* Sources */,
+				8307E7D720E9F9C900473790 /* Frameworks */,
+				8307E7D820E9F9C900473790 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = miMAX;
+			productName = "imguiex macOS";
+			productReference = 8307E7DA20E9F9C900473790 /* miMAX.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8307E7B620E9F9C700473790 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					8307E7D920E9F9C900473790 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 8307E7B920E9F9C700473790 /* Build configuration list for PBXProject "miMAX" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8307E7B520E9F9C700473790;
+			productRefGroup = 8307E7C520E9F9C900473790 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8307E7D920E9F9C900473790 /* miMAX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8307E7D820E9F9C900473790 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5281F332EBDCC9F000671F1 /* README.md in Resources */,
+				F52820EB2EBDCEC6000671F1 /* LICENSE.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8307E7D620E9F9C900473790 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F528216E2EBDE71B000671F1 /* boxobj.cpp in Sources */,
+				F52821782EBE0D1B000671F1 /* cone.cpp in Sources */,
+				F52821742EBE0D0C000671F1 /* cylinder.cpp in Sources */,
+				F52821832EBE134D000671F1 /* editablemesh.cpp in Sources */,
+				F52821822EBE0D5E000671F1 /* editablepoly.cpp in Sources */,
+				F528217A2EBE0D26000671F1 /* geosphere.cpp in Sources */,
+				F52821842EBE135A000671F1 /* plane.cpp in Sources */,
+				F528217E2EBE0D36000671F1 /* pyramid.cpp in Sources */,
+				F52821722EBE0CFF000671F1 /* sphere.cpp in Sources */,
+				F52821762EBE0D14000671F1 /* torus.cpp in Sources */,
+				F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */,
+				F5281F322EBDCC9F000671F1 /* miMAX.cpp in Sources */,
+				F558E5972E8276060060F473 /* main.mm in Sources */,
+				F5281F2D2EBDCC21000671F1 /* viewer.cpp in Sources */,
+				F52820C52EBDCEC6000671F1 /* imgui_impl_metal.mm in Sources */,
+				F52820B42EBDCEC6000671F1 /* imgui_impl_osx.mm in Sources */,
+				F52820B12EBDCEC6000671F1 /* imgui.cpp in Sources */,
+				F52820AF2EBDCEC6000671F1 /* imgui_demo.cpp in Sources */,
+				F52820922EBDCEC6000671F1 /* imgui_draw.cpp in Sources */,
+				F52820CD2EBDCEC6000671F1 /* imgui_tables.cpp in Sources */,
+				F52820902EBDCEC6000671F1 /* imgui_widgets.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		8307E7EE20E9F9C900473790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../..;
+				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+			};
+			name = Debug;
+		};
+		8307E7EF20E9F9C900473790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../..;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+			};
+			name = Release;
+		};
+		8307E7F420E9F9C900473790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info-macOS.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/imgui/examples/libs/glfw/lib-vc2010-64",
+					"$(PROJECT_DIR)/imgui/examples/libs/glfw/lib-vc2010-32",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = com.metarutaiga.mimax;
+				PRODUCT_NAME = miMAX;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8307E7F520E9F9C900473790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info-macOS.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/imgui/examples/libs/glfw/lib-vc2010-64",
+					"$(PROJECT_DIR)/imgui/examples/libs/glfw/lib-vc2010-32",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = com.metarutaiga.mimax;
+				PRODUCT_NAME = miMAX;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8307E7B920E9F9C700473790 /* Build configuration list for PBXProject "miMAX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8307E7EE20E9F9C900473790 /* Debug */,
+				8307E7EF20E9F9C900473790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8307E7F320E9F9C900473790 /* Build configuration list for PBXNativeTarget "miMAX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8307E7F420E9F9C900473790 /* Debug */,
+				8307E7F520E9F9C900473790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8307E7B620E9F9C700473790 /* Project object */;
+}

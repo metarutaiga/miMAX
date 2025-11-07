@@ -80,13 +80,15 @@ public:
         delete scene;
         delete videoPostQueue;
     }
+
+public:
+    static float Bezier(BezierFloat const& left, BezierFloat const& right, float scale);
+    static void EulerToQuaternion(float const euler[3], Quat& quaternion);
+
+    static bool RegisterObject(uint64_t, bool(*)(int(*)(char const*, ...), Chunk const&, Chunk const&, miMAXNode&));
+
+    static miMAXNode* OpenFile(char const* name, int(*log)(char const*, ...));
 };
-
-void miMAXEulerToQuaternion(float const euler[3], miMAXNode::Quat& quaternion);
-
-float miMAXBezier(miMAXNode::BezierFloat const& left, miMAXNode::BezierFloat const& right, float scale);
-
-miMAXNode* miMAXOpenFile(char const* name, int(*log)(char const*, ...));
 
 #if defined(__MIMAX_INTERNAL__)
 typedef miMAXNode::ClassID ClassID;
@@ -96,6 +98,11 @@ typedef miMAXNode::Point3 Point3;
 typedef miMAXNode::Quat Quat;
 typedef miMAXNode::BezierFloat BezierFloat;
 typedef miMAXNode::Chunk Chunk;
+
+static constexpr uint64_t class64(ClassID classID)
+{
+    return (uint64_t)classID.first | ((uint64_t)classID.second << 32);
+}
 
 #define BASENODE_SUPERCLASS_ID          0x00000001
 #define PARAMETER_BLOCK_SUPERCLASS_ID   0x00000008
