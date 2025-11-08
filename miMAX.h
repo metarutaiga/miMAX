@@ -135,8 +135,10 @@ typedef miMAXNode::Print Print;
 #define TUBE_CLASS_ID                   ClassID{0x00007b21, 0x00000000}
 #define PYRAMID_CLASS_ID                ClassID{0x76bf318a, 0x4bf37b10}
 #define GRID_CLASS_ID                   ClassID{0x081f1dfc, 0x77566f65}
+
 #define EDITTRIOBJ_CLASS_ID             ClassID{0xe44f10b3, 0x00000000}
 #define EPOLYOBJ_CLASS_ID               ClassID{0x1bf8338d, 0x192f6098}
+#define PATCHOBJ_CLASS_ID               ClassID{0x00001030, 0x00000000}
 
 #define EDIT_NORMALS_CLASS_ID           ClassID{0x4aa52ae3, 0x35ca1cde}
 #define PAINTLAYERMOD_CLASS_ID          ClassID{0x7ebb4645, 0x7be2044b}

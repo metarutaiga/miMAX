@@ -10,8 +10,8 @@
 
 #define __MIMAX_INTERNAL__
 #include "miMAX.h"
-#include "object/chunk.h"
-#include "object/format.h"
+#include "objects/chunk.h"
+#include "objects/format.h"
 
 #if _CPPUNWIND || __cpp_exceptions
 #include <exception>
