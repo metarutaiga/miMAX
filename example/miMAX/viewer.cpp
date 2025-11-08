@@ -1,10 +1,30 @@
 #include <mach-o/dyld.h>
+#include <sys/dir.h>
 #include <functional>
 #include <string>
 #include "ImGuiHelper.h"
 #include "miMAX.h"
 
 static miMAXNode* root;
+static std::vector<std::pair<std::string, std::string>> finders;
+static int finderIndex;
+static std::vector<std::string> messages;
+static int messagesFocus;
+static int messagesIndex;
+
+static int Message(const char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    int length = vsnprintf(nullptr, 0, format, args) + 1;
+    std::string output;
+    output.resize(length);
+    vsnprintf(output.data(), length, format, args);
+    output.pop_back();
+    va_end(args);
+    messages.emplace_back(output);
+    return length;
+}
 
 void Init()
 {
@@ -18,25 +38,40 @@ void Init()
     initialize = true;
 
     ImGuiID dockid = ImGui::DockBuilderAddNode(id);
-    ImGuiID left = ImGui::DockBuilderSplitNode(dockid, ImGuiDir_Left, 1.0f / 2.0f, nullptr, &dockid);
+    ImGuiID bottom = ImGui::DockBuilderSplitNode(dockid, ImGuiDir_Down, 1.0f / 4.0f, nullptr, &dockid);
+    ImGuiID left = ImGui::DockBuilderSplitNode(dockid, ImGuiDir_Left, 1.0f / 5.0f, nullptr, &dockid);
+    ImGuiID middle = ImGui::DockBuilderSplitNode(dockid, ImGuiDir_Left, 1.0f / 2.0f, nullptr, &dockid);
     ImGuiID right = dockid;
-    ImGui::DockBuilderDockWindow("NodeFinder", left);
-    ImGui::DockBuilderDockWindow("NodeText", right);
+    ImGui::DockBuilderDockWindow("Finder", left);
+    ImGui::DockBuilderDockWindow("Node", middle);
+    ImGui::DockBuilderDockWindow("Text", right);
+    ImGui::DockBuilderDockWindow("Message", bottom);
     ImGui::DockBuilderFinish(dockid);
 
-    static char path[4096];
-    unsigned int pathSize = sizeof(path);
-    _NSGetExecutablePath(path, &pathSize);
-    if (char* slash = strrchr(path, '/'))
+    static char appPath[4096];
+    unsigned int appPathSize = sizeof(appPath);
+    _NSGetExecutablePath(appPath, &appPathSize);
+    if (char* slash = strrchr(appPath, '/'))
         (*slash) = '\0';
 
-    std::string file = path;
-    file += "/../../../../../sample.max";
+    std::string path = appPath;
+    path += "/../../../../../";
 
-    root = miMAXNode::OpenFile(file.c_str(), printf);
+    DIR* dir = opendir(path.c_str());
+    if (dir) {
+        while (struct dirent* dirent = readdir(dir)) {
+            if (dirent->d_name[0] == '.')
+                continue;
+            if (strcasestr(dirent->d_name, ".max") == nullptr)
+                continue;
+            finders.emplace_back(dirent->d_name, path + dirent->d_name);
+        }
+        closedir(dir);
+    }
+    std::stable_sort(finders.begin(), finders.end());
 }
 
-static bool NodeFinder(miMAXNode& node, std::function<void(std::string& text)> select)
+static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> select, size_t depth = 0)
 {
     static void* selected;
     bool updated = false;
@@ -73,6 +108,8 @@ static bool NodeFinder(miMAXNode& node, std::function<void(std::string& text)> s
 
     for (auto& child : node) {
         int flags = (selected == &child) ? ImGuiTreeNodeFlags_Selected : 0;
+        if (depth == 0)
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
         if (child.empty())
             flags |= ImGuiTreeNodeFlags_Leaf;
 
@@ -115,7 +152,7 @@ static bool NodeFinder(miMAXNode& node, std::function<void(std::string& text)> s
             }
         }
         if (child.empty() == false) {
-            updated |= NodeFinder(child, select);
+            updated |= TreeNode(child, select, depth + 1);
         }
 
         ImGui::TreePop();
@@ -165,21 +202,49 @@ bool GUI(ImVec2 screen)
 
         Init();
 
+        if (ImGui::Begin("Finder")) {
+            ImVec2 region = ImGui::GetContentRegionAvail();
+            ImGui::SetNextWindowSize(region);
+            if (ImGui::ListBox("##100", &finderIndex, [](void* user_data, int index) {
+                auto* finders = (std::pair<std::string, std::string>*)user_data;
+                return finders[index].first.c_str();
+            }, finders.data(), (int)finders.size())) {
+                if (finders.size() > finderIndex) {
+                    auto& pair = finders[finderIndex];
+                    messages.clear();
+                    delete root;
+                    root = miMAXNode::OpenFile(pair.second.c_str(), Message);
+                    messagesFocus = messagesIndex = (int)messages.size() - 1;
+                }
+            }
+        }
+        ImGui::End();
+
         static std::string nodeText;
-        if (ImGui::Begin("NodeText")) {
+        if (ImGui::Begin("Node") && root) {
+            TreeNode(*root, [](std::string const& text) {
+                nodeText = text;
+            });
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("Text")) {
             ImGui::TextUnformatted(nodeText.c_str());
         }
         ImGui::End();
 
-        if (ImGui::Begin("NodeFinder")) {
-            if (root) {
-                NodeFinder(*root, [](std::string const& text) {
-                    nodeText = text;
-                });
-            }
+        if (ImGui::Begin("Message")) {
+            ImVec2 region = ImGui::GetContentRegionAvail();
+            ImGui::SetNextWindowSize(region);
+            ImGui::ListBox("##400", &messagesIndex, &messagesFocus, [](void* user_data, int index) {
+                auto* messages = (std::string*)user_data;
+                return messages[index].c_str();
+            }, messages.data(), (int)messages.size());
+            messagesFocus = -1;
         }
         ImGui::End();
     }
     ImGui::End();
+
     return show;
 }

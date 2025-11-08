@@ -3,7 +3,7 @@
 #include "chunk.h"
 #include "format.h"
 
-static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     auto* pParamBlock = getLinkChunk(scene, chunk, 0);
     if (pParamBlock == nullptr)
@@ -18,16 +18,16 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     int widthSegments = std::get<int>(paramBlock[3]);
     int depthSegments = std::get<int>(paramBlock[4]);
     int heightSegments = std::get<int>(paramBlock[5]);
-    bool getUVs = std::get<int>(paramBlock[6]);
+    int getUVs = std::get<int>(paramBlock[6]);
 
-    node.text = node.text + format("%s : %s", "Primitive", "Pyramid") + '\n';
-    node.text = node.text + format("%s : %g", "Width", width) + '\n';
-    node.text = node.text + format("%s : %g", "Depth", depth) + '\n';
-    node.text = node.text + format("%s : %g", "Height", height) + '\n';
-    node.text = node.text + format("%s : %d", "Width Segments", widthSegments) + '\n';
-    node.text = node.text + format("%s : %d", "Depth Segments", depthSegments) + '\n';
-    node.text = node.text + format("%s : %d", "Height Segments", heightSegments) + '\n';
-    node.text = node.text + format("%s : %s", "Get UVs", getUVs ? "true" : "false") + '\n';
+    node.text = node.text + format("%-16s : %s", "Primitive", "Pyramid") + '\n';
+    node.text = node.text + format("%-16s : %g", "Width", width) + '\n';
+    node.text = node.text + format("%-16s : %g", "Depth", depth) + '\n';
+    node.text = node.text + format("%-16s : %g", "Height", height) + '\n';
+    node.text = node.text + format("%-16s : %d", "Width Segments", widthSegments) + '\n';
+    node.text = node.text + format("%-16s : %d", "Depth Segments", depthSegments) + '\n';
+    node.text = node.text + format("%-16s : %d", "Height Segments", heightSegments) + '\n';
+    node.text = node.text + format("%-16s : %s", "Get UVs", getUVs ? "true" : "false") + '\n';
     return true;
 }
 

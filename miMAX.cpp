@@ -130,6 +130,15 @@ static void parseStream(Chunk& chunk, char const* begin, char const* end)
     }
 }
 
+static bool checkClass(Print log, Chunk const& chunk, ClassID classID, SuperClassID superClassID)
+{
+    if (chunk.classData.classID == classID && chunk.classData.superClassID == superClassID)
+        return true;
+    auto& classData = chunk.classData;
+    log("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
+    return false;
+}
+
 static std::tuple<std::string, ClassData> getClass(Chunk const& classDirectory, uint16_t classIndex)
 {
     if (classDirectory.size() <= classIndex)
@@ -158,16 +167,7 @@ static std::tuple<std::string, std::string> getDll(Chunk const& dllDirectory, ui
     return { UTF16ToUTF8(propertyDllFile.data(), propertyDllFile.size()), UTF16ToUTF8(propertyDllName.data(), propertyDllName.size()) };
 }
 
-static bool checkClass(int(*log)(char const*, ...), Chunk const& chunk, ClassID classID, SuperClassID superClassID)
-{
-    if (chunk.classData.classID == classID && chunk.classData.superClassID == superClassID)
-        return true;
-    auto& classData = chunk.classData;
-    log("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
-    return false;
-}
-
-static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static void getPositionRotationScale(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     // FFFFFFFF-00002005-00000000-00009008 Position/Rotation/Scale  PRS_CONTROL_CLASS_ID + MATRIX3_SUPERCLASS_ID
     if (checkClass(log, chunk, PRS_CONTROL_CLASS_ID, MATRIX3_SUPERCLASS_ID) == false)
@@ -327,7 +327,7 @@ static void getPositionRotationScale(int(*log)(char const*, ...), Chunk const& s
     }
 }
 
-static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, Chunk const& modifierChunk, miMAXNode& node)
+static void getObjectSpaceModifier(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& modifierChunk, miMAXNode& node)
 {
     if (chunk.classData.superClassID != OSM_SUPERCLASS_ID)
         return;
@@ -351,7 +351,7 @@ static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& sce
         for (size_t i = 1; i + 2 < normals.size(); i += 3) {
             node.normal.push_back({normals[i], normals[i + 1], normals[1 + 2]});
         }
-        node.text += format("Normal : %zd", node.normal.size()) + '\n';
+        node.text = node.text + format("Normal : %zd", node.normal.size()) + '\n';
         break;
     }
     case class64(PAINTLAYERMOD_CLASS_ID):
@@ -362,15 +362,15 @@ static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& sce
             switch (std::get<int>(paramBlock[1])) {
             default:
                 node.vertexColor = getProperty<Point3>(*pColorChunk, 0x0110);
-                node.text += format("Vertex Color : %zd", node.vertexColor.size()) + '\n';
+                node.text = node.text + format("Vertex Color : %zd", node.vertexColor.size()) + '\n';
                 break;
             case -1:
                 node.vertexIllum = getProperty<Point3>(*pColorChunk, 0x0110);
-                node.text += format("Vertex Illum : %zd", node.vertexIllum.size()) + '\n';
+                node.text = node.text + format("Vertex Illum : %zd", node.vertexIllum.size()) + '\n';
                 break;
             case -2:
                 node.vertexAlpha = getProperty<Point3>(*pColorChunk, 0x0110);
-                node.text += format("Vertex Alpha : %zd", node.vertexAlpha.size()) + '\n';
+                node.text = node.text + format("Vertex Alpha : %zd", node.vertexAlpha.size()) + '\n';
                 break;
             }
         }
@@ -380,7 +380,7 @@ static void getObjectSpaceModifier(int(*log)(char const*, ...), Chunk const& sce
     }
 }
 
-static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static void getPrimitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     auto* pChunk = &chunk;
     if ((*pChunk).classData.superClassID != GEOMOBJECT_SUPERCLASS_ID) {
@@ -418,10 +418,9 @@ static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk 
     }
 
     auto classID = (*pChunk).classData.classID;
-    auto it = std::find_if(primitiveMap.begin(), primitiveMap.end(), [classID](auto pair) {
-        return pair.first == classID;
-    });
-    if (it != primitiveMap.end()) {
+    auto value = decltype(primitiveMap)::value_type(classID, nullptr);
+    auto it = std::lower_bound(primitiveMap.begin(), primitiveMap.end(), value);
+    if (it != primitiveMap.end() && (*it).first == classID) {
         if ((*it).second(log, scene, chunk, node))
             return;
         auto* pParamBlock = getLinkChunk(scene, *pChunk, 0);
@@ -429,6 +428,8 @@ static void getPrimitive(int(*log)(char const*, ...), Chunk const& scene, Chunk 
             checkClass(log, *pParamBlock, {}, 0);
         }
     }
+    auto& classData = chunk.classData;
+    node.text = node.text + format("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
     checkClass(log, *pChunk, {}, 0);
 }
 
@@ -459,6 +460,7 @@ float miMAXNode::Bezier(BezierFloat const& left, BezierFloat const& right, float
 bool miMAXNode::RegisterPrimitive(ClassID classID, bool(*primitive)(Print, Chunk const&, Chunk const&, miMAXNode&))
 {
     primitiveMap.emplace_back(classID, primitive);
+    std::stable_sort(primitiveMap.begin(), primitiveMap.end());
     return true;
 }
 
@@ -476,7 +478,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
 
     root = new miMAXNode;
     if (root == nullptr) {
-        log("Out of memory\n");
+        log("%s\n", "Out of memory");
         THROW;
     }
 
@@ -535,38 +537,36 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
 
     // Root
     if (root->scene->empty()) {
-        log("Scene is empty\n");
+        log("%s\n", "Scene is empty");
         THROW;
     }
     auto& scene = root->scene->front();
     switch (scene.type) {
-    case 0x2003:    // [x] 3D Studio MAX R2
-                    // [x] 3D Studio MAX R2.5
-    case 0x2004:    // [x] 3D Studio MAX R3
-                    // [x] 3D Studio MAX R3.1
-                    // [x] 3dsmax 4
-                    // [x] 3dsmax 4.2
-    case 0x2008:    // [x] 3dsmax 5
-                    // [x] 3dsmax 5.1
-                    // [x] 3dsmax 6
-    case 0x200A:    // [x] 3dsmax 7
-                    // [ ] 3ds Max 8
-    case 0x200E:    // [x] 3ds Max 9
-    case 0x200F:    // [x] 3ds Max 2008
-                    // [ ] 3ds Max 2009
-    case 0x2012:    // [x] 3ds Max 2010
-                    // [ ] 3ds Max 2011
-                    // [ ] 3ds Max 2012
-                    // [ ] 3ds Max 2013
-                    // [ ] 3ds Max 2014
-    case 0x2020:    // [x] 3ds Max 2015
-                    // [ ] 3ds Max 2016
-                    // [ ] 3ds Max 2017
-    case 0x2023:    // [x] 3ds Max 2018
-        break;
+    case 0x2001:    log("%s\n", "Kinetix 3D Studio MAX R1");    break;  // [x] 3D Studio MAX R1
+    case 0x2003:    log("%s\n", "Kinetix 3D Studio MAX R2");    break;  // [x] 3D Studio MAX R2
+                                                                        // [x] 3D Studio MAX R3
+    case 0x2004:    log("%s\n", "Kinetix 3D Studio MAX R3");    break;  // [x] 3dsmax 4
+    case 0x2008:    log("%s\n", "Discreet 3dsmax 5");           break;  // [x] 3dsmax 5
+    case 0x2009:    log("%s\n", "Discreet 3dsmax 6");           break;  // [x] 3dsmax 6
+    case 0x200A:    log("%s\n", "Discreet 3dsmax 7");           break;  // [x] 3dsmax 7
+    case 0x200B:    log("%s\n", "Autodesk 3ds Max 8");          break;  // [x] 3ds Max 8
+    case 0x200E:    log("%s\n", "Autodesk 3ds Max 9");          break;  // [x] 3ds Max 9
+    case 0x200F:    log("%s\n", "Autodesk 3ds Max 2008");       break;  // [x] 3ds Max 2008
+    case 0x2011:    log("%s\n", "Autodesk 3ds Max 2009");       break;  // [x] 3ds Max 2009
+    case 0x2012:    log("%s\n", "Autodesk 3ds Max 2010");       break;  // [x] 3ds Max 2010
+    case 0x2013:    log("%s\n", "Autodesk 3ds Max 2011");       break;  // [ ] 3ds Max 2011
+    case 0x2014:    log("%s\n", "Autodesk 3ds Max 2012");       break;  // [ ] 3ds Max 2012
+    case 0x2015:    log("%s\n", "Autodesk 3ds Max 2013");       break;  // [ ] 3ds Max 2013
+    case 0x2016:    log("%s\n", "Autodesk 3ds Max 2014");       break;  // [ ] 3ds Max 2014
+    case 0x2020:    log("%s\n", "Autodesk 3ds Max 2015");       break;  // [x] 3ds Max 2015
+    case 0x2021:    log("%s\n", "Autodesk 3ds Max 2016");       break;  // [ ] 3ds Max 2016
+    case 0x2022:    log("%s\n", "Autodesk 3ds Max 2017");       break;  // [ ] 3ds Max 2017
+    case 0x2023:    log("%s\n", "Autodesk 3ds Max 2018");       break;  // [ ] 3ds Max 2018
     default:
-        if (scene.type >= 0x2000)
+        if (scene.type >= 0x2000) {
+            log("%s (%X)\n", "Autodesk 3ds Max 20??", scene.type);
             break;
+        }
         log("Scene type %04X is not supported\n", scene.type);
         THROW;
     }
@@ -640,7 +640,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
         // Text
         std::vector<uint16_t> propertyText = getProperty<uint16_t>(chunk, 0x0120);
         if (propertyText.empty() == false) {
-            node.text = UTF16ToUTF8(propertyText.data(), propertyText.size());
+            node.text = node.text + UTF16ToUTF8(propertyText.data(), propertyText.size());
         }
 
         // Attach

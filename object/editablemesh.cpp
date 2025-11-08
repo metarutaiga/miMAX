@@ -3,7 +3,7 @@
 #include "chunk.h"
 #include "format.h"
 
-static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     auto* pPolyChunk = getChunk(chunk, 0x08FE);
     if (pPolyChunk == nullptr)
@@ -55,11 +55,11 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
         totalTextureArray += array.size();
     }
 
-    node.text += format("Primitive : %s", "Editable Mesh") + '\n';
-    node.text += format("Vertex : %zd", node.vertex.size()) + '\n';
-    node.text += format("Texture : %zd", node.texture.size()) + '\n';
-    node.text += format("Vertex Array : %zd (%zd)", node.vertexArray.size(), totalVertexArray) + '\n';
-    node.text += format("Texture Array : %zd (%zd)", node.textureArray.size(), totalTextureArray) + '\n';
+    node.text = node.text + format("%-16s : %s", "Primitive", "Editable Mesh") + '\n';
+    node.text = node.text + format("%-16s : %zd", "Vertex", node.vertex.size()) + '\n';
+    node.text = node.text + format("%-16s : %zd", "Texture", node.texture.size()) + '\n';
+    node.text = node.text + format("%-16s : %zd (%zd)", "Vertex Array", node.vertexArray.size(), totalVertexArray) + '\n';
+    node.text = node.text + format("%-16s : %zd (%zd)", "Texture Array", node.textureArray.size(), totalTextureArray) + '\n';
     return true;
 }
 

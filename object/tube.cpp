@@ -3,13 +3,13 @@
 #include "chunk.h"
 #include "format.h"
 
-static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
 {
     auto* pParamBlock = getLinkChunk(scene, chunk, 0);
     if (pParamBlock == nullptr)
         return false;
     auto paramBlock = getParamBlock(*pParamBlock);
-    if (paramBlock.size() <= 10)
+    if (paramBlock.size() <= 9)
         return false;
 
     float radius1 = std::get<float>(paramBlock[0]);
@@ -18,24 +18,28 @@ static bool primitive(int(*log)(char const*, ...), Chunk const& scene, Chunk con
     int heightSegments = std::get<int>(paramBlock[3]);
     int capSegments = std::get<int>(paramBlock[4]);
     int sides = std::get<int>(paramBlock[5]);
-    bool smooth = std::get<int>(paramBlock[6]);
-    bool sliceOn = std::get<int>(paramBlock[7]);
+    int smooth = std::get<int>(paramBlock[6]);
+    int sliceOn = std::get<int>(paramBlock[7]);
     float pieSliceFrom = std::get<float>(paramBlock[8]);
     float pieSliceTo = std::get<float>(paramBlock[9]);
-    bool getUVs = std::get<int>(paramBlock[10]);
+    int getUVs = true;
 
-    node.text = node.text + format("%s : %s", "Primitive", "Tube") + '\n';
-    node.text = node.text + format("%s : %g", "Radius1", radius1) + '\n';
-    node.text = node.text + format("%s : %g", "Radius2", radius2) + '\n';
-    node.text = node.text + format("%s : %g", "Height", height) + '\n';
-    node.text = node.text + format("%s : %d", "Height Segments", heightSegments) + '\n';
-    node.text = node.text + format("%s : %d", "Cap Segments", capSegments) + '\n';
-    node.text = node.text + format("%s : %d", "Sides", sides) + '\n';
-    node.text = node.text + format("%s : %s", "Smooth", smooth ? "true" : "false") + '\n';
-    node.text = node.text + format("%s : %s", "Slice On", sliceOn ? "true" : "false") + '\n';
-    node.text = node.text + format("%s : %g", "Pie Slice From", pieSliceFrom) + '\n';
-    node.text = node.text + format("%s : %g", "Pie Slice To", pieSliceTo) + '\n';
-    node.text = node.text + format("%s : %s", "Get UVs", getUVs ? "true" : "false") + '\n';
+    if (paramBlock.size() > 10) {
+        getUVs = std::get<int>(paramBlock[10]);
+    }
+
+    node.text = node.text + format("%-16s : %s", "Primitive", "Tube") + '\n';
+    node.text = node.text + format("%-16s : %g", "Radius1", radius1) + '\n';
+    node.text = node.text + format("%-16s : %g", "Radius2", radius2) + '\n';
+    node.text = node.text + format("%-16s : %g", "Height", height) + '\n';
+    node.text = node.text + format("%-16s : %d", "Height Segments", heightSegments) + '\n';
+    node.text = node.text + format("%-16s : %d", "Cap Segments", capSegments) + '\n';
+    node.text = node.text + format("%-16s : %d", "Sides", sides) + '\n';
+    node.text = node.text + format("%-16s : %s", "Smooth", smooth ? "true" : "false") + '\n';
+    node.text = node.text + format("%-16s : %s", "Slice On", sliceOn ? "true" : "false") + '\n';
+    node.text = node.text + format("%-16s : %g", "Pie Slice From", pieSliceFrom) + '\n';
+    node.text = node.text + format("%-16s : %g", "Pie Slice To", pieSliceTo) + '\n';
+    node.text = node.text + format("%-16s : %s", "Get UVs", getUVs ? "true" : "false") + '\n';
     return true;
 }
 

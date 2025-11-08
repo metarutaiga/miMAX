@@ -10,7 +10,7 @@ static std::string format(char const* format, ...)
 {
     va_list args;
     va_start(args, format);
-    size_t length = vsnprintf(nullptr, 0, format, args) + 1;
+    int length = vsnprintf(nullptr, 0, format, args) + 1;
     std::string output;
     output.resize(length);
     vsnprintf(output.data(), length, format, args);
