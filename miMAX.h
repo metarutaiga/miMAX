@@ -87,7 +87,7 @@ public:
     static float Bezier(BezierFloat const& left, BezierFloat const& right, float scale);
     static void EulerToQuaternion(float const euler[3], Quat& quaternion);
 
-    static bool RegisterPrimitive(ClassID, bool(*)(Print, Chunk const&, Chunk const&, miMAXNode&));
+    static bool RegisterObject(ClassID, bool(*)(Print, Chunk const&, Chunk const&, Chunk const&, miMAXNode&));
 
     static miMAXNode* OpenFile(char const* name, Print log);
 };

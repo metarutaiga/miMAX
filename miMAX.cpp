@@ -10,8 +10,8 @@
 
 #define __MIMAX_INTERNAL__
 #include "miMAX.h"
-#include "objects/chunk.h"
-#include "objects/format.h"
+#include "object/chunk.h"
+#include "object/format.h"
 
 #if _CPPUNWIND || __cpp_exceptions
 #include <exception>
@@ -38,12 +38,7 @@ thread_local jmp_buf compoundfilereader_jmp_buf = {};
 #define QUAT_TYPE           0x2504
 #define SCALEVALUE_TYPE     0x2505
 
-static std::vector<std::pair<ClassID, bool(*)(Print, Chunk const&, Chunk const&, miMAXNode&)>> primitiveMap;
-
-static constexpr uint64_t class64(ClassID classID)
-{
-    return (uint64_t)classID.first | ((uint64_t)classID.second << 32);
-}
+static std::vector<std::pair<ClassID, bool(*)(Print, Chunk const&, Chunk const&, Chunk const&, miMAXNode&)>> objectMap;
 
 static std::vector<char> uncompress(std::vector<char> const& input)
 {
@@ -130,15 +125,6 @@ static void parseStream(Chunk& chunk, char const* begin, char const* end)
     }
 }
 
-static bool checkClass(Print log, Chunk const& chunk, ClassID classID, SuperClassID superClassID)
-{
-    if (chunk.classData.classID == classID && chunk.classData.superClassID == superClassID)
-        return true;
-    auto& classData = chunk.classData;
-    log("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
-    return false;
-}
-
 static std::tuple<std::string, ClassData> getClass(Chunk const& classDirectory, uint16_t classIndex)
 {
     if (classDirectory.size() <= classIndex)
@@ -167,270 +153,35 @@ static std::tuple<std::string, std::string> getDll(Chunk const& dllDirectory, ui
     return { UTF16ToUTF8(propertyDllFile.data(), propertyDllFile.size()), UTF16ToUTF8(propertyDllName.data(), propertyDllName.size()) };
 }
 
-static void getPositionRotationScale(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static void getObject(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node)
 {
-    // FFFFFFFF-00002005-00000000-00009008 Position/Rotation/Scale  PRS_CONTROL_CLASS_ID + MATRIX3_SUPERCLASS_ID
-    if (checkClass(log, chunk, PRS_CONTROL_CLASS_ID, MATRIX3_SUPERCLASS_ID) == false)
-        return;
-
-    // ????????-00002007-00000000-00009003 Bezier Float     HYBRIDINTERP_FLOAT_CLASS_ID + FLOAT_SUPERCLASS_ID
-
-    // FFFFFFFF-00002002-00000000-0000900B Linear Position  LININTERP_POSITION_CLASS_ID + POSITION_SUPERCLASS_ID
-    // ????????-00002008-00000000-0000900B Bezier Position  HYBRIDINTERP_POSITION_CLASS_ID + POSITION_SUPERCLASS_ID
-    // ????????-118F7E02-FFEE238A-0000900B Position XYZ     IPOS_CONTROL_CLASS_ID + POSITION_SUPERCLASS_ID
-    // FFFFFFFF-00442312-00000000-0000900B TCB Position     TCBINTERP_POSITION_CLASS_ID + POSITION_SUPERCLASS_ID
-    for (uint32_t i = 0; i < 1; ++i) {
-        auto* position = getLinkChunk(scene, chunk, 0);
-        if (position == nullptr)
-            continue;
-        auto& classData = position->classData;
-        switch (class64(classData.classID) | (classData.superClassID == POSITION_SUPERCLASS_ID ? 0 : -1)) {
-        case class64(IPOS_CONTROL_CLASS_ID):
-            for (uint32_t i = 0; i < 3; ++i) {
-                auto* array = getLinkChunk(scene, *position, i);
-                if (array == nullptr)
-                    continue;
-                if (checkClass(log, *array, HYBRIDINTERP_FLOAT_CLASS_ID, FLOAT_SUPERCLASS_ID) == false)
-                    continue;
-                auto* chunk7127 = getChunk(*array, 0x7127);
-                if (chunk7127)
-                    array = chunk7127;
-                auto propertyBezierFloat = getProperty<std::tuple<uint32_t, uint32_t, BezierFloat>>(*array, 0x2525);
-                for (auto& [time, flags, bezierFloat] : propertyBezierFloat) {
-                    node.keyPosition[i].emplace_back(time, bezierFloat);
-                }
-                auto propertyFloat = getProperty<float>(*array, FLOAT_TYPE);
-                if (propertyFloat.size() >= 1) {
-                    node.position[i] = propertyFloat[0];
-                    continue;
-                }
-                log("Value is not found (%s)\n", array->name.c_str());
-            }
-            continue;
-        case class64(LININTERP_POSITION_CLASS_ID):
-        case class64(HYBRIDINTERP_POSITION_CLASS_ID):
-        case class64(TCBINTERP_POSITION_CLASS_ID): {
-            auto* chunk7127 = getChunk(*position, 0x7127);
-            if (chunk7127)
-                position = chunk7127;
-            auto propertyFloat = getProperty<float>(*position, POINT3_TYPE);
-            if (propertyFloat.size() >= 3) {
-                node.position[0] = propertyFloat[0];
-                node.position[1] = propertyFloat[1];
-                node.position[2] = propertyFloat[2];
-                continue;
-            }
-            log("Value is not found (%s)\n", position->name.c_str());
-            continue;
-        }
-        default:
-            break;
-        }
-        checkClass(log, *position, {}, 0);
-    }
-
-    // FFFFFFFF-00002003-00000000-0000900C Linear Rotation  LININTERP_ROTATION_CLASS_ID + ROTATION_SUPERCLASS_ID
-    // ????????-00002012-00000000-0000900C Euler XYZ        HYBRIDINTERP_POINT4_CLASS_ID + ROTATION_SUPERCLASS_ID
-    // FFFFFFFF-00442313-00000000-0000900C TCB Rotation     TCBINTERP_ROTATION_CLASS_ID + ROTATION_SUPERCLASS_ID
-    for (uint32_t i = 0; i < 1; ++i) {
-        auto* rotation = getLinkChunk(scene, chunk, 1);
-        if (rotation == nullptr)
-            continue;
-        auto& classData = rotation->classData;
-        switch (class64(classData.classID) | (classData.superClassID == ROTATION_SUPERCLASS_ID ? 0 : -1)) {
-        case class64(HYBRIDINTERP_POINT4_CLASS_ID):
-            for (uint32_t i = 0; i < 3; ++i) {
-                auto* array = getLinkChunk(scene, *rotation, i);
-                if (array == nullptr)
-                    continue;
-                if (checkClass(log, *array, HYBRIDINTERP_FLOAT_CLASS_ID, FLOAT_SUPERCLASS_ID) == false)
-                    continue;
-                auto* chunk7127 = getChunk(*array, 0x7127);
-                if (chunk7127)
-                    array = chunk7127;
-                auto propertyBezierFloat = getProperty<std::tuple<uint32_t, uint32_t, BezierFloat>>(*array, 0x2525);
-                for (auto& [time, flags, bezierFloat] : propertyBezierFloat) {
-                    node.keyRotation[i].emplace_back(time, bezierFloat);
-                }
-                auto propertyFloat = getProperty<float>(*array, FLOAT_TYPE);
-                if (propertyFloat.size() >= 1) {
-                    node.rotation[i] = propertyFloat[0];
-                    continue;
-                }
-                log("Value is not found (%s)\n", array->name.c_str());
-            }
-            miMAXNode::EulerToQuaternion(node.rotation.data(), node.rotation);
-            continue;
-        case class64(LININTERP_ROTATION_CLASS_ID):
-        case class64(TCBINTERP_ROTATION_CLASS_ID): {
-            auto* chunk7127 = getChunk(*rotation, 0x7127);
-            if (chunk7127)
-                rotation = chunk7127;
-            auto propertyFloat = getProperty<float>(*rotation, POINT3_TYPE, QUAT_TYPE);
-            if (propertyFloat.size() >= 4) {
-                node.rotation[0] = propertyFloat[0];
-                node.rotation[1] = propertyFloat[1];
-                node.rotation[2] = propertyFloat[2];
-                node.rotation[3] = propertyFloat[3];
-                continue;
-            }
-            if (propertyFloat.size() >= 3) {
-                miMAXNode::EulerToQuaternion(propertyFloat.data(), node.rotation);
-                continue;
-            }
-            log("Value is not found (%s)\n", rotation->name.c_str());
-            continue;
-        }
-        default:
-            break;
-        }
-        checkClass(log, *rotation, {}, 0);
-    }
-
-    // FFFFFFFF-00002004-00000000-0000900D Linear Scale LININTERP_SCALE_CLASS_ID + SCALE_SUPERCLASS_ID
-    // FFFFFFFF-00002010-00000000-0000900D Bezier Scale HYBRIDINTERP_SCALE_CLASS_ID + SCALE_SUPERCLASS_ID
-    // FFFFFFFF-00442315-00000000-0000900D TCB Scale    TCBINTERP_SCALE_CLASS_ID + SCALE_SUPERCLASS_ID
-    for (uint32_t i = 0; i < 1; ++i) {
-        auto* scale = getLinkChunk(scene, chunk, 2);
-        if (scale == nullptr)
-            continue;
-        auto& classData = scale->classData;
-        switch (class64(classData.classID) | (classData.superClassID == SCALE_SUPERCLASS_ID ? 0 : -1)) {
-        case class64(LININTERP_SCALE_CLASS_ID):
-        case class64(HYBRIDINTERP_SCALE_CLASS_ID):
-        case class64(TCBINTERP_SCALE_CLASS_ID): {
-            auto* chunk7127 = getChunk(*scale, 0x7127);
-            if (chunk7127)
-                scale = chunk7127;
-            auto propertyBezierFloat = getProperty<std::tuple<uint32_t, uint32_t, BezierFloat>>(*scale, 0x2525);
-            for (auto& [time, flags, bezierFloat] : propertyBezierFloat) {
-                node.keyScale.emplace_back(time, bezierFloat);
-            }
-            auto propertyFloat = getProperty<float>(*scale, FLOAT_TYPE, SCALEVALUE_TYPE);
-            if (propertyFloat.size() >= 3) {
-                node.scale[0] = propertyFloat[0];
-                node.scale[1] = propertyFloat[1];
-                node.scale[2] = propertyFloat[2];
-                continue;
-            }
-            if (propertyFloat.size() >= 1) {
-                node.scale[0] = node.scale[1] = node.scale[2] = propertyFloat[0];
-                continue;
-            }
-            log("Value is not found (%s)\n", scale->name.c_str());
-            continue;
-        }
-        default:
-            break;
-        }
-        checkClass(log, *scale, {}, 0);
-    }
-}
-
-static void getObjectSpaceModifier(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& modifierChunk, miMAXNode& node)
-{
-    if (chunk.classData.superClassID != OSM_SUPERCLASS_ID)
-        return;
-    auto* pParamBlock = getLinkChunk(scene, chunk, 0);
-    if (pParamBlock == nullptr)
-        return;
-    auto paramBlock = getParamBlock(*pParamBlock);
-
-    // ????????-4AA52AE3-35CA1CDE-00000810  EDIT_NORMALS_CLASS_ID + OSM_SUPERCLASS_ID
-    // ????????-7EBB4645-7BE2044B-00000810  PAINTLAYERMOD_CLASS_ID + OSM_SUPERCLASS_ID
-    switch (class64(chunk.classData.classID)) {
-    case class64(EDIT_NORMALS_CLASS_ID): {
-        auto* pNormalChunk = getChunk(modifierChunk, 0x2512, 0x0240);
-        if (pNormalChunk == nullptr)
-            pNormalChunk = getChunk(modifierChunk, 0x2512, 0x0250);
-        if (pNormalChunk == nullptr)
-            break;
-        auto normals = getProperty<float>(*pNormalChunk, 0x0110);
-        if (normals.empty())
-            break;
-        for (size_t i = 1; i + 2 < normals.size(); i += 3) {
-            node.normal.push_back({normals[i], normals[i + 1], normals[1 + 2]});
-        }
-        node.text = node.text + format("Normal : %zd", node.normal.size()) + '\n';
-        break;
-    }
-    case class64(PAINTLAYERMOD_CLASS_ID):
-        if (paramBlock.size() > 1) {
-            auto* pColorChunk = getChunk(modifierChunk, 0x2512);
-            if (pColorChunk == nullptr)
-                break;
-            switch (std::get<int>(paramBlock[1])) {
-            default:
-                node.vertexColor = getProperty<Point3>(*pColorChunk, 0x0110);
-                node.text = node.text + format("Vertex Color : %zd", node.vertexColor.size()) + '\n';
-                break;
-            case -1:
-                node.vertexIllum = getProperty<Point3>(*pColorChunk, 0x0110);
-                node.text = node.text + format("Vertex Illum : %zd", node.vertexIllum.size()) + '\n';
-                break;
-            case -2:
-                node.vertexAlpha = getProperty<Point3>(*pColorChunk, 0x0110);
-                node.text = node.text + format("Vertex Alpha : %zd", node.vertexAlpha.size()) + '\n';
-                break;
-            }
-        }
-        break;
-    default:
-        break;
-    }
-}
-
-static void getPrimitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
-{
-    auto* pChunk = &chunk;
-    if ((*pChunk).classData.superClassID != GEOMOBJECT_SUPERCLASS_ID) {
-        if ((*pChunk).type != 0x2032) {
-            checkClass(log, *pChunk, {}, 0);
-            return;
-        }
-        auto link = getLink<std::greater<uint32_t>>(*pChunk);
+    if (chunk.type == 0x2032 || chunk.type == 0x2033) {
+        auto link = getLink<std::greater<uint32_t>>(chunk);
         for (auto [linkIndex, chunkIndex] : link) {
             if (scene.size() <= chunkIndex)
                 continue;
-            auto& chunk = scene[chunkIndex];
-            if (pChunk == &chunk)
+            auto& linkedChunk = scene[chunkIndex];
+            if (&linkedChunk == &chunk)
                 continue;
-            if (chunk.classData.superClassID == OSM_SUPERCLASS_ID) {
-                size_t index = 0;
-                Chunk const* pModifierChunk = nullptr;
-                for (auto& child : (*pChunk)) {
-                    if (child.type == 0x2500) {
-                        if (index == linkIndex) {
-                            pModifierChunk = &child;
-                            break;
-                        }
-                        index++;
-                    }
-                }
-                if (pModifierChunk == nullptr)
-                    continue;
-                getObjectSpaceModifier(log, scene, chunk, *pModifierChunk, node);
-                continue;
+            for (auto& child : linkedChunk) {
+                getObject(log, scene, linkedChunk, child, node);
             }
-            getPrimitive(log, scene, chunk, node);
         }
         return;
     }
 
-    auto classID = (*pChunk).classData.classID;
-    auto value = decltype(primitiveMap)::value_type(classID, nullptr);
-    auto it = std::lower_bound(primitiveMap.begin(), primitiveMap.end(), value);
-    if (it != primitiveMap.end() && (*it).first == classID) {
-        if ((*it).second(log, scene, chunk, node))
+    auto classID = chunk.classData.classID;
+    auto value = decltype(objectMap)::value_type(classID, nullptr);
+    auto it = std::lower_bound(objectMap.begin(), objectMap.end(), value);
+    if (it != objectMap.end() && (*it).first == classID) {
+        if ((*it).second(log, scene, chunk, child, node)) {
             return;
-        auto* pParamBlock = getLinkChunk(scene, *pChunk, 0);
-        if (pParamBlock) {
-            checkClass(log, *pParamBlock, {}, 0);
         }
     }
+
     auto& classData = chunk.classData;
     node.text = node.text + format("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
-    checkClass(log, *pChunk, {}, 0);
+    checkClass(log, chunk, {}, 0);
 }
 
 void miMAXNode::EulerToQuaternion(float const euler[3], Quat& quaternion)
@@ -457,10 +208,10 @@ float miMAXNode::Bezier(BezierFloat const& left, BezierFloat const& right, float
     return std::lerp(X, Y, scale);
 }
 
-bool miMAXNode::RegisterPrimitive(ClassID classID, bool(*primitive)(Print, Chunk const&, Chunk const&, miMAXNode&))
+bool miMAXNode::RegisterObject(ClassID classID, bool(*primitive)(Print, Chunk const&, Chunk const&, Chunk const&, miMAXNode&))
 {
-    primitiveMap.emplace_back(classID, primitive);
-    std::stable_sort(primitiveMap.begin(), primitiveMap.end());
+    objectMap.emplace_back(classID, primitive);
+    std::stable_sort(objectMap.begin(), objectMap.end());
     return true;
 }
 
@@ -576,7 +327,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
         auto& chunk = scene[i];
         auto [className, classData] = getClass(*root->classDirectory, chunk.type);
         if (className.empty()) {
-            if (chunk.type != 0x2032) {
+            if (chunk.type != 0x2032 && chunk.type != 0x2033) {
                 log("Class %04X is not found! (Chunk:%X)\n", chunk.type, i);
             }
             continue;
@@ -630,11 +381,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
             Chunk const* linkChunk = getLinkChunk(scene, chunk, i);
             if (linkChunk == nullptr)
                 continue;
-            switch (i) {
-            case 0: getPositionRotationScale(log, scene, *linkChunk, node); break;
-            case 1: getPrimitive(log, scene, *linkChunk, node);             break;
-            default: checkClass(log, *linkChunk, {}, 0);                    break;
-            }
+            getObject(log, scene, *linkChunk, Chunk(), node);
         }
 
         // Text

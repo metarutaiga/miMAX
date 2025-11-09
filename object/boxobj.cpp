@@ -3,7 +3,7 @@
 #include "chunk.h"
 #include "format.h"
 
-static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node)
 {
     auto* pParamBlock = getLinkChunk(scene, chunk, 0);
     if (pParamBlock == nullptr)
@@ -18,20 +18,20 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNo
     int lengthSegments = std::get<int>(paramBlock[3]);
     int widthSegments = std::get<int>(paramBlock[4]);
     int heightSegments = std::get<int>(paramBlock[5]);
-    int getUVs = true;
+    int mapCoords = true;
 
     if (paramBlock.size() > 6) {
-        getUVs = std::get<int>(paramBlock[6]);
+        mapCoords = std::get<int>(paramBlock[6]);
     }
 
-    node.text = node.text + format("%-16s : %s", "Primitive", "Box") + '\n';
-    node.text = node.text + format("%-16s : %g", "Length", length) + '\n';
-    node.text = node.text + format("%-16s : %g", "Width", width) + '\n';
-    node.text = node.text + format("%-16s : %g", "Height", height) + '\n';
-    node.text = node.text + format("%-16s : %d", "Length Segments", lengthSegments) + '\n';
-    node.text = node.text + format("%-16s : %d", "Width Segments", widthSegments) + '\n';
-    node.text = node.text + format("%-16s : %d", "Height Segments", heightSegments) + '\n';
-    node.text = node.text + format("%-16s : %s", "Get UVs", getUVs ? "true" : "false") + '\n';
+    node.text = node.text + format("%-24s : %s", "Primitive", "Box") + '\n';
+    node.text = node.text + format("%-24s : %g", "Length", length) + '\n';
+    node.text = node.text + format("%-24s : %g", "Width", width) + '\n';
+    node.text = node.text + format("%-24s : %g", "Height", height) + '\n';
+    node.text = node.text + format("%-24s : %d", "Length Segments", lengthSegments) + '\n';
+    node.text = node.text + format("%-24s : %d", "Width Segments", widthSegments) + '\n';
+    node.text = node.text + format("%-24s : %d", "Height Segments", heightSegments) + '\n';
+    node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
 
     node.vertex = {
         { -length, -width, -height },
@@ -46,4 +46,4 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNo
     return true;
 }
 
-static bool register_object = miMAXNode::RegisterPrimitive(BOXOBJ_CLASS_ID, primitive);
+static bool register_object = miMAXNode::RegisterObject(BOXOBJ_CLASS_ID, primitive);

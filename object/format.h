@@ -6,7 +6,7 @@
 #if defined(__clang__)
 __attribute__((format(printf, 1, 2)))
 #endif
-static std::string format(char const* format, ...)
+static inline std::string format(char const* format, ...)
 {
     va_list args;
     va_start(args, format);
@@ -17,4 +17,9 @@ static std::string format(char const* format, ...)
     output.pop_back();
     va_end(args);
     return output;
+}
+
+static inline char const* getBoolean(int boolean)
+{
+    return boolean ? "true" : "false";
 }

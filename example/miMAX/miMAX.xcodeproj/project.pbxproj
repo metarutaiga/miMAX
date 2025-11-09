@@ -26,10 +26,14 @@
 		F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217B2EBE0D2B000671F1 /* tube.cpp */; };
 		F52821822EBE0D5E000671F1 /* polyedit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821812EBE0D5A000671F1 /* polyedit.cpp */; };
 		F52821832EBE134D000671F1 /* triobjed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821802EBE0D4B000671F1 /* triobjed.cpp */; };
-		F52821842EBE135A000671F1 /* grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217F2EBE0D3C000671F1 /* grid.cpp */; };
-		F52821882EBFA06F000671F1 /* pyramid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821872EBFA06F000671F1 /* pyramid.cpp */; };
+		F52821842EBE135A000671F1 /* gridobj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217F2EBE0D3C000671F1 /* gridobj.cpp */; };
 		F528218D2EBFA0FC000671F1 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528218C2EBFA0FC000671F1 /* sphere.cpp */; };
-		F528218F2EBFA104000671F1 /* gsphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528218E2EBFA104000671F1 /* gsphere.cpp */; };
+		F528219A2EC0B4BC000671F1 /* gsphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821972EC0B4BC000671F1 /* gsphere.cpp */; };
+		F528219B2EC0B4BC000671F1 /* parray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821982EC0B4BC000671F1 /* parray.cpp */; };
+		F528219C2EC0B4BC000671F1 /* pyramid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821992EC0B4BC000671F1 /* pyramid.cpp */; };
+		F528219E2EC0B524000671F1 /* editnormals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528219D2EC0B520000671F1 /* editnormals.cpp */; };
+		F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528219F2EC0B643000671F1 /* paintlayermod.cpp */; };
+		F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A12EC0BCDE000671F1 /* prs.cpp */; };
 		F558E5972E8276060060F473 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F558E5962E8276060060F473 /* main.mm */; };
 		F558E5D32E8276AD0060F473 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D22E8276AD0060F473 /* AppKit.framework */; };
 		F558E5D62E8276C60060F473 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D52E8276C60060F473 /* GameController.framework */; };
@@ -68,13 +72,17 @@
 		F52821752EBE0D11000671F1 /* torus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = torus.cpp; sourceTree = "<group>"; };
 		F52821772EBE0D19000671F1 /* cone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cone.cpp; sourceTree = "<group>"; };
 		F528217B2EBE0D2B000671F1 /* tube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tube.cpp; sourceTree = "<group>"; };
-		F528217F2EBE0D3C000671F1 /* grid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = grid.cpp; sourceTree = "<group>"; };
+		F528217F2EBE0D3C000671F1 /* gridobj.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gridobj.cpp; sourceTree = "<group>"; };
 		F52821802EBE0D4B000671F1 /* triobjed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triobjed.cpp; sourceTree = "<group>"; };
 		F52821812EBE0D5A000671F1 /* polyedit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = polyedit.cpp; sourceTree = "<group>"; };
 		F52821852EBE15F5000671F1 /* ImGuiHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImGuiHelper.h; sourceTree = "<group>"; };
-		F52821872EBFA06F000671F1 /* pyramid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pyramid.cpp; sourceTree = "<group>"; };
 		F528218C2EBFA0FC000671F1 /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
-		F528218E2EBFA104000671F1 /* gsphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gsphere.cpp; sourceTree = "<group>"; };
+		F52821972EC0B4BC000671F1 /* gsphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gsphere.cpp; sourceTree = "<group>"; };
+		F52821982EC0B4BC000671F1 /* parray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = parray.cpp; sourceTree = "<group>"; };
+		F52821992EC0B4BC000671F1 /* pyramid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pyramid.cpp; sourceTree = "<group>"; };
+		F528219D2EC0B520000671F1 /* editnormals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editnormals.cpp; sourceTree = "<group>"; };
+		F528219F2EC0B643000671F1 /* paintlayermod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paintlayermod.cpp; sourceTree = "<group>"; };
+		F52821A12EC0BCDE000671F1 /* prs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = prs.cpp; sourceTree = "<group>"; };
 		F558E5962E8276060060F473 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		F558E5D02E8276870060F473 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		F558E5D22E8276AD0060F473 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -141,7 +149,7 @@
 		F5281F2E2EBDCC8A000671F1 /* miMAX */ = {
 			isa = PBXGroup;
 			children = (
-				F528216C2EBDE6EA000671F1 /* objects */,
+				F528216C2EBDE6EA000671F1 /* object */,
 				F5281F2F2EBDCC9F000671F1 /* miMAX.h */,
 				F5281F302EBDCC9F000671F1 /* miMAX.cpp */,
 				F5281F312EBDCC9F000671F1 /* README.md */,
@@ -181,40 +189,28 @@
 			path = imgui;
 			sourceTree = "<group>";
 		};
-		F528216C2EBDE6EA000671F1 /* objects */ = {
+		F528216C2EBDE6EA000671F1 /* object */ = {
 			isa = PBXGroup;
 			children = (
-				F52821862EBFA031000671F1 /* extendedobjects */,
-				F52821892EBFA077000671F1 /* gsphere */,
 				F528216D2EBDE710000671F1 /* boxobj.cpp */,
 				F52821702EBDE8B2000671F1 /* chunk.h */,
 				F52821772EBE0D19000671F1 /* cone.cpp */,
 				F52821732EBE0D0A000671F1 /* cyl.cpp */,
+				F528219D2EC0B520000671F1 /* editnormals.cpp */,
 				F528216F2EBDE82E000671F1 /* format.h */,
-				F528217F2EBE0D3C000671F1 /* grid.cpp */,
+				F528217F2EBE0D3C000671F1 /* gridobj.cpp */,
+				F52821972EC0B4BC000671F1 /* gsphere.cpp */,
+				F528219F2EC0B643000671F1 /* paintlayermod.cpp */,
+				F52821982EC0B4BC000671F1 /* parray.cpp */,
 				F52821812EBE0D5A000671F1 /* polyedit.cpp */,
+				F52821A12EC0BCDE000671F1 /* prs.cpp */,
+				F52821992EC0B4BC000671F1 /* pyramid.cpp */,
 				F528218C2EBFA0FC000671F1 /* sphere.cpp */,
 				F52821752EBE0D11000671F1 /* torus.cpp */,
 				F52821802EBE0D4B000671F1 /* triobjed.cpp */,
 				F528217B2EBE0D2B000671F1 /* tube.cpp */,
 			);
-			path = objects;
-			sourceTree = "<group>";
-		};
-		F52821862EBFA031000671F1 /* extendedobjects */ = {
-			isa = PBXGroup;
-			children = (
-				F52821872EBFA06F000671F1 /* pyramid.cpp */,
-			);
-			path = extendedobjects;
-			sourceTree = "<group>";
-		};
-		F52821892EBFA077000671F1 /* gsphere */ = {
-			isa = PBXGroup;
-			children = (
-				F528218E2EBFA104000671F1 /* gsphere.cpp */,
-			);
-			path = gsphere;
+			path = object;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,14 +285,18 @@
 				F528216E2EBDE71B000671F1 /* boxobj.cpp in Sources */,
 				F52821782EBE0D1B000671F1 /* cone.cpp in Sources */,
 				F52821742EBE0D0C000671F1 /* cyl.cpp in Sources */,
-				F52821842EBE135A000671F1 /* grid.cpp in Sources */,
+				F528219E2EC0B524000671F1 /* editnormals.cpp in Sources */,
+				F52821842EBE135A000671F1 /* gridobj.cpp in Sources */,
+				F528219A2EC0B4BC000671F1 /* gsphere.cpp in Sources */,
+				F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */,
+				F528219B2EC0B4BC000671F1 /* parray.cpp in Sources */,
 				F52821822EBE0D5E000671F1 /* polyedit.cpp in Sources */,
+				F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */,
+				F528219C2EC0B4BC000671F1 /* pyramid.cpp in Sources */,
 				F528218D2EBFA0FC000671F1 /* sphere.cpp in Sources */,
 				F52821762EBE0D14000671F1 /* torus.cpp in Sources */,
 				F52821832EBE134D000671F1 /* triobjed.cpp in Sources */,
 				F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */,
-				F52821882EBFA06F000671F1 /* pyramid.cpp in Sources */,
-				F528218F2EBFA104000671F1 /* gsphere.cpp in Sources */,
 				F5281F322EBDCC9F000671F1 /* miMAX.cpp in Sources */,
 				F558E5972E8276060060F473 /* main.mm in Sources */,
 				F5281F2D2EBDCC21000671F1 /* viewer.cpp in Sources */,

@@ -3,7 +3,7 @@
 #include "chunk.h"
 #include "format.h"
 
-static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNode& node)
+static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node)
 {
     auto* pPolyChunk = getChunk(chunk, 0x08FE);
     if (pPolyChunk == nullptr)
@@ -82,12 +82,12 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, miMAXNo
         totalTextureArray += array.size();
     }
 
-    node.text = node.text + format("%-16s : %s", "Primitive", "Editable Poly") + '\n';
-    node.text = node.text + format("%-16s : %zd", "Vertex", node.vertex.size()) + '\n';
-    node.text = node.text + format("%-16s : %zd", "Texture", node.texture.size()) + '\n';
-    node.text = node.text + format("%-16s : %zd (%zd)", "Vertex Array", node.vertexArray.size(), totalVertexArray) + '\n';
-    node.text = node.text + format("%-16s : %zd (%zd)", "Texture Array", node.textureArray.size(), totalTextureArray) + '\n';
+    node.text = node.text + format("%-24s : %s", "Primitive", "Editable Poly") + '\n';
+    node.text = node.text + format("%-24s : %zd", "Vertex", node.vertex.size()) + '\n';
+    node.text = node.text + format("%-24s : %zd", "Texture", node.texture.size()) + '\n';
+    node.text = node.text + format("%-24s : %zd (%zd)", "Vertex Array", node.vertexArray.size(), totalVertexArray) + '\n';
+    node.text = node.text + format("%-24s : %zd (%zd)", "Texture Array", node.textureArray.size(), totalTextureArray) + '\n';
     return true;
 }
 
-static bool register_object = miMAXNode::RegisterPrimitive(EPOLYOBJ_CLASS_ID, primitive);
+static bool register_object = miMAXNode::RegisterObject(EPOLYOBJ_CLASS_ID, primitive);

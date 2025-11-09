@@ -3,6 +3,20 @@
 #include <map>
 #include "miMAX.h"
 
+static constexpr uint64_t class64(ClassID classID)
+{
+    return (uint64_t)classID.first | ((uint64_t)classID.second << 32);
+}
+
+static inline bool checkClass(Print log, Chunk const& chunk, ClassID classID, SuperClassID superClassID)
+{
+    if (chunk.classData.classID == classID && chunk.classData.superClassID == superClassID)
+        return true;
+    auto& classData = chunk.classData;
+    log("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
+    return false;
+}
+
 template<typename... Args>
 static inline Chunk const* getChunk(Chunk const& chunk, Args&&... args)
 {
