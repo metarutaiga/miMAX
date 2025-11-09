@@ -34,12 +34,16 @@
 		F528219E2EC0B524000671F1 /* editnormals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528219D2EC0B520000671F1 /* editnormals.cpp */; };
 		F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528219F2EC0B643000671F1 /* paintlayermod.cpp */; };
 		F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A12EC0BCDE000671F1 /* prs.cpp */; };
+		F52821A52EC0D931000671F1 /* blizzard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A42EC0D92D000671F1 /* blizzard.cpp */; };
+		F52821A72EC0E7C5000671F1 /* superspray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A62EC0E7BE000671F1 /* superspray.cpp */; };
+		F52821A92EC0F735000671F1 /* pcloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A82EC0F731000671F1 /* pcloud.cpp */; };
 		F558E5972E8276060060F473 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F558E5962E8276060060F473 /* main.mm */; };
 		F558E5D32E8276AD0060F473 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D22E8276AD0060F473 /* AppKit.framework */; };
 		F558E5D62E8276C60060F473 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D52E8276C60060F473 /* GameController.framework */; };
 		F558E5D82E8276D70060F473 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D72E8276D70060F473 /* MetalKit.framework */; };
 		F558E5D92E8276EB0060F473 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D02E8276870060F473 /* Metal.framework */; };
 		F558E5DF2E8277780060F473 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5DE2E8277780060F473 /* QuartzCore.framework */; };
+		F5DCA60D2EC107EF00E05741 /* rain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5DCA60C2EC107EB00E05741 /* rain.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +87,10 @@
 		F528219D2EC0B520000671F1 /* editnormals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editnormals.cpp; sourceTree = "<group>"; };
 		F528219F2EC0B643000671F1 /* paintlayermod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paintlayermod.cpp; sourceTree = "<group>"; };
 		F52821A12EC0BCDE000671F1 /* prs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = prs.cpp; sourceTree = "<group>"; };
+		F52821A32EC0CE84000671F1 /* internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		F52821A42EC0D92D000671F1 /* blizzard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = blizzard.cpp; sourceTree = "<group>"; };
+		F52821A62EC0E7BE000671F1 /* superspray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = superspray.cpp; sourceTree = "<group>"; };
+		F52821A82EC0F731000671F1 /* pcloud.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pcloud.cpp; sourceTree = "<group>"; };
 		F558E5962E8276060060F473 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		F558E5D02E8276870060F473 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		F558E5D22E8276AD0060F473 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -91,6 +99,7 @@
 		F558E5DE2E8277780060F473 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F558E7C02E82C34B0060F473 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
 		F582D6A72E82754900D70BDC /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
+		F5DCA60C2EC107EB00E05741 /* rain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rain.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,20 +201,25 @@
 		F528216C2EBDE6EA000671F1 /* object */ = {
 			isa = PBXGroup;
 			children = (
+				F52821A42EC0D92D000671F1 /* blizzard.cpp */,
 				F528216D2EBDE710000671F1 /* boxobj.cpp */,
 				F52821702EBDE8B2000671F1 /* chunk.h */,
 				F52821772EBE0D19000671F1 /* cone.cpp */,
 				F52821732EBE0D0A000671F1 /* cyl.cpp */,
 				F528219D2EC0B520000671F1 /* editnormals.cpp */,
 				F528216F2EBDE82E000671F1 /* format.h */,
+				F52821A32EC0CE84000671F1 /* internal.h */,
 				F528217F2EBE0D3C000671F1 /* gridobj.cpp */,
 				F52821972EC0B4BC000671F1 /* gsphere.cpp */,
 				F528219F2EC0B643000671F1 /* paintlayermod.cpp */,
 				F52821982EC0B4BC000671F1 /* parray.cpp */,
+				F52821A82EC0F731000671F1 /* pcloud.cpp */,
 				F52821812EBE0D5A000671F1 /* polyedit.cpp */,
 				F52821A12EC0BCDE000671F1 /* prs.cpp */,
 				F52821992EC0B4BC000671F1 /* pyramid.cpp */,
+				F5DCA60C2EC107EB00E05741 /* rain.cpp */,
 				F528218C2EBFA0FC000671F1 /* sphere.cpp */,
+				F52821A62EC0E7BE000671F1 /* superspray.cpp */,
 				F52821752EBE0D11000671F1 /* torus.cpp */,
 				F52821802EBE0D4B000671F1 /* triobjed.cpp */,
 				F528217B2EBE0D2B000671F1 /* tube.cpp */,
@@ -282,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F52821A52EC0D931000671F1 /* blizzard.cpp in Sources */,
 				F528216E2EBDE71B000671F1 /* boxobj.cpp in Sources */,
 				F52821782EBE0D1B000671F1 /* cone.cpp in Sources */,
 				F52821742EBE0D0C000671F1 /* cyl.cpp in Sources */,
@@ -290,10 +305,12 @@
 				F528219A2EC0B4BC000671F1 /* gsphere.cpp in Sources */,
 				F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */,
 				F528219B2EC0B4BC000671F1 /* parray.cpp in Sources */,
+				F52821A92EC0F735000671F1 /* pcloud.cpp in Sources */,
 				F52821822EBE0D5E000671F1 /* polyedit.cpp in Sources */,
 				F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */,
 				F528219C2EC0B4BC000671F1 /* pyramid.cpp in Sources */,
 				F528218D2EBFA0FC000671F1 /* sphere.cpp in Sources */,
+				F52821A72EC0E7C5000671F1 /* superspray.cpp in Sources */,
 				F52821762EBE0D14000671F1 /* torus.cpp in Sources */,
 				F52821832EBE134D000671F1 /* triobjed.cpp in Sources */,
 				F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */,
@@ -306,6 +323,7 @@
 				F52820AF2EBDCEC6000671F1 /* imgui_demo.cpp in Sources */,
 				F52820922EBDCEC6000671F1 /* imgui_draw.cpp in Sources */,
 				F52820CD2EBDCEC6000671F1 /* imgui_tables.cpp in Sources */,
+				F5DCA60D2EC107EF00E05741 /* rain.cpp in Sources */,
 				F52820902EBDCEC6000671F1 /* imgui_widgets.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

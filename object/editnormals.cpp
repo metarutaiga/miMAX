@@ -1,4 +1,3 @@
-#define __MIMAX_INTERNAL__
 #include "miMAX.h"
 #include "chunk.h"
 #include "format.h"

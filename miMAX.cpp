@@ -8,7 +8,6 @@
 #include <map>
 #include <tuple>
 
-#define __MIMAX_INTERNAL__
 #include "miMAX.h"
 #include "object/chunk.h"
 #include "object/format.h"
@@ -32,11 +31,6 @@ thread_local jmp_buf compoundfilereader_jmp_buf = {};
 #if defined(__APPLE__)
 #include <zlib.h>
 #endif
-
-#define FLOAT_TYPE          0x2501
-#define POINT3_TYPE         0x2503
-#define QUAT_TYPE           0x2504
-#define SCALEVALUE_TYPE     0x2505
 
 static std::vector<std::pair<ClassID, bool(*)(Print, Chunk const&, Chunk const&, Chunk const&, miMAXNode&)>> objectMap;
 
@@ -200,8 +194,8 @@ void miMAXNode::EulerToQuaternion(float const euler[3], Quat& quaternion)
 
 float miMAXNode::Bezier(BezierFloat const& left, BezierFloat const& right, float scale)
 {
-    float A = std::lerp(left[0], left[1], scale);
-    float B = std::lerp(left[1], left[2], scale);
+    float A = std::lerp(left[0], right[1], scale);
+    float B = std::lerp(left[1], right[2], scale);
     float C = std::lerp(left[2], right[0], scale);
     float X = std::lerp(A, B, scale);
     float Y = std::lerp(B, C, scale);
@@ -377,7 +371,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
         }
 
         // Link
-        for (uint32_t i = 0; i < 4; ++i) {
+        for (uint32_t i = 0; i < 8; ++i) {
             Chunk const* linkChunk = getLinkChunk(scene, chunk, i);
             if (linkChunk == nullptr)
                 continue;

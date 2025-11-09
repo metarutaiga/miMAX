@@ -2,6 +2,7 @@
 
 #include <map>
 #include "miMAX.h"
+#include "internal.h"
 
 static constexpr uint64_t class64(ClassID classID)
 {
