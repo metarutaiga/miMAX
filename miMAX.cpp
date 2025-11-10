@@ -119,6 +119,14 @@ static void parseStream(Chunk& chunk, char const* begin, char const* end)
     }
 }
 
+static void makeParent(Chunk& chunk, Chunk* parent = nullptr)
+{
+    chunk.parent = parent;
+    for (auto& child : chunk) {
+        makeParent(child, &chunk);
+    }
+}
+
 static std::tuple<std::string, ClassData> getClass(Chunk const& classDirectory, uint16_t classIndex)
 {
     if (classDirectory.size() <= classIndex)
@@ -157,9 +165,17 @@ static void getObject(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             auto& linkedChunk = scene[chunkIndex];
             if (&linkedChunk == &chunk)
                 continue;
-            for (auto& child : linkedChunk) {
-                getObject(log, scene, linkedChunk, child, node);
+            if (linkedChunk.classData.superClassID == OSM_SUPERCLASS_ID) {
+                for (size_t index = 0; auto& child : chunk) {
+                    if (child.type == 0x2500) {
+                        if (index++ == linkIndex) {
+                            getObject(log, scene, linkedChunk, child, node);
+                        }
+                    }
+                }
+                continue;
             }
+            getObject(log, scene, linkedChunk, Chunk(), node);
         }
         return;
     }
@@ -317,6 +333,9 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
     }
 
     // First Pass
+    makeParent(scene);
+
+    // Second Pass
     for (uint32_t i = 0; i < scene.size(); ++i) {
         auto& chunk = scene[i];
         auto [className, classData] = getClass(*root->classDirectory, chunk.type);
@@ -333,7 +352,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
         chunk.classDllName = dllName;
     }
 
-    // Second Pass
+    // Third Pass
     std::map<uint32_t, miMAXNode*> nodes;
     for (uint32_t i = 0; i < scene.size(); ++i) {
         auto& chunk = scene[i];
@@ -385,6 +404,7 @@ miMAXNode* miMAXNode::OpenFile(char const* name, Print log)
         }
 
         // Attach
+        node.parent = parent;
         parent->emplace_back(std::move(node));
         nodes[i] = &parent->back();
     }

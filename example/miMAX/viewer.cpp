@@ -5,9 +5,10 @@
 #include "ImGuiHelper.h"
 #include "miMAX.h"
 
-static miMAXNode* root;
 static std::vector<std::pair<std::string, std::string>> finders;
 static int finderIndex;
+static miMAXNode* root;
+static std::string nodeText;
 static std::vector<std::string> messages;
 static int messagesFocus;
 static int messagesIndex;
@@ -71,7 +72,7 @@ void Init()
     std::stable_sort(finders.begin(), finders.end());
 }
 
-static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> select, size_t depth = 0)
+static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> select)
 {
     static void* selected;
     bool updated = false;
@@ -108,8 +109,6 @@ static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> sel
 
     for (auto& child : node) {
         int flags = (selected == &child) ? ImGuiTreeNodeFlags_Selected : 0;
-        if (depth == 0)
-            flags |= ImGuiTreeNodeFlags_DefaultOpen;
         if (child.empty())
             flags |= ImGuiTreeNodeFlags_Leaf;
 
@@ -152,7 +151,7 @@ static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> sel
             }
         }
         if (child.empty() == false) {
-            updated |= TreeNode(child, select, depth + 1);
+            updated |= TreeNode(child, select);
         }
 
         ImGui::TreePop();
@@ -211,6 +210,7 @@ bool GUI(ImVec2 screen)
             }, finders.data(), (int)finders.size())) {
                 if (finders.size() > finderIndex) {
                     auto& pair = finders[finderIndex];
+                    nodeText.clear();
                     messages.clear();
                     delete root;
                     root = miMAXNode::OpenFile(pair.second.c_str(), Message);
@@ -220,11 +220,17 @@ bool GUI(ImVec2 screen)
         }
         ImGui::End();
 
-        static std::string nodeText;
         if (ImGui::Begin("Node") && root) {
-            TreeNode(*root, [](std::string const& text) {
-                nodeText = text;
-            });
+            if (root->size() == 1) {
+                TreeNode(root->front(), [](std::string const& text) {
+                    nodeText = text;
+                });
+            }
+            else {
+                TreeNode(*root, [](std::string const& text) {
+                    nodeText = text;
+                });
+            }
         }
         ImGui::End();
 

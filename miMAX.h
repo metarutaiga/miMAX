@@ -17,6 +17,8 @@ public:
     typedef std::array<float, 5> BezierFloat;
 
 public:
+    miMAXNode* parent = nullptr;
+
     std::string name;
     std::string text;
 
@@ -55,6 +57,8 @@ public:
 public:
     struct Chunk : public std::vector<Chunk>
     {
+        Chunk* parent = nullptr;
+
         std::vector<char> property;
 
         uint16_t type = 0;

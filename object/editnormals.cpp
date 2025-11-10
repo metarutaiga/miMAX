@@ -17,7 +17,7 @@ static bool modifier(Print log, Chunk const& scene, Chunk const& chunk, Chunk co
     for (size_t i = 1; i + 2 < normals.size(); i += 3) {
         node.normal.push_back({normals[i], normals[i + 1], normals[1 + 2]});
     }
-    node.text = node.text + format("Normal : %zd", node.normal.size()) + '\n';
+    node.text = node.text + format("%-24s : %zd", "Normal", node.normal.size()) + '\n';
     return true;
 }
 

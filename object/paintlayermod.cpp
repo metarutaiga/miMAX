@@ -18,15 +18,15 @@ static bool modifier(Print log, Chunk const& scene, Chunk const& chunk, Chunk co
     switch (std::get<int>(paramBlock[1])) {
     default:
         node.vertexColor = getProperty<Point3>(*pColorChunk, 0x0110);
-        node.text = node.text + format("Vertex Color : %zd", node.vertexColor.size()) + '\n';
+        node.text = node.text + format("%-24s : %zd", "Vertex Color", node.vertexColor.size()) + '\n';
         break;
     case -1:
         node.vertexIllum = getProperty<Point3>(*pColorChunk, 0x0110);
-        node.text = node.text + format("Vertex Illum : %zd", node.vertexIllum.size()) + '\n';
+        node.text = node.text + format("%-24s : %zd", "Vertex Illum", node.vertexIllum.size()) + '\n';
         break;
     case -2:
         node.vertexAlpha = getProperty<Point3>(*pColorChunk, 0x0110);
-        node.text = node.text + format("Vertex Alpha : %zd", node.vertexAlpha.size()) + '\n';
+        node.text = node.text + format("%-24s : %zd", "Vertex Alpha", node.vertexAlpha.size()) + '\n';
         break;
     }
     return true;
