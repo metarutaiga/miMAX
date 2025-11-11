@@ -6,7 +6,7 @@ static char const* getDisplay(int display)
 {
     switch (display) {
     default:
-    case 0: return "Falkes";
+    case 0: return "Flakes";
     case 1: return "Dots";
     case 2: return "Ticks";
     }

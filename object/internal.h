@@ -91,3 +91,8 @@ typedef miMAXNode::Print Print;
 #define UDYNADEFLMOD_CLASS_ID           ClassID{0x0cc400b8, 0x08732e2f}
 #define USPAWNDEFL_CLASS_ID             ClassID{0x19fd4916, 0x557f71d9}
 #define USPAWNDEFLMOD_CLASS_ID          ClassID{0x36350a51, 0x5073041f}
+
+inline Point3 operator + (Point3 const& left, Point3 const& right)
+{
+    return { left[0] + right[0], left[1] + right[1], left[2] + right[2] };
+}
