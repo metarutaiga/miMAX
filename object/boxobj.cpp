@@ -39,10 +39,8 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     Point3 max = { length / 2, width / 2, height };
     Point3 min = { -length / 2, -width / 2, 0 };
 
-    // Vertices
     for (int i = 0; i < 6; ++i) {
-        Point3 pointA = {};
-        Point3 pointB = {};
+        Point3 start = {};
         Point3 diffA = {};
         Point3 diffB = {};
         int segmentA = 0;
@@ -52,7 +50,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
         switch (i) {
         case 0:
         case 1:
-            pointA = { min[0], min[1], (i == 0) ? min[2] : max[2] };
+            start = { min[0], min[1], (i == 0) ? min[2] : max[2] };
             diffA = { diffX, 0, 0 };
             diffB = { 0, diffY, 0 };
             segmentA = lengthSegments;
@@ -60,7 +58,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             break;
         case 2:
         case 3:
-            pointA = { min[0], (i == 2) ? min[1] : max[1], min[2] };
+            start = { min[0], (i == 2) ? min[1] : max[1], min[2] };
             diffA = { diffX, 0, 0 };
             diffB = { 0, 0, diffZ };
             segmentA = widthSegments;
@@ -68,7 +66,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             break;
         case 4:
         case 5:
-            pointA = { (i == 4) ? min[0] : max[0], min[1], min[2] };
+            start = { (i == 4) ? min[0] : max[0], min[1], min[2] };
             diffA = { 0, diffY, 0 };
             diffB = { 0, 0, diffZ };
             segmentA = lengthSegments;
@@ -77,36 +75,21 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
         }
 
         for (int a = 0; a <= segmentA; ++a) {
-            pointB = pointA;
+            float v = a / float(segmentA);
+            Point3 point = start + diffA * a;
             for (int b = 0; b <= segmentB; ++b) {
-                node.vertex.push_back(pointB);
-                pointB = pointB + diffB;
-
+                node.vertex.push_back(point + diffB * b);
+                if (mapCoords) {
+                    float u = b / float(segmentB);
+                    node.texture.push_back({ u, v, 0 });
+                }
                 if (a != segmentA && b != segmentB) {
                     node.vertexArray.push_back({});
                     node.vertexArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 0));
                     node.vertexArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 0));
                     node.vertexArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 1));
                     node.vertexArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 1));
-                }
-            }
-            pointA = pointA + diffA;
-        }
-
-        // Texture Coordinate
-        if (mapCoords) {
-            Point3 pointU = {};
-            Point3 pointV = {};
-            Point3 diffU = { 1.0f / segmentA, 0 };
-            Point3 diffV = { 0, 1.0f / segmentB };
-
-            for (int a = 0; a <= segmentA; ++a) {
-                pointV = pointU;
-                for (int b = 0; b <= segmentB; ++b) {
-                    node.texture.push_back(pointV);
-                    pointV = pointV + diffV;
-
-                    if (a != segmentA && b != segmentB) {
+                    if (mapCoords) {
                         node.textureArray.push_back({});
                         node.textureArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 0));
                         node.textureArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 0));
@@ -114,7 +97,6 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
                         node.textureArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 1));
                     }
                 }
-                pointU = pointU + diffU;
             }
         }
     }

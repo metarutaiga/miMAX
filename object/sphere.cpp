@@ -59,6 +59,40 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %g", "Slice To", sliceTo) + '\n';
     node.text = node.text + format("%-24s : %s", "Base To Pivot", getBoolean(basePivot)) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+
+    int latCount = segments;
+    int lonCount = segments * 2;
+    for (int lat = 0; lat <= latCount; ++lat) {
+        float v = lat / float(latCount);
+        float theta = v * M_PI;
+        for (int lon = 0; lon <= lonCount; ++lon) {
+            float u = lon / float(lonCount);
+            float phi = u * 2.0f * M_PI;
+            float sinTheta = std::sinf(theta);
+            float cosTheta = std::cosf(theta);
+            float sinPhi = std::sinf(phi);
+            float cosPhi = std::cosf(phi);
+            Point3 point = { sinTheta * cosPhi, cosTheta, sinTheta * sinPhi };
+            node.vertex.push_back(point * radius);
+            if (mapCoords) {
+                node.texture.push_back({ u, v, 0 });
+            }
+            if (lat != latCount && lon != lonCount) {
+                node.vertexArray.push_back({});
+                node.vertexArray.back().push_back((lat + 0) * (lonCount + 1) + (lon + 0));
+                node.vertexArray.back().push_back((lat + 1) * (lonCount + 1) + (lon + 0));
+                node.vertexArray.back().push_back((lat + 1) * (lonCount + 1) + (lon + 1));
+                node.vertexArray.back().push_back((lat + 0) * (lonCount + 1) + (lon + 1));
+                if (mapCoords) {
+                    node.textureArray.push_back({});
+                    node.textureArray.back().push_back((lat + 0) * (lonCount + 1) + (lon + 0));
+                    node.textureArray.back().push_back((lat + 1) * (lonCount + 1) + (lon + 0));
+                    node.textureArray.back().push_back((lat + 1) * (lonCount + 1) + (lon + 1));
+                    node.textureArray.back().push_back((lat + 0) * (lonCount + 1) + (lon + 1));
+                }
+            }
+        }
+    }
     return true;
 }
 

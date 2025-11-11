@@ -15,9 +15,9 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     float width = std::get<float>(paramBlock[1]);
     int lengthSegments = std::get<int>(paramBlock[3]);
     int widthSegments = std::get<int>(paramBlock[4]);
-    float scale = 1.0f;
-    float density = 1.0f;
     int mapCoords = std::get<int>(paramBlock[6]);
+    float density = 1.0f;
+    float scale = 1.0f;
 
     if (paramBlock.size() > 7) {
         density = std::get<float>(paramBlock[7]);
@@ -32,9 +32,9 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %g", "Width", width) + '\n';
     node.text = node.text + format("%-24s : %d", "Length Segments", lengthSegments) + '\n';
     node.text = node.text + format("%-24s : %d", "Width Segments", widthSegments) + '\n';
-    node.text = node.text + format("%-24s : %g", "Scale", scale) + '\n';
-    node.text = node.text + format("%-24s : %g", "Density", density) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+    node.text = node.text + format("%-24s : %g", "Density", density) + '\n';
+    node.text = node.text + format("%-24s : %g", "Scale", scale) + '\n';
 
     node.vertex = {
         { -length, -width, 0 },

@@ -48,6 +48,38 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %g", "Slice From", sliceFrom) + '\n';
     node.text = node.text + format("%-24s : %g", "Slice To", sliceTo) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+
+    float diffAngle = 2.0f * M_PI / sides;
+    for (int h = 0; h <= heightSegments; ++h) {
+        float t = h / float(heightSegments);
+        float r = std::lerp(radius1, radius2, t);
+        Point3 point = { 0, 0, height * t };
+        for (int s = 0; s <= sides; ++s) {
+            float angle = diffAngle * s;
+            point[0] = std::cosf(angle) * r;
+            point[1] = std::sinf(angle) * r;
+            node.vertex.push_back(point);
+            if (mapCoords) {
+                float u = s / float(sides);
+                float v = t;
+                node.texture.push_back({ u, v, 0 });
+            }
+            if (h != heightSegments && s != sides) {
+                node.vertexArray.push_back({});
+                node.vertexArray.back().push_back((h + 0) * (sides + 1) + (s + 0));
+                node.vertexArray.back().push_back((h + 1) * (sides + 1) + (s + 0));
+                node.vertexArray.back().push_back((h + 0) * (sides + 1) + (s + 1));
+                node.vertexArray.back().push_back((h + 1) * (sides + 1) + (s + 1));
+                if (mapCoords) {
+                    node.textureArray.push_back({});
+                    node.textureArray.back().push_back((h + 0) * (sides + 1) + (s + 0));
+                    node.textureArray.back().push_back((h + 1) * (sides + 1) + (s + 0));
+                    node.textureArray.back().push_back((h + 0) * (sides + 1) + (s + 1));
+                    node.textureArray.back().push_back((h + 1) * (sides + 1) + (s + 1));
+                }
+            }
+        }
+    }
     return true;
 }
 

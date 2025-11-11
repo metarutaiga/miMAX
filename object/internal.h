@@ -96,3 +96,8 @@ inline Point3 operator + (Point3 const& left, Point3 const& right)
 {
     return { left[0] + right[0], left[1] + right[1], left[2] + right[2] };
 }
+
+inline Point3 operator * (Point3 const& left, float right)
+{
+    return { left[0] * right, left[1] * right, left[2] * right };
+}
