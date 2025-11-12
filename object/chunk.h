@@ -11,10 +11,17 @@ static constexpr uint64_t class64(ClassID classID)
 
 static inline bool checkClass(Print log, Chunk const& chunk, ClassID classID, SuperClassID superClassID)
 {
-    if (chunk.classData.classID == classID && chunk.classData.superClassID == superClassID)
-        return true;
     auto& classData = chunk.classData;
-    log("Unknown (%08X-%08X-%08X-%08X) %s\n", classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str());
+    if (classData.classID == classID && classData.superClassID == superClassID)
+        return true;
+    char const* format;
+    if (classData.dllIndex == 0xFFFFFFFF) {
+        format = "Unknown (%08X-%08X-%08X-%08X) %-24s\n";
+    }
+    else {
+        format = "Unknown (%08X-%08X-%08X-%08X) %-24s %-16s %s\n";
+    }
+    log(format, classData.dllIndex, classData.classID.first, classData.classID.second, classData.superClassID, chunk.name.c_str(), chunk.classDllFile.c_str(), chunk.classDllName.c_str());
     return false;
 }
 

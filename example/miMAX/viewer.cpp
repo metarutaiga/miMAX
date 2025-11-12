@@ -43,10 +43,10 @@ void Init()
     ImGuiID left = ImGui::DockBuilderSplitNode(dockid, ImGuiDir_Left, 1.0f / 5.0f, nullptr, &dockid);
     ImGuiID middle = ImGui::DockBuilderSplitNode(dockid, ImGuiDir_Left, 1.0f / 2.0f, nullptr, &dockid);
     ImGuiID right = dockid;
-    ImGui::DockBuilderDockWindow("Finder", left);
-    ImGui::DockBuilderDockWindow("Node", middle);
-    ImGui::DockBuilderDockWindow("Text", right);
-    ImGui::DockBuilderDockWindow("Message", bottom);
+    ImGui::DockBuilderDockWindow("Finder##100", left);
+    ImGui::DockBuilderDockWindow("Node##200", middle);
+    ImGui::DockBuilderDockWindow("Text##300", right);
+    ImGui::DockBuilderDockWindow("Message##400", bottom);
     ImGui::DockBuilderFinish(dockid);
 
     static char appPath[4096];
@@ -108,7 +108,9 @@ static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> sel
     }
 
     for (auto& child : node) {
-        int flags = (selected == &child) ? ImGuiTreeNodeFlags_Selected : 0;
+        int flags = 0;
+        if (selected == &child)
+            flags |= ImGuiTreeNodeFlags_Selected;
         if (child.empty())
             flags |= ImGuiTreeNodeFlags_Leaf;
 
@@ -201,10 +203,10 @@ bool GUI(ImVec2 screen)
 
         Init();
 
-        if (ImGui::Begin("Finder")) {
+        if (ImGui::Begin("Finder##100")) {
             ImVec2 region = ImGui::GetContentRegionAvail();
             ImGui::SetNextWindowSize(region);
-            if (ImGui::ListBox("##100", &finderIndex, [](void* user_data, int index) {
+            if (ImGui::ListBox("##101", &finderIndex, [](void* user_data, int index) {
                 auto* finders = (std::pair<std::string, std::string>*)user_data;
                 return finders[index].first.c_str();
             }, finders.data(), (int)finders.size())) {
@@ -220,29 +222,24 @@ bool GUI(ImVec2 screen)
         }
         ImGui::End();
 
-        if (ImGui::Begin("Node") && root) {
-            if (root->size() == 1) {
-                TreeNode(root->front(), [](std::string const& text) {
-                    nodeText = text;
-                });
-            }
-            else {
-                TreeNode(*root, [](std::string const& text) {
-                    nodeText = text;
-                });
-            }
+        if (ImGui::Begin("Node##200") && root) {
+            miMAXNode& node = (root->size() == 1) ? root->front() : (*root);
+            TreeNode(node, [](std::string const& text) {
+                nodeText = text;
+            });
         }
         ImGui::End();
 
-        if (ImGui::Begin("Text")) {
-            ImGui::TextUnformatted(nodeText.c_str());
+        if (ImGui::Begin("Text##300")) {
+            ImVec2 region = ImGui::GetContentRegionAvail();
+            ImGui::InputTextMultiline("##301", nodeText, region, ImGuiInputTextFlags_ReadOnly);
         }
         ImGui::End();
 
-        if (ImGui::Begin("Message")) {
+        if (ImGui::Begin("Message##400")) {
             ImVec2 region = ImGui::GetContentRegionAvail();
             ImGui::SetNextWindowSize(region);
-            ImGui::ListBox("##400", &messagesIndex, &messagesFocus, [](void* user_data, int index) {
+            ImGui::ListBox("##401", &messagesIndex, &messagesFocus, [](void* user_data, int index) {
                 auto* messages = (std::string*)user_data;
                 return messages[index].c_str();
             }, messages.data(), (int)messages.size());
