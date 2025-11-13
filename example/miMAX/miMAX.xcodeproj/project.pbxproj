@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6A8A7762EC5943F00098CCB /* pbomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6A8A7752EC5943700098CCB /* pbomb.cpp */; };
 		F5281F2D2EBDCC21000671F1 /* viewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5281F2C2EBDCC21000671F1 /* viewer.cpp */; };
 		F5281F322EBDCC9F000671F1 /* miMAX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5281F302EBDCC9F000671F1 /* miMAX.cpp */; };
 		F5281F332EBDCC9F000671F1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F5281F312EBDCC9F000671F1 /* README.md */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		8307E7DA20E9F9C900473790 /* miMAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = miMAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6A8A7752EC5943700098CCB /* pbomb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbomb.cpp; sourceTree = "<group>"; };
 		F5281F2C2EBDCC21000671F1 /* viewer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = viewer.cpp; sourceTree = "<group>"; };
 		F5281F2F2EBDCC9F000671F1 /* miMAX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = miMAX.h; path = ../../miMAX.h; sourceTree = "<absolute>"; };
 		F5281F302EBDCC9F000671F1 /* miMAX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = miMAX.cpp; path = ../../miMAX.cpp; sourceTree = "<absolute>"; };
@@ -213,6 +215,7 @@
 				F52821972EC0B4BC000671F1 /* gsphere.cpp */,
 				F528219F2EC0B643000671F1 /* paintlayermod.cpp */,
 				F52821982EC0B4BC000671F1 /* parray.cpp */,
+				D6A8A7752EC5943700098CCB /* pbomb.cpp */,
 				F52821A82EC0F731000671F1 /* pcloud.cpp */,
 				F52821812EBE0D5A000671F1 /* polyedit.cpp */,
 				F52821A12EC0BCDE000671F1 /* prs.cpp */,
@@ -305,10 +308,12 @@
 				F528219A2EC0B4BC000671F1 /* gsphere.cpp in Sources */,
 				F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */,
 				F528219B2EC0B4BC000671F1 /* parray.cpp in Sources */,
+				D6A8A7762EC5943F00098CCB /* pbomb.cpp in Sources */,
 				F52821A92EC0F735000671F1 /* pcloud.cpp in Sources */,
 				F52821822EBE0D5E000671F1 /* polyedit.cpp in Sources */,
 				F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */,
 				F528219C2EC0B4BC000671F1 /* pyramid.cpp in Sources */,
+				F5DCA60D2EC107EF00E05741 /* rain.cpp in Sources */,
 				F528218D2EBFA0FC000671F1 /* sphere.cpp in Sources */,
 				F52821A72EC0E7C5000671F1 /* superspray.cpp in Sources */,
 				F52821762EBE0D14000671F1 /* torus.cpp in Sources */,
@@ -323,7 +328,6 @@
 				F52820AF2EBDCEC6000671F1 /* imgui_demo.cpp in Sources */,
 				F52820922EBDCEC6000671F1 /* imgui_draw.cpp in Sources */,
 				F52820CD2EBDCEC6000671F1 /* imgui_tables.cpp in Sources */,
-				F5DCA60D2EC107EF00E05741 /* rain.cpp in Sources */,
 				F52820902EBDCEC6000671F1 /* imgui_widgets.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
