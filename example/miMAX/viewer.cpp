@@ -4,13 +4,16 @@
 #include <string>
 #include "ImGuiHelper.h"
 #include "miMAX.h"
+#include "object/internal.h"
 
 static std::vector<std::pair<std::string, std::string>> finders;
 static int finderIndex;
 static miMAXNode* root;
+static miMAXNode* selected;
 static std::string nodeText;
 static std::vector<char> dump;
 static int dumpIndex;
+static float viewScale = 1.0f;
 static std::vector<std::string> messages;
 static int messagesFocus;
 static int messagesIndex;
@@ -33,7 +36,6 @@ static const char* eascii[0x80] = {
     "\xE2\x89\xA1", "\xC2\xB1",     "\xE2\x89\xA5", "\xE2\x89\xA4", "\xE2\x8C\xA0", "\xE2\x8C\xA1", "\xC3\xB7",     "\xE2\x89\x88",
     "\xC2\xB0",     "\xC2\xB7",     "\xE2\x88\x99", "\xE2\x88\x9A", "\xE2\x81\xBF", "\xC2\xB2",     "\xE2\x96\xA0", "\xE2\x8C\x82",
 };
-
 
 static int Message(const char* format, ...)
 {
@@ -95,7 +97,7 @@ static void Hex(const char* label, std::vector<char>& data, int& index)
     }, &data, (int)(data.size() + 15) / 16);
 }
 
-void Init()
+static void Init()
 {
     ImGuiID id = ImGui::GetID("miMAX");
 
@@ -121,6 +123,7 @@ void Init()
     ImGui::DockBuilderDockWindow("VideoPostQueue", middle);
     ImGui::DockBuilderDockWindow("Text##300", right);
     ImGui::DockBuilderDockWindow("Dump##310", right);
+    ImGui::DockBuilderDockWindow("View##320", right);
     ImGui::DockBuilderDockWindow("Message##400", bottom);
     ImGui::DockBuilderFinish(dockid);
 
@@ -149,7 +152,6 @@ void Init()
 
 static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> select)
 {
-    static void* selected;
     bool updated = false;
 
     if (selected) {
@@ -371,7 +373,7 @@ bool GUI(ImVec2 screen)
 
         Init();
 
-        if (ImGui::Begin("Finder##100")) {
+        if (ImGui::Begin("Finder##100", nullptr, ImGuiWindowFlags_NoMove)) {
             ImVec2 region = ImGui::GetContentRegionAvail();
             ImGui::SetNextWindowSize(region);
             if (ImGui::ListBox("##101", &finderIndex, [](void* user_data, int index) {
@@ -384,13 +386,15 @@ bool GUI(ImVec2 screen)
                     messages.clear();
                     delete root;
                     root = miMAXNode::OpenFile(pair.second.c_str(), Message);
+                    selected = nullptr;
+                    viewScale = 1.0f;
                     messagesFocus = messagesIndex = (int)messages.size() - 1;
                 }
             }
         }
         ImGui::End();
 
-        if (ImGui::Begin("Node##200") && root) {
+        if (ImGui::Begin("Node##200", nullptr, ImGuiWindowFlags_NoMove) && root) {
             miMAXNode& node = (root->size() == 1) ? root->front() : (*root);
             TreeNode(node, [](std::string const& text) {
                 nodeText = text;
@@ -409,7 +413,7 @@ bool GUI(ImVec2 screen)
             case 4: name = "Scene";             chunk = root ? root->scene : nullptr;           break;
             case 5: name = "VideoPostQueue";    chunk = root ? root->videoPostQueue : nullptr;  break;
             }
-            if (ImGui::Begin(name) && chunk) {
+            if (ImGui::Begin(name, nullptr, ImGuiWindowFlags_NoMove) && chunk) {
                 TreeChunk(*chunk, [](uint16_t type, std::vector<char> const& data) {
                     dump = data;
                     dumpIndex = 0;
@@ -418,20 +422,67 @@ bool GUI(ImVec2 screen)
             ImGui::End();
         }
 
-        if (ImGui::Begin("Text##300")) {
+        if (ImGui::Begin("Text##300", nullptr, ImGuiWindowFlags_NoMove)) {
             ImVec2 region = ImGui::GetContentRegionAvail();
             ImGui::InputTextMultiline("##301", nodeText, region, ImGuiInputTextFlags_ReadOnly);
         }
         ImGui::End();
 
-        if (ImGui::Begin("Dump##310")) {
+        if (ImGui::Begin("Dump##310", nullptr, ImGuiWindowFlags_NoMove)) {
             ImVec2 region = ImGui::GetContentRegionAvail();
             ImGui::SetNextWindowSize(region);
             Hex("##311", dump, dumpIndex);
         }
         ImGui::End();
 
-        if (ImGui::Begin("Message##400")) {
+        if (ImGui::Begin("View##320", nullptr, ImGuiWindowFlags_NoMove) && selected) {
+            ImVec2 center = ImGui::GetCursorScreenPos() + ImGui::GetContentRegionAvail() / 2;
+            auto drawList = ImGui::GetWindowDrawList();
+            if (ImGui::IsWindowHovered()) {
+                viewScale = std::max(0.01f, viewScale + ImGui::GetIO().MouseWheel);
+            }
+
+            static const float R[3][3] = {
+                {  0.707107,  0.353553, -0.612372 },
+                { -0.707107,  0.353553, -0.612372 },
+                {  0.000000,  0.866025,  0.500000 },
+            };
+
+            // X
+            for (int i = 0; i < 2; ++i) {
+                ImVec2 p;
+                p.x = 1000000 * R[0][0];
+                p.y = 1000000 * R[1][0];
+                drawList->PathLineTo(center + p * viewScale * (i ? 1 : -1));
+            }
+            drawList->PathStroke(0xFFFFFFFF, 0, 1.0f);
+
+            // Y
+            for (int i = 0; i < 2; ++i) {
+                ImVec2 p;
+                p.x = 1000000 * R[0][1];
+                p.y = 1000000 * R[1][1];
+                drawList->PathLineTo(center + p * viewScale * (i ? 1 : -1));
+            }
+            drawList->PathStroke(0xFFFFFFFF, 0, 1.0f);
+
+            auto& node = (*selected);
+            for (auto& array : node.vertexArray) {
+                for (auto i : array) {
+                    if (i >= node.vertex.size())
+                        break;
+                    auto v = node.vertex[i];
+                    ImVec2 p;
+                    p.x = v[0] * R[0][0] + v[1] * R[0][1] + v[2] * R[0][2];
+                    p.y = v[0] * R[1][0] + v[1] * R[1][1] + v[2] * R[1][2];
+                    drawList->PathLineTo(center + p * viewScale);
+                }
+                drawList->PathStroke(0xFFFFFFFF, ImDrawFlags_Closed, 1.0f);
+            }
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("Message##400", nullptr, ImGuiWindowFlags_NoMove)) {
             ImVec2 region = ImGui::GetContentRegionAvail();
             ImGui::SetNextWindowSize(region);
             ImGui::ListBox("##401", &messagesIndex, &messagesFocus, [](void* user_data, int index) {
