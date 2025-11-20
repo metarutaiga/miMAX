@@ -443,28 +443,28 @@ bool GUI(ImVec2 screen)
             }
 
             static const float R[3][3] = {
-                {  0.707107,  0.353553, -0.612372 },
-                { -0.707107,  0.353553, -0.612372 },
-                {  0.000000,  0.866025,  0.500000 },
+                { -0.872f, -0.485f,  0.000f },
+                {  0.196f, -0.352f, -0.915f },
+                {  0.404f, -0.707f,  0.404f },
             };
 
             // X
             for (int i = 0; i < 2; ++i) {
                 ImVec2 p;
-                p.x = 1000000 * R[0][0];
-                p.y = 1000000 * R[1][0];
-                drawList->PathLineTo(center + p * viewScale * (i ? 1 : -1));
+                p.x = 10000 * R[0][0];
+                p.y = 10000 * R[1][0];
+                drawList->PathLineTo(center + p * (i ? 1 : -1));
             }
-            drawList->PathStroke(0xFFFFFFFF, 0, 1.0f);
+            drawList->PathStroke(0xFFBFBFBF, 0, 1.0f);
 
             // Y
             for (int i = 0; i < 2; ++i) {
                 ImVec2 p;
-                p.x = 1000000 * R[0][1];
-                p.y = 1000000 * R[1][1];
-                drawList->PathLineTo(center + p * viewScale * (i ? 1 : -1));
+                p.x = 10000 * R[0][1];
+                p.y = 10000 * R[1][1];
+                drawList->PathLineTo(center + p * (i ? 1 : -1));
             }
-            drawList->PathStroke(0xFFFFFFFF, 0, 1.0f);
+            drawList->PathStroke(0xFFBFBFBF, 0, 1.0f);
 
             auto& node = (*selected);
             for (auto& array : node.vertexArray) {

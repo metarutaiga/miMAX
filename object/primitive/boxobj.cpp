@@ -32,8 +32,8 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %d", "Height Segments", heightSegments) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
 
-    float diffX = width / widthSegments;
-    float diffY = length / lengthSegments;
+    float diffX = length / lengthSegments;
+    float diffY = width / widthSegments;
     float diffZ = height / heightSegments;
 
     Point3 max = { length / 2, width / 2, height };
@@ -87,14 +87,14 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
                     node.vertexArray.push_back({});
                     node.vertexArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 0));
                     node.vertexArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 0));
-                    node.vertexArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 1));
                     node.vertexArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 1));
+                    node.vertexArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 1));
                     if (mapCoords) {
                         node.textureArray.push_back({});
                         node.textureArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 0));
                         node.textureArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 0));
-                        node.textureArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 1));
                         node.textureArray.back().push_back(baseIndex + (a + 1) * (segmentB + 1) + (b + 1));
+                        node.textureArray.back().push_back(baseIndex + (a + 0) * (segmentB + 1) + (b + 1));
                     }
                 }
             }

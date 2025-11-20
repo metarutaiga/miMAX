@@ -72,7 +72,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             float cosTheta = std::cosf(theta);
             float sinPhi = std::sinf(phi);
             float cosPhi = std::cosf(phi);
-            Point3 point = { sinTheta * cosPhi, cosTheta, sinTheta * sinPhi };
+            Point3 point = { sinTheta * cosPhi, sinTheta * sinPhi, cosTheta };
             node.vertex.push_back(point * radius);
             if (mapCoords) {
                 node.texture.push_back({ u, v, 0 });

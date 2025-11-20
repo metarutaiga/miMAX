@@ -36,12 +36,35 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %g", "Density", density) + '\n';
     node.text = node.text + format("%-24s : %g", "Scale", scale) + '\n';
 
-    node.vertex = {
-        { -length, -width, 0 },
-        {  length, -width, 0 },
-        { -length,  width, 0 },
-        {  length,  width, 0 },
-    };
+    Point3 diffX = { length / lengthSegments, 0, 0 };
+    Point3 diffY = { 0, width / widthSegments, 0 };
+    Point3 min = { -length / 2, -width / 2, 0 };
+
+    for (int a = 0; a <= lengthSegments; ++a) {
+        float v = a / float(lengthSegments);
+        Point3 point = min + diffX * a;
+        for (int b = 0; b <= widthSegments; ++b) {
+            node.vertex.push_back(point + diffY * b);
+            if (mapCoords) {
+                float u = b / float(widthSegments);
+                node.texture.push_back({ u, v, 0 });
+            }
+            if (a != lengthSegments && b != widthSegments) {
+                node.vertexArray.push_back({});
+                node.vertexArray.back().push_back((a + 0) * (widthSegments + 1) + (b + 0));
+                node.vertexArray.back().push_back((a + 1) * (widthSegments + 1) + (b + 0));
+                node.vertexArray.back().push_back((a + 1) * (widthSegments + 1) + (b + 1));
+                node.vertexArray.back().push_back((a + 0) * (widthSegments + 1) + (b + 1));
+                if (mapCoords) {
+                    node.textureArray.push_back({});
+                    node.textureArray.back().push_back((a + 0) * (widthSegments + 1) + (b + 0));
+                    node.textureArray.back().push_back((a + 1) * (widthSegments + 1) + (b + 0));
+                    node.textureArray.back().push_back((a + 1) * (widthSegments + 1) + (b + 1));
+                    node.textureArray.back().push_back((a + 0) * (widthSegments + 1) + (b + 1));
+                }
+            }
+        }
+    }
     return true;
 }
 
