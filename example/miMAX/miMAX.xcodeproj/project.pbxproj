@@ -7,7 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D6A8A7762EC5943F00098CCB /* pbomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6A8A7752EC5943700098CCB /* pbomb.cpp */; };
+		D662828B2ECEB0ED003E5637 /* superspray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282892ECEB0ED003E5637 /* superspray.cpp */; };
+		D662828C2ECEB0ED003E5637 /* pbomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282862ECEB0ED003E5637 /* pbomb.cpp */; };
+		D662828D2ECEB0ED003E5637 /* blizzard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282842ECEB0ED003E5637 /* blizzard.cpp */; };
+		D662828E2ECEB0ED003E5637 /* sphered.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282822ECEB0ED003E5637 /* sphered.cpp */; };
+		D662828F2ECEB0ED003E5637 /* parray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282852ECEB0ED003E5637 /* parray.cpp */; };
+		D66282902ECEB0ED003E5637 /* rain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282882ECEB0ED003E5637 /* rain.cpp */; };
+		D66282912ECEB0ED003E5637 /* pcloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282872ECEB0ED003E5637 /* pcloud.cpp */; };
+		D66282AA2ECEB1B7003E5637 /* triobjed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A72ECEB1B7003E5637 /* triobjed.cpp */; };
+		D66282AB2ECEB1B7003E5637 /* cyl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A02ECEB1B7003E5637 /* cyl.cpp */; };
+		D66282AC2ECEB1B7003E5637 /* boxobj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D662829E2ECEB1B7003E5637 /* boxobj.cpp */; };
+		D66282AD2ECEB1B7003E5637 /* polyedit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A32ECEB1B7003E5637 /* polyedit.cpp */; };
+		D66282AE2ECEB1B7003E5637 /* gsphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A22ECEB1B7003E5637 /* gsphere.cpp */; };
+		D66282AF2ECEB1B7003E5637 /* torus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A62ECEB1B7003E5637 /* torus.cpp */; };
+		D66282B02ECEB1B7003E5637 /* cone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D662829F2ECEB1B7003E5637 /* cone.cpp */; };
+		D66282B22ECEB1B7003E5637 /* tube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A82ECEB1B7003E5637 /* tube.cpp */; };
+		D66282B32ECEB1B7003E5637 /* editnormals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282942ECEB1B7003E5637 /* editnormals.cpp */; };
+		D66282B72ECEB1B7003E5637 /* paintlayermod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282952ECEB1B7003E5637 /* paintlayermod.cpp */; };
+		D66282BB2ECEB1B7003E5637 /* pyramid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A42ECEB1B7003E5637 /* pyramid.cpp */; };
+		D66282BC2ECEB1B7003E5637 /* gridobj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A12ECEB1B7003E5637 /* gridobj.cpp */; };
+		D66282BD2ECEB1B7003E5637 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D66282A52ECEB1B7003E5637 /* sphere.cpp */; };
 		F5281F2D2EBDCC21000671F1 /* viewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5281F2C2EBDCC21000671F1 /* viewer.cpp */; };
 		F5281F322EBDCC9F000671F1 /* miMAX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5281F302EBDCC9F000671F1 /* miMAX.cpp */; };
 		F5281F332EBDCC9F000671F1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F5281F312EBDCC9F000671F1 /* README.md */; };
@@ -20,36 +39,37 @@
 		F52820C52EBDCEC6000671F1 /* imgui_impl_metal.mm in Sources */ = {isa = PBXBuildFile; fileRef = F5281F5C2EBDCEC6000671F1 /* imgui_impl_metal.mm */; };
 		F52820CD2EBDCEC6000671F1 /* imgui_tables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52820752EBDCEC6000671F1 /* imgui_tables.cpp */; };
 		F52820EB2EBDCEC6000671F1 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F528207A2EBDCEC6000671F1 /* LICENSE.txt */; };
-		F528216E2EBDE71B000671F1 /* boxobj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528216D2EBDE710000671F1 /* boxobj.cpp */; };
-		F52821742EBE0D0C000671F1 /* cyl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821732EBE0D0A000671F1 /* cyl.cpp */; };
-		F52821762EBE0D14000671F1 /* torus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821752EBE0D11000671F1 /* torus.cpp */; };
-		F52821782EBE0D1B000671F1 /* cone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821772EBE0D19000671F1 /* cone.cpp */; };
-		F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217B2EBE0D2B000671F1 /* tube.cpp */; };
-		F52821822EBE0D5E000671F1 /* polyedit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821812EBE0D5A000671F1 /* polyedit.cpp */; };
-		F52821832EBE134D000671F1 /* triobjed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821802EBE0D4B000671F1 /* triobjed.cpp */; };
-		F52821842EBE135A000671F1 /* gridobj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528217F2EBE0D3C000671F1 /* gridobj.cpp */; };
-		F528218D2EBFA0FC000671F1 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528218C2EBFA0FC000671F1 /* sphere.cpp */; };
-		F528219A2EC0B4BC000671F1 /* gsphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821972EC0B4BC000671F1 /* gsphere.cpp */; };
-		F528219B2EC0B4BC000671F1 /* parray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821982EC0B4BC000671F1 /* parray.cpp */; };
-		F528219C2EC0B4BC000671F1 /* pyramid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821992EC0B4BC000671F1 /* pyramid.cpp */; };
-		F528219E2EC0B524000671F1 /* editnormals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528219D2EC0B520000671F1 /* editnormals.cpp */; };
-		F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F528219F2EC0B643000671F1 /* paintlayermod.cpp */; };
 		F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A12EC0BCDE000671F1 /* prs.cpp */; };
-		F52821A52EC0D931000671F1 /* blizzard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A42EC0D92D000671F1 /* blizzard.cpp */; };
-		F52821A72EC0E7C5000671F1 /* superspray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A62EC0E7BE000671F1 /* superspray.cpp */; };
-		F52821A92EC0F735000671F1 /* pcloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52821A82EC0F731000671F1 /* pcloud.cpp */; };
 		F558E5972E8276060060F473 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F558E5962E8276060060F473 /* main.mm */; };
 		F558E5D32E8276AD0060F473 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D22E8276AD0060F473 /* AppKit.framework */; };
 		F558E5D62E8276C60060F473 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D52E8276C60060F473 /* GameController.framework */; };
 		F558E5D82E8276D70060F473 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D72E8276D70060F473 /* MetalKit.framework */; };
 		F558E5D92E8276EB0060F473 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D02E8276870060F473 /* Metal.framework */; };
 		F558E5DF2E8277780060F473 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5DE2E8277780060F473 /* QuartzCore.framework */; };
-		F5DCA60D2EC107EF00E05741 /* rain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5DCA60C2EC107EB00E05741 /* rain.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8307E7DA20E9F9C900473790 /* miMAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = miMAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D6A8A7752EC5943700098CCB /* pbomb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbomb.cpp; sourceTree = "<group>"; };
+		D66282822ECEB0ED003E5637 /* sphered.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphered.cpp; sourceTree = "<group>"; };
+		D66282842ECEB0ED003E5637 /* blizzard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = blizzard.cpp; sourceTree = "<group>"; };
+		D66282852ECEB0ED003E5637 /* parray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = parray.cpp; sourceTree = "<group>"; };
+		D66282862ECEB0ED003E5637 /* pbomb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbomb.cpp; sourceTree = "<group>"; };
+		D66282872ECEB0ED003E5637 /* pcloud.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pcloud.cpp; sourceTree = "<group>"; };
+		D66282882ECEB0ED003E5637 /* rain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rain.cpp; sourceTree = "<group>"; };
+		D66282892ECEB0ED003E5637 /* superspray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = superspray.cpp; sourceTree = "<group>"; };
+		D66282942ECEB1B7003E5637 /* editnormals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editnormals.cpp; sourceTree = "<group>"; };
+		D66282952ECEB1B7003E5637 /* paintlayermod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paintlayermod.cpp; sourceTree = "<group>"; };
+		D662829E2ECEB1B7003E5637 /* boxobj.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = boxobj.cpp; sourceTree = "<group>"; };
+		D662829F2ECEB1B7003E5637 /* cone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cone.cpp; sourceTree = "<group>"; };
+		D66282A02ECEB1B7003E5637 /* cyl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cyl.cpp; sourceTree = "<group>"; };
+		D66282A12ECEB1B7003E5637 /* gridobj.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gridobj.cpp; sourceTree = "<group>"; };
+		D66282A22ECEB1B7003E5637 /* gsphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gsphere.cpp; sourceTree = "<group>"; };
+		D66282A32ECEB1B7003E5637 /* polyedit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = polyedit.cpp; sourceTree = "<group>"; };
+		D66282A42ECEB1B7003E5637 /* pyramid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pyramid.cpp; sourceTree = "<group>"; };
+		D66282A52ECEB1B7003E5637 /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
+		D66282A62ECEB1B7003E5637 /* torus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = torus.cpp; sourceTree = "<group>"; };
+		D66282A72ECEB1B7003E5637 /* triobjed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triobjed.cpp; sourceTree = "<group>"; };
+		D66282A82ECEB1B7003E5637 /* tube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tube.cpp; sourceTree = "<group>"; };
 		F5281F2C2EBDCC21000671F1 /* viewer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = viewer.cpp; sourceTree = "<group>"; };
 		F5281F2F2EBDCC9F000671F1 /* miMAX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = miMAX.h; path = ../../miMAX.h; sourceTree = "<absolute>"; };
 		F5281F302EBDCC9F000671F1 /* miMAX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = miMAX.cpp; path = ../../miMAX.cpp; sourceTree = "<absolute>"; };
@@ -71,28 +91,11 @@
 		F52820782EBDCEC6000671F1 /* imstb_textedit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_textedit.h; sourceTree = "<group>"; };
 		F52820792EBDCEC6000671F1 /* imstb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_truetype.h; sourceTree = "<group>"; };
 		F528207A2EBDCEC6000671F1 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		F528216D2EBDE710000671F1 /* boxobj.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = boxobj.cpp; sourceTree = "<group>"; };
 		F528216F2EBDE82E000671F1 /* format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = format.h; sourceTree = "<group>"; };
 		F52821702EBDE8B2000671F1 /* chunk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chunk.h; sourceTree = "<group>"; };
-		F52821732EBE0D0A000671F1 /* cyl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cyl.cpp; sourceTree = "<group>"; };
-		F52821752EBE0D11000671F1 /* torus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = torus.cpp; sourceTree = "<group>"; };
-		F52821772EBE0D19000671F1 /* cone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cone.cpp; sourceTree = "<group>"; };
-		F528217B2EBE0D2B000671F1 /* tube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tube.cpp; sourceTree = "<group>"; };
-		F528217F2EBE0D3C000671F1 /* gridobj.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gridobj.cpp; sourceTree = "<group>"; };
-		F52821802EBE0D4B000671F1 /* triobjed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triobjed.cpp; sourceTree = "<group>"; };
-		F52821812EBE0D5A000671F1 /* polyedit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = polyedit.cpp; sourceTree = "<group>"; };
 		F52821852EBE15F5000671F1 /* ImGuiHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImGuiHelper.h; sourceTree = "<group>"; };
-		F528218C2EBFA0FC000671F1 /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
-		F52821972EC0B4BC000671F1 /* gsphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gsphere.cpp; sourceTree = "<group>"; };
-		F52821982EC0B4BC000671F1 /* parray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = parray.cpp; sourceTree = "<group>"; };
-		F52821992EC0B4BC000671F1 /* pyramid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pyramid.cpp; sourceTree = "<group>"; };
-		F528219D2EC0B520000671F1 /* editnormals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editnormals.cpp; sourceTree = "<group>"; };
-		F528219F2EC0B643000671F1 /* paintlayermod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paintlayermod.cpp; sourceTree = "<group>"; };
 		F52821A12EC0BCDE000671F1 /* prs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = prs.cpp; sourceTree = "<group>"; };
 		F52821A32EC0CE84000671F1 /* internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
-		F52821A42EC0D92D000671F1 /* blizzard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = blizzard.cpp; sourceTree = "<group>"; };
-		F52821A62EC0E7BE000671F1 /* superspray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = superspray.cpp; sourceTree = "<group>"; };
-		F52821A82EC0F731000671F1 /* pcloud.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pcloud.cpp; sourceTree = "<group>"; };
 		F558E5962E8276060060F473 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		F558E5D02E8276870060F473 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		F558E5D22E8276AD0060F473 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -101,7 +104,6 @@
 		F558E5DE2E8277780060F473 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F558E7C02E82C34B0060F473 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
 		F582D6A72E82754900D70BDC /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
-		F5DCA60C2EC107EB00E05741 /* rain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rain.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,54 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D66282832ECEB0ED003E5637 /* deflector */ = {
+			isa = PBXGroup;
+			children = (
+				D66282822ECEB0ED003E5637 /* sphered.cpp */,
+			);
+			path = deflector;
+			sourceTree = "<group>";
+		};
+		D662828A2ECEB0ED003E5637 /* particle */ = {
+			isa = PBXGroup;
+			children = (
+				D66282842ECEB0ED003E5637 /* blizzard.cpp */,
+				D66282852ECEB0ED003E5637 /* parray.cpp */,
+				D66282862ECEB0ED003E5637 /* pbomb.cpp */,
+				D66282872ECEB0ED003E5637 /* pcloud.cpp */,
+				D66282882ECEB0ED003E5637 /* rain.cpp */,
+				D66282892ECEB0ED003E5637 /* superspray.cpp */,
+			);
+			path = particle;
+			sourceTree = "<group>";
+		};
+		D66282962ECEB1B7003E5637 /* modifier */ = {
+			isa = PBXGroup;
+			children = (
+				D66282942ECEB1B7003E5637 /* editnormals.cpp */,
+				D66282952ECEB1B7003E5637 /* paintlayermod.cpp */,
+			);
+			path = modifier;
+			sourceTree = "<group>";
+		};
+		D66282A92ECEB1B7003E5637 /* primitive */ = {
+			isa = PBXGroup;
+			children = (
+				D662829E2ECEB1B7003E5637 /* boxobj.cpp */,
+				D662829F2ECEB1B7003E5637 /* cone.cpp */,
+				D66282A02ECEB1B7003E5637 /* cyl.cpp */,
+				D66282A12ECEB1B7003E5637 /* gridobj.cpp */,
+				D66282A22ECEB1B7003E5637 /* gsphere.cpp */,
+				D66282A32ECEB1B7003E5637 /* polyedit.cpp */,
+				D66282A42ECEB1B7003E5637 /* pyramid.cpp */,
+				D66282A52ECEB1B7003E5637 /* sphere.cpp */,
+				D66282A62ECEB1B7003E5637 /* torus.cpp */,
+				D66282A72ECEB1B7003E5637 /* triobjed.cpp */,
+				D66282A82ECEB1B7003E5637 /* tube.cpp */,
+			);
+			path = primitive;
+			sourceTree = "<group>";
+		};
 		F5281F2E2EBDCC8A000671F1 /* miMAX */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,29 +253,14 @@
 		F528216C2EBDE6EA000671F1 /* object */ = {
 			isa = PBXGroup;
 			children = (
-				F52821A42EC0D92D000671F1 /* blizzard.cpp */,
-				F528216D2EBDE710000671F1 /* boxobj.cpp */,
+				D66282832ECEB0ED003E5637 /* deflector */,
+				D66282962ECEB1B7003E5637 /* modifier */,
+				D662828A2ECEB0ED003E5637 /* particle */,
+				D66282A92ECEB1B7003E5637 /* primitive */,
 				F52821702EBDE8B2000671F1 /* chunk.h */,
-				F52821772EBE0D19000671F1 /* cone.cpp */,
-				F52821732EBE0D0A000671F1 /* cyl.cpp */,
-				F528219D2EC0B520000671F1 /* editnormals.cpp */,
 				F528216F2EBDE82E000671F1 /* format.h */,
 				F52821A32EC0CE84000671F1 /* internal.h */,
-				F528217F2EBE0D3C000671F1 /* gridobj.cpp */,
-				F52821972EC0B4BC000671F1 /* gsphere.cpp */,
-				F528219F2EC0B643000671F1 /* paintlayermod.cpp */,
-				F52821982EC0B4BC000671F1 /* parray.cpp */,
-				D6A8A7752EC5943700098CCB /* pbomb.cpp */,
-				F52821A82EC0F731000671F1 /* pcloud.cpp */,
-				F52821812EBE0D5A000671F1 /* polyedit.cpp */,
 				F52821A12EC0BCDE000671F1 /* prs.cpp */,
-				F52821992EC0B4BC000671F1 /* pyramid.cpp */,
-				F5DCA60C2EC107EB00E05741 /* rain.cpp */,
-				F528218C2EBFA0FC000671F1 /* sphere.cpp */,
-				F52821A62EC0E7BE000671F1 /* superspray.cpp */,
-				F52821752EBE0D11000671F1 /* torus.cpp */,
-				F52821802EBE0D4B000671F1 /* triobjed.cpp */,
-				F528217B2EBE0D2B000671F1 /* tube.cpp */,
 			);
 			path = object;
 			sourceTree = "<group>";
@@ -299,26 +334,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F52821A52EC0D931000671F1 /* blizzard.cpp in Sources */,
-				F528216E2EBDE71B000671F1 /* boxobj.cpp in Sources */,
-				F52821782EBE0D1B000671F1 /* cone.cpp in Sources */,
-				F52821742EBE0D0C000671F1 /* cyl.cpp in Sources */,
-				F528219E2EC0B524000671F1 /* editnormals.cpp in Sources */,
-				F52821842EBE135A000671F1 /* gridobj.cpp in Sources */,
-				F528219A2EC0B4BC000671F1 /* gsphere.cpp in Sources */,
-				F52821A02EC0B652000671F1 /* paintlayermod.cpp in Sources */,
-				F528219B2EC0B4BC000671F1 /* parray.cpp in Sources */,
-				D6A8A7762EC5943F00098CCB /* pbomb.cpp in Sources */,
-				F52821A92EC0F735000671F1 /* pcloud.cpp in Sources */,
-				F52821822EBE0D5E000671F1 /* polyedit.cpp in Sources */,
+				D662828E2ECEB0ED003E5637 /* sphered.cpp in Sources */,
+				D66282B32ECEB1B7003E5637 /* editnormals.cpp in Sources */,
+				D66282B72ECEB1B7003E5637 /* paintlayermod.cpp in Sources */,
+				D662828D2ECEB0ED003E5637 /* blizzard.cpp in Sources */,
+				D662828F2ECEB0ED003E5637 /* parray.cpp in Sources */,
+				D662828C2ECEB0ED003E5637 /* pbomb.cpp in Sources */,
+				D66282912ECEB0ED003E5637 /* pcloud.cpp in Sources */,
+				D66282902ECEB0ED003E5637 /* rain.cpp in Sources */,
+				D662828B2ECEB0ED003E5637 /* superspray.cpp in Sources */,
+				D66282AC2ECEB1B7003E5637 /* boxobj.cpp in Sources */,
+				D66282B02ECEB1B7003E5637 /* cone.cpp in Sources */,
+				D66282AB2ECEB1B7003E5637 /* cyl.cpp in Sources */,
+				D66282BC2ECEB1B7003E5637 /* gridobj.cpp in Sources */,
+				D66282AE2ECEB1B7003E5637 /* gsphere.cpp in Sources */,
+				D66282AD2ECEB1B7003E5637 /* polyedit.cpp in Sources */,
+				D66282BB2ECEB1B7003E5637 /* pyramid.cpp in Sources */,
+				D66282BD2ECEB1B7003E5637 /* sphere.cpp in Sources */,
+				D66282AF2ECEB1B7003E5637 /* torus.cpp in Sources */,
+				D66282AA2ECEB1B7003E5637 /* triobjed.cpp in Sources */,
+				D66282B22ECEB1B7003E5637 /* tube.cpp in Sources */,
 				F52821A22EC0BCE1000671F1 /* prs.cpp in Sources */,
-				F528219C2EC0B4BC000671F1 /* pyramid.cpp in Sources */,
-				F5DCA60D2EC107EF00E05741 /* rain.cpp in Sources */,
-				F528218D2EBFA0FC000671F1 /* sphere.cpp in Sources */,
-				F52821A72EC0E7C5000671F1 /* superspray.cpp in Sources */,
-				F52821762EBE0D14000671F1 /* torus.cpp in Sources */,
-				F52821832EBE134D000671F1 /* triobjed.cpp in Sources */,
-				F528217C2EBE0D2F000671F1 /* tube.cpp in Sources */,
 				F5281F322EBDCC9F000671F1 /* miMAX.cpp in Sources */,
 				F558E5972E8276060060F473 /* main.mm in Sources */,
 				F5281F2D2EBDCC21000671F1 /* viewer.cpp in Sources */,
