@@ -50,7 +50,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
         switch (i) {
         case 0:
         case 1:
-            start = { min[0], min[1], (i == 0) ? min[2] : max[2] };
+            start = { min.x, min.y, (i == 0) ? min.z : max.z };
             diffA = { diffX, 0, 0 };
             diffB = { 0, diffY, 0 };
             segmentA = lengthSegments;
@@ -58,7 +58,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             break;
         case 2:
         case 3:
-            start = { min[0], (i == 2) ? min[1] : max[1], min[2] };
+            start = { min.x, (i == 2) ? min.y : max.y, min.z };
             diffA = { diffX, 0, 0 };
             diffB = { 0, 0, diffZ };
             segmentA = widthSegments;
@@ -66,7 +66,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             break;
         case 4:
         case 5:
-            start = { (i == 4) ? min[0] : max[0], min[1], min[2] };
+            start = { (i == 4) ? min.x : max.x, min.y, min.z };
             diffA = { 0, diffY, 0 };
             diffB = { 0, 0, diffZ };
             segmentA = lengthSegments;

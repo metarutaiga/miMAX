@@ -12,9 +12,9 @@
 struct miMAXNode : public std::list<miMAXNode>
 {
 public:
-    typedef std::array<float, 3> Point3;
-    typedef std::array<float, 4> Quat;
-    typedef std::array<float, 5> BezierFloat;
+    struct Point3       { float& operator [](int i) { return ((float*)this)[i]; } float x, y, z; };
+    struct Quat         { float& operator [](int i) { return ((float*)this)[i]; } float x, y, z, w; };
+    struct BezierFloat  { float& operator [](int i) { return ((float*)this)[i]; } float intan, outtan, val, inLength, outLength; };
 
 public:
     miMAXNode* parent = nullptr;

@@ -202,17 +202,17 @@ void miMAXNode::EulerToQuaternion(float const euler[3], Quat& quaternion)
     float sx = std::sinf(euler[0] * 0.5f);
     float sy = std::sinf(euler[1] * 0.5f);
     float sz = std::sinf(euler[2] * 0.5f);
-    quaternion[0] = (sx * cy * cz - cx * sy * sz);
-    quaternion[1] = (cx * sy * cz + sx * cy * sz);
-    quaternion[2] = (cx * cy * sz - sx * sy * cz);
-    quaternion[3] = (cx * cy * cz + sx * sy * sz);
+    quaternion.x = (sx * cy * cz - cx * sy * sz);
+    quaternion.y = (cx * sy * cz + sx * cy * sz);
+    quaternion.z = (cx * cy * sz - sx * sy * cz);
+    quaternion.w = (cx * cy * cz + sx * sy * sz);
 }
 
 float miMAXNode::Bezier(BezierFloat const& left, BezierFloat const& right, float scale)
 {
-    float A = std::lerp(left[0], right[1], scale);
-    float B = std::lerp(left[1], right[2], scale);
-    float C = std::lerp(left[2], right[0], scale);
+    float A = std::lerp(left.intan, right.outtan, scale);
+    float B = std::lerp(left.outtan, right.val, scale);
+    float C = std::lerp(left.val, right.intan, scale);
     float X = std::lerp(A, B, scale);
     float Y = std::lerp(B, C, scale);
     return std::lerp(X, Y, scale);

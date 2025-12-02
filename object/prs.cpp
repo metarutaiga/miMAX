@@ -55,9 +55,9 @@ static bool control(Print log, Chunk const& scene, Chunk const& chunk, Chunk con
                 position = chunk7127;
             auto propertyFloat = getProperty<float>(*position, POINT3_TYPE);
             if (propertyFloat.size() >= 3) {
-                node.position[0] = propertyFloat[0];
-                node.position[1] = propertyFloat[1];
-                node.position[2] = propertyFloat[2];
+                node.position.x = propertyFloat[0];
+                node.position.y = propertyFloat[1];
+                node.position.z = propertyFloat[2];
                 continue;
             }
             log("Value is not found (%s)\n", position->name.c_str());
@@ -99,7 +99,7 @@ static bool control(Print log, Chunk const& scene, Chunk const& chunk, Chunk con
                 }
                 log("Value is not found (%s)\n", array->name.c_str());
             }
-            miMAXNode::EulerToQuaternion(node.rotation.data(), node.rotation);
+            miMAXNode::EulerToQuaternion(&node.rotation[0], node.rotation);
             continue;
         case class64(LININTERP_ROTATION_CLASS_ID):
         case class64(TCBINTERP_ROTATION_CLASS_ID): {
@@ -108,14 +108,14 @@ static bool control(Print log, Chunk const& scene, Chunk const& chunk, Chunk con
                 rotation = chunk7127;
             auto propertyFloat = getProperty<float>(*rotation, POINT3_TYPE, QUAT_TYPE);
             if (propertyFloat.size() >= 4) {
-                node.rotation[0] = propertyFloat[0];
-                node.rotation[1] = propertyFloat[1];
-                node.rotation[2] = propertyFloat[2];
-                node.rotation[3] = propertyFloat[3];
+                node.rotation.x = propertyFloat[0];
+                node.rotation.y = propertyFloat[1];
+                node.rotation.z = propertyFloat[2];
+                node.rotation.w = propertyFloat[3];
                 continue;
             }
             if (propertyFloat.size() >= 3) {
-                miMAXNode::EulerToQuaternion(propertyFloat.data(), node.rotation);
+                miMAXNode::EulerToQuaternion(&propertyFloat[0], node.rotation);
                 continue;
             }
             log("Value is not found (%s)\n", rotation->name.c_str());
@@ -148,13 +148,13 @@ static bool control(Print log, Chunk const& scene, Chunk const& chunk, Chunk con
             }
             auto propertyFloat = getProperty<float>(*scale, FLOAT_TYPE, SCALEVALUE_TYPE);
             if (propertyFloat.size() >= 3) {
-                node.scale[0] = propertyFloat[0];
-                node.scale[1] = propertyFloat[1];
-                node.scale[2] = propertyFloat[2];
+                node.scale.x = propertyFloat[0];
+                node.scale.y = propertyFloat[1];
+                node.scale.z = propertyFloat[2];
                 continue;
             }
             if (propertyFloat.size() >= 1) {
-                node.scale[0] = node.scale[1] = node.scale[2] = propertyFloat[0];
+                node.scale.x = node.scale.y = node.scale.z = propertyFloat[0];
                 continue;
             }
             log("Value is not found (%s)\n", scale->name.c_str());

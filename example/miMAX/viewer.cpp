@@ -200,9 +200,9 @@ static bool TreeNode(miMAXNode& node, std::function<void(std::string& text)> sel
         if (ImGui::IsItemHovered()) {
             ImGui::BeginTooltip();
             ImGui::Text("Name:%s", child.name.c_str());
-            ImGui::Text("Position:%g, %g, %g", child.position[0], child.position[1], child.position[2]);
-            ImGui::Text("Rotation:%g, %g, %g, %g", child.rotation[0], child.rotation[1], child.rotation[2], child.rotation[3]);
-            ImGui::Text("Scale:%g, %g, %g", child.scale[0], child.scale[1], child.scale[2]);
+            ImGui::Text("Position:%g, %g, %g", child.position.x, child.position.y, child.position.z);
+            ImGui::Text("Rotation:%g, %g, %g, %g", child.rotation.x, child.rotation.y, child.rotation.z, child.rotation.w);
+            ImGui::Text("Scale:%g, %g, %g", child.scale.x, child.scale.y, child.scale.z);
             if (child.keyPosition[0].empty() == false)  ImGui::Text("X Position Key:%zd", child.keyPosition[0].size());
             if (child.keyPosition[1].empty() == false)  ImGui::Text("Y Position Key:%zd", child.keyPosition[1].size());
             if (child.keyPosition[2].empty() == false)  ImGui::Text("Z Position Key:%zd", child.keyPosition[2].size());
@@ -473,10 +473,11 @@ bool GUI(ImVec2 screen)
                         break;
                     auto v = node.vertex[i];
                     ImVec2 p;
-                    p.x = v[0] * R[0][0] + v[1] * R[0][1] + v[2] * R[0][2];
-                    p.y = v[0] * R[1][0] + v[1] * R[1][1] + v[2] * R[1][2];
+                    p.x = v.x * R[0][0] + v.y * R[0][1] + v.z * R[0][2];
+                    p.y = v.x * R[1][0] + v.y * R[1][1] + v.z * R[1][2];
                     drawList->PathLineTo(center + p * viewScale);
                 }
+//              drawList->PathFillConvex(0x7F7FFF7F);
                 drawList->PathStroke(0xFFFFFFFF, ImDrawFlags_Closed, 1.0f);
             }
         }

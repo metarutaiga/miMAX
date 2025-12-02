@@ -56,8 +56,8 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
         Point3 point = { 0, 0, height * t };
         for (int s = 0; s <= sides; ++s) {
             float angle = diffAngle * s;
-            point[0] = std::cosf(angle) * r;
-            point[1] = std::sinf(angle) * r;
+            point.x = std::cosf(angle) * r;
+            point.y = std::sinf(angle) * r;
             node.vertex.push_back(point);
             if (mapCoords) {
                 float u = s / float(sides);

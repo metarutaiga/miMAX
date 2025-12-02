@@ -94,10 +94,10 @@ typedef miMAXNode::Print Print;
 
 inline Point3 operator + (Point3 const& left, Point3 const& right)
 {
-    return { left[0] + right[0], left[1] + right[1], left[2] + right[2] };
+    return { left.x + right.x, left.y + right.y, left.z + right.z };
 }
 
 inline Point3 operator * (Point3 const& left, float right)
 {
-    return { left[0] * right, left[1] * right, left[2] * right };
+    return { left.x * right, left.y * right, left.z * right };
 }
