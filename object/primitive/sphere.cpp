@@ -2,6 +2,10 @@
 #include "chunk.h"
 #include "format.h"
 
+#if HAVE_3DSMAX_SDK
+#include "object/sdk/prim/sphere.h"
+#endif
+
 static char const* getChopSquash(int chopSquash)
 {
     switch (chopSquash) {
@@ -12,7 +16,7 @@ static char const* getChopSquash(int chopSquash)
     return nullptr;
 }
 
-static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node)
+static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node) __attribute__((optnone))
 {
     auto* pParamBlock = getLinkChunk(scene, chunk, 0);
     if (pParamBlock == nullptr)
@@ -59,7 +63,25 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %g", "Slice To", sliceTo) + '\n';
     node.text = node.text + format("%-24s : %s", "Base To Pivot", getBoolean(basePivot)) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+#if HAVE_3DSMAX_SDK
+    void* param[] = {
+        &radius,
+        &segments,
+        &smooth,
+        &hemisphere,
+        &chopSquash,
+        &basePivot,
+        &mapCoords,
+        &sliceOn,
+        &sliceFrom,
+        &sliceTo,
+    };
 
+    Mesh mesh{node.vertex, node.vertexArray, node.texture, node.textureArray};
+    IParamBlock block{param};
+
+    BuildMesh(mesh, &block);
+#else
     int latCount = segments;
     int lonCount = segments * 2;
     for (int lat = 0; lat <= latCount; ++lat) {
@@ -93,6 +115,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             }
         }
     }
+#endif
     return true;
 }
 

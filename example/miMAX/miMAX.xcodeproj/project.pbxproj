@@ -104,6 +104,7 @@
 		F558E5DE2E8277780060F473 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F558E7C02E82C34B0060F473 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
 		F582D6A72E82754900D70BDC /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
+		F58680B82EDFEC8A00BB9E22 /* sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdk.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,12 +258,21 @@
 				D66282962ECEB1B7003E5637 /* modifier */,
 				D662828A2ECEB0ED003E5637 /* particle */,
 				D66282A92ECEB1B7003E5637 /* primitive */,
+				F58680B72EDFEC6600BB9E22 /* sdk */,
 				F52821702EBDE8B2000671F1 /* chunk.h */,
 				F528216F2EBDE82E000671F1 /* format.h */,
 				F52821A32EC0CE84000671F1 /* internal.h */,
 				F52821A12EC0BCDE000671F1 /* prs.cpp */,
 			);
 			path = object;
+			sourceTree = "<group>";
+		};
+		F58680B72EDFEC6600BB9E22 /* sdk */ = {
+			isa = PBXGroup;
+			children = (
+				F58680B82EDFEC8A00BB9E22 /* sdk.h */,
+			);
+			path = sdk;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

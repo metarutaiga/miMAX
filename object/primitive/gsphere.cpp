@@ -2,6 +2,10 @@
 #include "chunk.h"
 #include "format.h"
 
+#if HAVE_3DSMAX_SDK
+#include "object/sdk/prim/gsphere.h"
+#endif
+
 static char const* getBaseType(int type)
 {
     switch (type) {
@@ -48,6 +52,22 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %s", "Hemisphere", getBoolean(hemisphere)) + '\n';
     node.text = node.text + format("%-24s : %s", "Base To Pivot", getBoolean(basePivot)) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+#if HAVE_3DSMAX_SDK
+    void* param[] = {
+        &radius,
+        &segments,
+        &baseType,
+        &hemisphere,
+        &smooth,
+        &basePivot,
+        &mapCoords,
+    };
+
+    Mesh mesh{node.vertex, node.vertexArray, node.texture, node.textureArray};
+    IParamBlock block{param};
+
+    BuildMesh(mesh, &block);
+#endif
     return true;
 }
 

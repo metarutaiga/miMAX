@@ -2,6 +2,10 @@
 #include "chunk.h"
 #include "format.h"
 
+#if HAVE_3DSMAX_SDK
+#include "object/sdk/prim/cone.h"
+#endif
+
 static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node)
 {
     auto* pParamBlock = getLinkChunk(scene, chunk, 0);
@@ -48,7 +52,26 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %g", "Slice From", sliceFrom) + '\n';
     node.text = node.text + format("%-24s : %g", "Slice To", sliceTo) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+#if HAVE_3DSMAX_SDK
+    void* param[] = {
+        &radius1,
+        &radius2,
+        &height,
+        &heightSegments,
+        &capSegments,
+        &sides,
+        &smooth,
+        &sliceOn,
+        &sliceFrom,
+        &sliceTo,
+        &mapCoords,
+    };
 
+    Mesh mesh{node.vertex, node.vertexArray, node.texture, node.textureArray};
+    IParamBlock block{param};
+
+    BuildMesh(mesh, &block);
+#else
     float diffAngle = 2.0f * M_PI / sides;
     for (int h = 0; h <= heightSegments; ++h) {
         float t = h / float(heightSegments);
@@ -80,6 +103,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             }
         }
     }
+#endif
     return true;
 }
 

@@ -6,6 +6,7 @@ typedef miMAXNode::ClassData ClassData;
 typedef miMAXNode::Point3 Point3;
 typedef miMAXNode::Quat Quat;
 typedef miMAXNode::BezierFloat BezierFloat;
+typedef miMAXNode::Face Face;
 typedef miMAXNode::Chunk Chunk;
 typedef miMAXNode::Print Print;
 
@@ -97,7 +98,45 @@ inline Point3 operator + (Point3 const& left, Point3 const& right)
     return { left.x + right.x, left.y + right.y, left.z + right.z };
 }
 
+inline Point3 operator - (Point3 const& left, Point3 const& right)
+{
+    return { left.x - right.x, left.y - right.y, left.z - right.z };
+}
+
+inline Point3 operator - (Point3 const& p)
+{
+    return { -p.x, -p.y, -p.z };
+}
+
 inline Point3 operator * (Point3 const& left, float right)
 {
     return { left.x * right, left.y * right, left.z * right };
 }
+
+inline Point3 operator / (Point3 const& left, float right)
+{
+    return { left.x / right, left.y / right, left.z / right };
+}
+
+inline Point3 CrossProd(Point3 &a, Point3 &b)
+{
+    Point3 p;
+    p.x = a.y * b.z - a.z * b.y;
+    p.y = a.z * b.x - a.x * b.z;
+    p.z = a.x * b.y - a.y * b.x;
+    return p;
+}
+
+inline float DotProd(Point3 &a, Point3 &b)
+{
+    return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+#ifndef HAVE_3DSMAX_SDK
+#define HAVE_3DSMAX_SDK 0
+#endif
+
+#if HAVE_3DSMAX_SDK
+#include <assert.h>
+#include "sdk/sdk.h"
+#endif

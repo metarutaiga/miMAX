@@ -4,7 +4,6 @@
 */
 #pragma once
 
-#include <array>
 #include <list>
 #include <string>
 #include <vector>
@@ -38,8 +37,9 @@ public:
     std::vector<Point3> vertexIllum;
     std::vector<Point3> vertexAlpha;
 
-    std::vector<std::vector<uint32_t>> vertexArray;
-    std::vector<std::vector<uint32_t>> textureArray;
+    typedef std::vector<uint32_t> Face;
+    std::vector<Face> vertexArray;
+    std::vector<Face> textureArray;
 
     int padding = 0;
 

@@ -2,6 +2,10 @@
 #include "chunk.h"
 #include "format.h"
 
+#if HAVE_3DSMAX_SDK
+#include "object/sdk/prim/boxobj.h"
+#endif
+
 static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk const& child, miMAXNode& node)
 {
     auto* pParamBlock = getLinkChunk(scene, chunk, 0);
@@ -14,8 +18,8 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     float length = std::get<float>(paramBlock[0]);
     float width = std::get<float>(paramBlock[1]);
     float height = std::get<float>(paramBlock[2]);
-    int lengthSegments = std::get<int>(paramBlock[3]);
-    int widthSegments = std::get<int>(paramBlock[4]);
+    int widthSegments = std::get<int>(paramBlock[3]);
+    int lengthSegments = std::get<int>(paramBlock[4]);
     int heightSegments = std::get<int>(paramBlock[5]);
     int mapCoords = true;
 
@@ -31,7 +35,22 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
     node.text = node.text + format("%-24s : %d", "Width Segments", widthSegments) + '\n';
     node.text = node.text + format("%-24s : %d", "Height Segments", heightSegments) + '\n';
     node.text = node.text + format("%-24s : %s", "Generate Mapping Coords", getBoolean(mapCoords)) + '\n';
+#if HAVE_3DSMAX_SDK
+    void* param[] = {
+        &length,
+        &width,
+        &height,
+        &widthSegments,
+        &lengthSegments,
+        &heightSegments,
+        &mapCoords,
+    };
 
+    Mesh mesh{node.vertex, node.vertexArray, node.texture, node.textureArray};
+    IParamBlock block{param};
+
+    BuildMesh(mesh, &block);
+#else
     float diffX = length / lengthSegments;
     float diffY = width / widthSegments;
     float diffZ = height / heightSegments;
@@ -100,6 +119,7 @@ static bool primitive(Print log, Chunk const& scene, Chunk const& chunk, Chunk c
             }
         }
     }
+#endif
     return true;
 }
 
