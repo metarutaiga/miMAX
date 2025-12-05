@@ -44,6 +44,13 @@ typedef miMAXNode::Print Print;
 #define PYRAMID_CLASS_ID                ClassID{0x76bf318a, 0x4bf37b10}
 #define GRID_CLASS_ID                   ClassID{0x081f1dfc, 0x77566f65}
 
+#define GRAVITYOBJECT_CLASS_ID          ClassID{0x000e523c, 0x00000000}
+#define GRAVITYMOD_CLASS_ID             ClassID{0x000e523d, 0x00000000}
+#define WINDOBJECT_CLASS_ID             ClassID{0x000e523e, 0x00000000}
+#define WINDMOD_CLASS_ID                ClassID{0x000e523f, 0x00000000}
+#define DEFLECTOBJECT_CLASS_ID          ClassID{0x000e5242, 0x00000000}
+#define DEFLECTMOD_CLASS_ID             ClassID{0x000e5243, 0x00000000}
+
 #define EDITTRIOBJ_CLASS_ID             ClassID{0xe44f10b3, 0x00000000}
 #define EPOLYOBJ_CLASS_ID               ClassID{0x1bf8338d, 0x192f6098}
 #define PATCHOBJ_CLASS_ID               ClassID{0x00001030, 0x00000000}
@@ -93,6 +100,11 @@ typedef miMAXNode::Print Print;
 #define USPAWNDEFL_CLASS_ID             ClassID{0x19fd4916, 0x557f71d9}
 #define USPAWNDEFLMOD_CLASS_ID          ClassID{0x36350a51, 0x5073041f}
 
+inline Point3 operator - (Point3 const& p)
+{
+    return { -p.x, -p.y, -p.z };
+}
+
 inline Point3 operator + (Point3 const& left, Point3 const& right)
 {
     return { left.x + right.x, left.y + right.y, left.z + right.z };
@@ -101,11 +113,6 @@ inline Point3 operator + (Point3 const& left, Point3 const& right)
 inline Point3 operator - (Point3 const& left, Point3 const& right)
 {
     return { left.x - right.x, left.y - right.y, left.z - right.z };
-}
-
-inline Point3 operator - (Point3 const& p)
-{
-    return { -p.x, -p.y, -p.z };
 }
 
 inline Point3 operator * (Point3 const& left, float right)

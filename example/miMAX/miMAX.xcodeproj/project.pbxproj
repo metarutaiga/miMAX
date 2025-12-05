@@ -46,6 +46,10 @@
 		F558E5D82E8276D70060F473 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D72E8276D70060F473 /* MetalKit.framework */; };
 		F558E5D92E8276EB0060F473 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5D02E8276870060F473 /* Metal.framework */; };
 		F558E5DF2E8277780060F473 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F558E5DE2E8277780060F473 /* QuartzCore.framework */; };
+		F58680BA2EE2E81C00BB9E22 /* udeflect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58680B92EE2E81700BB9E22 /* udeflect.cpp */; };
+		F58680BC2EE2EC6200BB9E22 /* deflect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58680BB2EE2EC5F00BB9E22 /* deflect.cpp */; };
+		F58680BF2EE2F95E00BB9E22 /* gravity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58680BE2EE2F95A00BB9E22 /* gravity.cpp */; };
+		F58680C12EE2FE1A00BB9E22 /* wind.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58680C02EE2FE1700BB9E22 /* wind.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +109,10 @@
 		F558E7C02E82C34B0060F473 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
 		F582D6A72E82754900D70BDC /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		F58680B82EDFEC8A00BB9E22 /* sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdk.h; sourceTree = "<group>"; };
+		F58680B92EE2E81700BB9E22 /* udeflect.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = udeflect.cpp; sourceTree = "<group>"; };
+		F58680BB2EE2EC5F00BB9E22 /* deflect.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deflect.cpp; sourceTree = "<group>"; };
+		F58680BE2EE2F95A00BB9E22 /* gravity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gravity.cpp; sourceTree = "<group>"; };
+		F58680C02EE2FE1700BB9E22 /* wind.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = wind.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				D66282822ECEB0ED003E5637 /* sphered.cpp */,
+				F58680B92EE2E81700BB9E22 /* udeflect.cpp */,
 			);
 			path = deflector;
 			sourceTree = "<group>";
@@ -184,8 +193,11 @@
 		D66282962ECEB1B7003E5637 /* modifier */ = {
 			isa = PBXGroup;
 			children = (
+				F58680BB2EE2EC5F00BB9E22 /* deflect.cpp */,
 				D66282942ECEB1B7003E5637 /* editnormals.cpp */,
+				F58680BE2EE2F95A00BB9E22 /* gravity.cpp */,
 				D66282952ECEB1B7003E5637 /* paintlayermod.cpp */,
+				F58680C02EE2FE1700BB9E22 /* wind.cpp */,
 			);
 			path = modifier;
 			sourceTree = "<group>";
@@ -345,8 +357,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D662828E2ECEB0ED003E5637 /* sphered.cpp in Sources */,
+				F58680BA2EE2E81C00BB9E22 /* udeflect.cpp in Sources */,
+				F58680BC2EE2EC6200BB9E22 /* deflect.cpp in Sources */,
 				D66282B32ECEB1B7003E5637 /* editnormals.cpp in Sources */,
+				F58680BF2EE2F95E00BB9E22 /* gravity.cpp in Sources */,
 				D66282B72ECEB1B7003E5637 /* paintlayermod.cpp in Sources */,
+				F58680C12EE2FE1A00BB9E22 /* wind.cpp in Sources */,
 				D662828D2ECEB0ED003E5637 /* blizzard.cpp in Sources */,
 				D662828F2ECEB0ED003E5637 /* parray.cpp in Sources */,
 				D662828C2ECEB0ED003E5637 /* pbomb.cpp in Sources */,

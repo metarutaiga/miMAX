@@ -20,24 +20,25 @@ typedef uint32_t DWORD;
 #define MAP_BOX 4
 #define MAP_FACE 5
 
-#define LimitValue(v, min, max) v = std::clamp(v, min, max)
-#define SinCos(v, s, c) (*s) = sin(v); (*c) = cos(v);
-#define TestAFlag(...) false
-#define getAllVerts data
-#define numFaces getNumFaces()
-#define numVerts getNumVerts()
-#define setEdgeVisFlags(...) begin()
-#define setMatID(...) begin()
-#define setSmGroup(...) begin()
-#define setVerts(a, b, c) assign({(uint32_t)a, (uint32_t)b, (uint32_t)c})
-#define setTVerts(a, b, c) assign({(uint32_t)a, (uint32_t)b, (uint32_t)c})
+#define AddFace(f, a, b, c, e, s)   { (f)[0].setVerts(a, b, c); }
+#define LimitValue(v, min, max)     { v = std::clamp(v, min, max); }
+#define SinCos(v, s, c)             { (*s) = sin(v); (*c) = cos(v); }
+#define TestAFlag(...)              false
+#define getAllVerts                 data
+#define numFaces                    getNumFaces()
+#define numVerts                    getNumVerts()
+#define setEdgeVisFlags(...)        begin()
+#define setMatID(...)               begin()
+#define setSmGroup(...)             begin()
+#define setVerts(a, b, c)           assign({(uint32_t)a, (uint32_t)b, (uint32_t)c})
+#define setTVerts(a, b, c)          assign({(uint32_t)a, (uint32_t)b, (uint32_t)c})
 
 struct Matrix3
 {
     float m[4][3] = { {1, 0, 0}, {0, 1, 0}, {0, 0, 1} };
-    Matrix3(bool) {}
-    void Scale(Point3 const& s)                     { m[0][0] = s.x; m[1][1] = s.y; m[2][2] = s.z; }
-    void SetTrans(Point3 const& t)                  { m[3][0] = t.x; m[3][1] = t.y; m[3][2] = t.z; }
+    Matrix3(bool init = false) {}
+    void Scale(Point3 const& s)     { m[0][0] = s.x; m[1][1] = s.y; m[2][2] = s.z; }
+    void SetTrans(Point3 const& t)  { m[3][0] = t.x; m[3][1] = t.y; m[3][2] = t.z; }
     void RotateZ(float r) {}
 };
 
@@ -49,7 +50,7 @@ struct Mesh
     std::vector<Face>& tvFace;
     void setNumVerts(int nverts)                    { verts.resize(nverts); }
     int getNumVerts()                               { return int(verts.size()); }
-    void setVert(int i, const Point3& p)            { verts[i] = p; }
+    void setVert(int i, Point3 const& p)            { verts[i] = p; }
     void setVert(int i, float x, float y, float z)  { verts[i] = { x, y, z }; }
     Point3& getVert(int i)                          { return verts[i]; }
     void setNumFaces(int nfaces)                    { faces.resize(nfaces); }
@@ -59,7 +60,7 @@ struct Mesh
     void setNumTVFaces(int nfaces)                  { tvFace.resize(nfaces); }
     void setFaceMtlIndex(int, int) {}
     void setSmoothFlags(bool) {}
-    void ApplyUVWMap(int type, float utile, float vtile, float wtile, int uflip, int vflip, int wflip, int cap, const Matrix3 &tm, int channel = 1) {}
+    void ApplyUVWMap(int type, float utile, float vtile, float wtile, int uflip, int vflip, int wflip, int cap, const Matrix3& tm, int channel = 1) {}
     void InvalidateGeomCache() {}
     void InvalidateStrips() {}
     void InvalidateTopologyCache() {}
@@ -73,21 +74,11 @@ struct IParamBlock
     void GetValue(int i, int, float& value, int)    { memcpy(&value, data[i], sizeof(float)); }
 };
 
-inline int MaxComponent(Point3 &p) {
+inline int MaxComponent(Point3 const& p)
+{
     if (p.x > p.y && p.x > p.z)
         return 0;
     if (p.y > p.z)
         return 1;
     return 2;
-}
-
-inline void AddFace(Face *f,int a,int b,int c,int evis,int smooth_group)
-{ f[0].setSmGroup(smooth_group);
-  f[0].setMatID((MtlID)0);      /*default */
-  if (evis==0) f[0].setEdgeVisFlags(1,1,0);
-  else if (evis==1) f[0].setEdgeVisFlags(0,1,1);
-  else if (evis==2) f[0].setEdgeVisFlags(0,0,1);
-  else if (evis==ALLF) f[0].setEdgeVisFlags(1,1,1);
-  else f[0].setEdgeVisFlags(1,0,1);
-  f[0].setVerts(a,b,c);
 }
